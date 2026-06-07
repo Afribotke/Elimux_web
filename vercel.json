@@ -1,0 +1,133 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/elimux-ask.html"
+    },
+    {
+      "source": "/app",
+      "destination": "/elimux-pwa-preview.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/elimux-admin.html"
+    },
+    {
+      "source": "/university",
+      "destination": "/elimux-university.html"
+    },
+    {
+      "source": "/examining",
+      "destination": "/elimux-examining.html"
+    },
+    {
+      "source": "/payments",
+      "destination": "/elimux-payments.html"
+    },
+    {
+      "source": "/billing",
+      "destination": "/elimux-billing.html"
+    },
+    {
+      "source": "/domains",
+      "destination": "/elimux-domains.html"
+    },
+    {
+      "source": "/developer",
+      "destination": "/elimux-developer.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/elimux-privacy.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/elimux-terms.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/elimux-about.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/skolex-ask.html",
+      "destination": "/elimux-ask.html",
+      "permanent": true
+    },
+    {
+      "source": "/skolex-university.html",
+      "destination": "/elimux-university.html",
+      "permanent": true
+    },
+    {
+      "source": "/skolex-admin.html",
+      "destination": "/elimux-admin.html",
+      "permanent": true
+    },
+    {
+      "source": "/skolex-examining.html",
+      "destination": "/elimux-examining.html",
+      "permanent": true
+    },
+    {
+      "source": "/skolex-payments.html",
+      "destination": "/elimux-payments.html",
+      "permanent": true
+    },
+    {
+      "source": "/skolex-billing.html",
+      "destination": "/elimux-billing.html",
+      "permanent": true
+    },
+    {
+      "source": "/skolex-domains.html",
+      "destination": "/elimux-domains.html",
+      "permanent": true
+    },
+    {
+      "source": "/skolex-developer.html",
+      "destination": "/elimux-developer.html",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/elimux-(admin|university|examining|payments|billing|domains|developer).html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store, max-age=0"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    },
+    {
+      "source": "/(elimux-ask.html|elimux-pwa-preview.html)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    }
+  ]
+}

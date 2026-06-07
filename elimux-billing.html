@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Afribot Billing Gateway</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+:root{
+  --ink:#0F1117; --bg:#F5F3EF; --white:#FFFFFF;
+  --navy:#0D1F3C; --gold:#C8973A; --gold-light:#E8B85C; --gold-dark:#A07828;
+  --green:#166534; --red:#991B1B; --amber:#92400E; --blue:#1E40AF; --violet:#5B21B6;
+  --g1:#F9F8F6; --g2:#E8E4DC; --g3:#D4CEC3; --t2:#5C5850; --t3:#9C9488;
+  --serif:"Playfair Display",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"DM Mono",monospace;
+  --r:6px; --r-lg:12px; --r-full:9999px;
+  --sidebar:260px;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.04);
+  --shadow-lg:0 8px 40px rgba(0,0,0,.12);
+}
+html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:14px}
+
+/* ── LOGIN ─────────────────────────────────────────────────── */
+#loginScreen{position:fixed;inset:0;z-index:999;background:var(--navy);display:flex;align-items:center;justify-content:center;overflow:hidden}
+#loginScreen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 70%,rgba(200,151,58,.2) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(27,79,160,.3) 0%,transparent 50%)}
+.login-card{position:relative;background:var(--white);border-radius:20px;padding:40px 44px;width:400px;box-shadow:0 32px 80px rgba(0,0,0,.4)}
+.login-brand{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.lb-mark{width:36px;height:36px;background:var(--navy);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.lb-mark svg{width:20px;height:20px;fill:var(--gold)}
+.lb-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--navy);line-height:1.1}
+.lb-sub{font-size:.6rem;font-family:var(--mono);color:var(--t3);letter-spacing:.08em}
+.login-h{font-family:var(--serif);font-size:1.45rem;color:var(--ink);margin-bottom:4px}
+.login-p{font-size:.78rem;color:var(--t2);margin-bottom:22px;line-height:1.6}
+.fl{font-size:.64rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:4px}
+.fi{width:100%;padding:10px 12px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.88rem;font-family:var(--sans);outline:none;transition:border-color .2s;background:var(--white);color:var(--ink);margin-bottom:12px}
+.fi:focus{border-color:var(--navy)}
+.login-btn{width:100%;padding:11px;background:var(--navy);color:white;border:none;border-radius:var(--r);font-size:.9rem;font-weight:600;font-family:var(--sans);cursor:pointer;transition:background .2s;position:relative}
+.login-btn:hover{background:#1B3560}
+.login-btn:disabled{opacity:.6;cursor:not-allowed}
+.login-err{font-size:.72rem;color:var(--red);min-height:16px;margin-top:6px}
+.login-info{margin-top:14px;padding:9px 11px;background:var(--g1);border-radius:var(--r);font-size:.7rem;color:var(--t2);border:1px solid var(--g2)}
+
+/* ── APP SHELL ─────────────────────────────────────────────── */
+#app{display:none;height:100vh;overflow:hidden}
+#app.visible{display:flex}
+
+/* ── SIDEBAR ─────────────────────────────────────────────── */
+.sidebar{width:var(--sidebar);background:var(--navy);display:flex;flex-direction:column;height:100vh;overflow-y:auto;flex-shrink:0}
+.sb-brand{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
+.sb-brand-row{display:flex;align-items:center;gap:9px}
+.sb-logo-mark{width:30px;height:30px;background:var(--gold);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-logo-mark svg{width:17px;height:17px;fill:var(--navy)}
+.sb-brand-name{font-family:var(--serif);font-size:.9rem;font-weight:700;color:white;line-height:1.15}
+.sb-brand-tag{font-size:.57rem;font-family:var(--mono);color:rgba(255,255,255,.3);letter-spacing:.07em;margin-top:1px}
+.sb-kra{margin-top:8px;font-size:.6rem;font-family:var(--mono);color:rgba(255,255,255,.2);letter-spacing:.04em}
+.sb-section{font-size:.55rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.18);padding:14px 18px 4px}
+.sb-link{display:flex;align-items:center;gap:9px;width:100%;padding:8px 18px;background:none;border:none;text-align:left;font-size:.8rem;color:rgba(255,255,255,.45);cursor:pointer;transition:all .15s;position:relative;font-family:var(--sans)}
+.sb-link:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.04)}
+.sb-link.active{color:white;background:rgba(255,255,255,.07)}
+.sb-link.active::before{content:'';position:absolute;left:0;top:5px;bottom:5px;width:2px;background:var(--gold);border-radius:0 2px 2px 0}
+.sb-icon{width:16px;text-align:center;font-size:.85rem;flex-shrink:0}
+.sb-badge{margin-left:auto;font-size:.58rem;font-family:var(--mono);padding:2px 6px;border-radius:var(--r-full)}
+.sb-foot{margin-top:auto;padding:14px 18px;border-top:1px solid rgba(255,255,255,.06)}
+.sb-user{display:flex;align-items:center;gap:8px}
+.sb-av{width:28px;height:28px;border-radius:50%;background:var(--gold-dark);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:var(--navy);flex-shrink:0}
+.sb-uname{font-size:.76rem;font-weight:600;color:white}
+.sb-urole{font-size:.58rem;color:rgba(255,255,255,.3);font-family:var(--mono)}
+.sb-logout{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.25);cursor:pointer;font-size:.68rem;font-family:var(--mono)}
+.sb-logout:hover{color:var(--gold)}
+.sb-mrr{margin:10px 18px;background:rgba(200,151,58,.1);border:1px solid rgba(200,151,58,.2);border-radius:var(--r-lg);padding:10px 12px}
+.sb-mrr-lbl{font-size:.56rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:rgba(200,151,58,.6);margin-bottom:3px}
+.sb-mrr-val{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--gold-light)}
+
+/* ── MAIN ─────────────────────────────────────────────────── */
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-width:0}
+.topbar{background:var(--white);border-bottom:1px solid var(--g2);padding:10px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;flex-shrink:0;box-shadow:var(--shadow)}
+.tb-title{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink)}
+.tb-right{display:flex;align-items:center;gap:8px}
+.content{padding:22px 24px;flex:1}
+.view{display:none}.view.active{display:block}
+
+/* ── KPI STRIP ─────────────────────────────────────────────── */
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:22px}
+.kpi{background:var(--white);border:1px solid var(--g2);border-radius:var(--r-lg);padding:16px 18px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-rev::before{background:linear-gradient(90deg,var(--navy),#1B4FA0)}
+.kpi-mrr::before{background:linear-gradient(90deg,var(--gold),var(--gold-light))}
+.kpi-out::before{background:linear-gradient(90deg,#DC2626,#EF4444)}
+.kpi-subs::before{background:linear-gradient(90deg,var(--green),#22C55E)}
+.kpi-ads::before{background:linear-gradient(90deg,var(--violet),#8B5CF6)}
+.kpi-val{font-family:var(--serif);font-size:1.7rem;font-weight:700;color:var(--ink);display:block;margin-bottom:3px;line-height:1}
+.kpi-lbl{font-size:.62rem;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--t3);margin-bottom:2px}
+.kpi-sub{font-size:.7rem;color:var(--t2)}
+
+/* ── PRICE CATALOG TABLE ─────────────────────────────────────── */
+.price-card{background:var(--white);border:1px solid var(--g2);border-radius:var(--r-lg);overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow)}
+.price-card-head{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid var(--g2);background:var(--g1)}
+.price-card-name{font-weight:700;font-size:.9rem;flex:1}
+.price-card-type{font-size:.6rem;font-family:var(--mono);padding:2px 8px;border-radius:3px;margin-right:8px}
+.pct-sub{background:rgba(27,79,160,.08);color:#1E40AF;border:1px solid rgba(27,79,160,.15)}
+.pct-ad{background:rgba(91,33,182,.08);color:#5B21B6;border:1px solid rgba(91,33,182,.15)}
+.price-grid{display:grid;grid-template-columns:repeat(4,1fr) auto;gap:0;padding:14px 16px;align-items:center}
+.price-currency{padding:0 12px;text-align:center;border-right:1px solid var(--g2)}
+.price-currency:last-child{border-right:none;text-align:right}
+.pc-lbl{font-size:.6rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin-bottom:3px}
+.pc-input{width:100%;padding:6px 9px;border:1.5px solid var(--g2);border-radius:var(--r);font-family:var(--mono);font-size:.88rem;outline:none;text-align:right;transition:border-color .2s;background:var(--white);color:var(--ink)}
+.pc-input:focus{border-color:var(--navy);background:white}
+.pc-input.changed{border-color:var(--amber);background:rgba(245,158,11,.04)}
+
+/* ── INVOICE TABLE ─────────────────────────────────────────── */
+.data-table{background:var(--white);border:1px solid var(--g2);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
+.dt-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--g2)}
+.dt-title{font-weight:700;font-size:.9rem}
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{font-size:.6rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);padding:9px 13px;text-align:left;border-bottom:1px solid var(--g2);background:var(--g1);white-space:nowrap}
+.tbl td{padding:10px 13px;border-bottom:1px solid var(--g1);font-size:.81rem;vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--g1)}
+.tbl-footer{padding:8px 13px;border-top:1px solid var(--g2);background:var(--g1);font-size:.7rem;font-family:var(--mono);color:var(--t3);text-align:right}
+
+/* ── STATUS BADGES ─────────────────────────────────────────── */
+.status{font-size:.6rem;font-family:var(--mono);padding:3px 8px;border-radius:3px;font-weight:500;letter-spacing:.05em;white-space:nowrap}
+.s-paid{background:rgba(22,101,52,.08);color:#166534;border:1px solid rgba(22,101,52,.15)}
+.s-draft{background:var(--g1);color:var(--t3);border:1px solid var(--g2)}
+.s-sent{background:rgba(30,64,175,.08);color:#1E40AF;border:1px solid rgba(30,64,175,.15)}
+.s-overdue{background:rgba(153,27,27,.08);color:var(--red);border:1px solid rgba(153,27,27,.15)}
+.s-cancelled{background:var(--g1);color:var(--t3);border:1px solid var(--g2)}
+.s-active{background:rgba(22,101,52,.08);color:#166534;border:1px solid rgba(22,101,52,.15)}
+.s-trial{background:rgba(91,33,182,.08);color:var(--violet);border:1px solid rgba(91,33,182,.15)}
+.s-paused{background:rgba(146,64,14,.08);color:var(--amber);border:1px solid rgba(146,64,14,.15)}
+.s-expired{background:var(--g1);color:var(--t3);border:1px solid var(--g2)}
+
+/* ── BUTTONS ─────────────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:var(--r);font-size:.77rem;font-weight:600;font-family:var(--sans);cursor:pointer;border:none;transition:all .15s;white-space:nowrap;text-decoration:none}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-navy{background:var(--navy);color:white}.btn-navy:hover:not(:disabled){background:#1B3560}
+.btn-gold{background:var(--gold);color:var(--navy)}.btn-gold:hover:not(:disabled){background:var(--gold-light)}
+.btn-green{background:#166534;color:white}.btn-green:hover:not(:disabled){background:#14532D}
+.btn-red{background:var(--red);color:white}.btn-red:hover:not(:disabled){background:#7F1D1D}
+.btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--g2)}.btn-outline:hover:not(:disabled){border-color:var(--navy);background:var(--g1)}
+.btn-sm{padding:5px 10px;font-size:.71rem}
+.btn-xs{padding:3px 8px;font-size:.66rem}
+
+/* ── MODAL ─────────────────────────────────────────────────── */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,17,23,.5);backdrop-filter:blur(5px);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:var(--r-lg);max-width:560px;width:100%;box-shadow:var(--shadow-lg);overflow:hidden;max-height:90vh;display:flex;flex-direction:column}
+.modal-head{background:var(--navy);padding:16px 20px;display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0}
+.modal-title{font-family:var(--serif);font-size:.95rem;color:white;font-weight:700}
+.modal-sub{font-size:.68rem;color:rgba(255,255,255,.35);margin-top:2px;font-family:var(--mono)}
+.modal-body{padding:20px;overflow-y:auto;flex:1}
+.modal-foot{padding:12px 20px;border-top:1px solid var(--g2);display:flex;justify-content:flex-end;gap:7px;flex-shrink:0}
+.modal-close{background:rgba(255,255,255,.1);border:none;color:white;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fl{font-size:.63rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:4px}
+.fi{width:100%;padding:9px 11px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.86rem;font-family:var(--sans);outline:none;margin-bottom:12px;background:var(--white);color:var(--ink);transition:border-color .2s}
+.fi:focus{border-color:var(--navy)}
+.fi-mono{font-family:var(--mono)}
+select.fi{cursor:pointer}
+
+/* ── PAYMENT METHOD SELECTOR ─────────────────────────────────── */
+.pm-selector{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.pm-option{border:2px solid var(--g2);border-radius:var(--r-lg);padding:14px 16px;cursor:pointer;transition:all .2s;position:relative}
+.pm-option:hover{border-color:var(--navy)}
+.pm-option.selected{border-color:var(--navy);background:rgba(13,31,60,.03)}
+.pm-option.selected::before{content:'✓';position:absolute;top:8px;right:10px;font-size:.7rem;font-weight:700;color:var(--navy)}
+.pm-icon{font-size:1.3rem;margin-bottom:6px}
+.pm-name{font-size:.82rem;font-weight:600;color:var(--ink)}
+.pm-desc{font-size:.7rem;color:var(--t2);margin-top:2px}
+.pm-countries{font-size:.63rem;font-family:var(--mono);color:var(--t3);margin-top:4px}
+
+/* ── PRICE CHANGE REASON ─────────────────────────────────────── */
+.price-change-bar{display:none;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:var(--r);padding:12px 14px;margin-top:10px}
+.price-change-bar.visible{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.price-apply-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.apply-chip{padding:4px 10px;border-radius:var(--r-full);font-size:.65rem;font-family:var(--mono);cursor:pointer;border:1.5px solid var(--g2);background:white;color:var(--t2);transition:all .15s}
+.apply-chip.selected{border-color:var(--navy);background:var(--navy);color:white}
+
+/* ── INVOICE FORM ─────────────────────────────────────────────── */
+.line-items-table{width:100%;border-collapse:collapse;margin-bottom:8px}
+.line-items-table th{font-size:.6rem;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--t3);padding:6px 8px;border-bottom:1px solid var(--g2);text-align:left}
+.line-items-table td{padding:5px 4px;vertical-align:top}
+.line-items-table input{width:100%;padding:5px 7px;border:1.5px solid var(--g2);border-radius:4px;font-size:.8rem;font-family:var(--sans);outline:none}
+.line-items-table input:focus{border-color:var(--navy)}
+.li-total{font-family:var(--mono);font-size:.82rem;font-weight:600;padding:5px 8px;text-align:right;color:var(--ink)}
+
+/* ── INVOICE PREVIEW ─────────────────────────────────────────── */
+.invoice-preview-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--g1);border:1.5px solid var(--g2);border-radius:var(--r);font-size:.77rem;font-weight:600;cursor:pointer;width:100%;justify-content:center;margin-top:8px;transition:all .15s;color:var(--ink)}
+.invoice-preview-btn:hover{border-color:var(--navy);background:white}
+
+/* ── COUNTRY PAYMENT INFO ─────────────────────────────────────── */
+.payment-flow{background:var(--g1);border:1px solid var(--g2);border-radius:var(--r-lg);padding:16px;margin-top:12px}
+.pf-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:.8rem}
+.pf-row:last-child{margin-bottom:0}
+.pf-icon{font-size:1rem;flex-shrink:0;margin-top:1px}
+.pf-label{font-weight:600;color:var(--ink);margin-bottom:2px;font-size:.78rem}
+.pf-val{color:var(--t2);font-size:.74rem;line-height:1.5}
+.pf-mono{font-family:var(--mono);color:var(--ink);font-weight:600}
+
+/* ── CHART PLACEHOLDER ─────────────────────────────────────────── */
+.chart-wrap{background:var(--white);border:1px solid var(--g2);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow)}
+.chart-bars{display:flex;align-items:flex-end;gap:8px;height:100px;margin-top:12px}
+.chart-bar{flex:1;border-radius:3px 3px 0 0;transition:height .5s ease;position:relative;cursor:pointer}
+.chart-bar:hover::after{content:attr(data-tip);position:absolute;top:-26px;left:50%;transform:translateX(-50%);background:var(--navy);color:white;padding:2px 7px;border-radius:4px;font-size:.65rem;white-space:nowrap;font-family:var(--mono)}
+
+/* ── SYNC INDICATOR ─────────────────────────────────────────── */
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;animation:pulse 2s infinite;display:inline-block;margin-right:5px}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
+.sync-disconnected{background:var(--red);animation:none}
+
+/* ── UTILS ─────────────────────────────────────────────────── */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:white;padding:10px 20px;border-radius:var(--r-full);font-size:.8rem;font-weight:600;z-index:9999;white-space:nowrap;box-shadow:var(--shadow-lg);transition:opacity .3s}
+.section-card{background:var(--white);border:1px solid var(--g2);border-radius:var(--r-lg);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow)}
+.sc-title{font-weight:700;font-size:.88rem;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+@media(max-width:700px){.sidebar{display:none}.kpi-grid{grid-template-columns:repeat(2,1fr)}.content{padding:12px}}
+</style>
+</head>
+<body>
+<nav class="platform-nav-injected" role="navigation" aria-label="Elimux navigation" style="background:rgba(13,31,60,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(200,151,58,.15);padding:0 24px;display:flex;align-items:center;height:60px;gap:20px;position:sticky;top:0;z-index:1000;font-family:system-ui,-apple-system,sans-serif">
+  <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:1.05rem;color:#fff">
+    <svg viewBox="0 0 56 56" width="30" height="30" xmlns="http://www.w3.org/2000/svg"><circle cx="28" cy="28" r="27" fill="#C8973A"/><circle cx="28" cy="28" r="18" fill="none" stroke="white" stroke-width="2" opacity=".9"/><ellipse cx="28" cy="28" rx="18" ry="6.8" fill="none" stroke="white" stroke-width="1.3" opacity=".6" transform="rotate(-22 28 28)"/><line x1="10" y1="28" x2="46" y2="28" stroke="white" stroke-width="1" opacity=".22"/><line x1="28" y1="10" x2="28" y2="46" stroke="white" stroke-width="1" opacity=".22"/><circle cx="41.5" cy="16" r="4.5" fill="#0D1F3C"/></svg>
+    Elimux <span style="color:#C8973A">Billing</span>
+  </a>
+  <div style="display:flex;gap:6px;margin-left:12px;flex-wrap:wrap">
+    <a href="/" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:.85rem;padding:6px 12px;border-radius:8px">🔍 Ask AI</a>
+    <a href="/university" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:.85rem;padding:6px 12px;border-radius:8px">🎓 University</a>
+    <a href="/payments" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:.85rem;padding:6px 12px;border-radius:8px">💳 Payments</a>
+    <a href="/admin" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:.85rem;padding:6px 12px;border-radius:8px">📊 Admin</a>
+  </div>
+  <a href="/" style="margin-left:auto;color:#C8973A;text-decoration:none;font-size:.85rem;font-weight:600">← Back to Ask</a>
+</nav>
+
+
+<!-- ── LOGIN ─────────────────────────────────────────────────── -->
+<div id="loginScreen" aria-label="Login">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="lb-mark"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+      <div><div class="lb-name">Afribot Ventures</div><div class="lb-sub">Billing Gateway</div></div>
+    </div>
+    <h2 class="login-h">Sign in</h2>
+    <p class="login-p">Billing is hosted separately from the main platform for security. Finance team access only.</p>
+    <label class="fl" for="lEmail">Email</label>
+    <input class="fi" id="lEmail" type="email" placeholder="billing@afribot.co.ke" autocomplete="username">
+    <label class="fl" for="lPass">Password</label>
+    <input class="fi" id="lPass" type="password" placeholder="••••••••" autocomplete="current-password">
+    <button class="login-btn" id="lBtn" onclick="doLogin()">Sign in →</button>
+    <a href="/" style="display:inline-flex;align-items:center;gap:6px;margin-top:18px;color:#C8973A;text-decoration:none;font-size:.85rem;font-weight:600;opacity:.85">← Back to Elimux Home</a>
+    <div class="login-err" id="lErr" role="alert"></div>
+    <div class="login-info">🔒 Finance access only · Billing & invoicing · All payments payable to Afribot Ventures Limited (KRA P052174385F)</div>
+  </div>
+</div>
+
+<!-- ── APP ─────────────────────────────────────────────────── -->
+<div id="app" role="main">
+  <!-- Sidebar -->
+  <aside class="sidebar" role="navigation" aria-label="Billing navigation">
+    <div class="sb-brand">
+      <div class="sb-brand-row">
+        <div class="sb-logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <div><div class="sb-brand-name">Afribot Billing</div><div class="sb-brand-tag">Gateway v1.0</div></div>
+      </div>
+      <div class="sb-kra">KRA: P052174385F · Paybill: 516600</div>
+    </div>
+
+    <div class="sb-mrr">
+      <div class="sb-mrr-lbl">Monthly Recurring Revenue</div>
+      <div class="sb-mrr-val" id="sbMRR">KES 0</div>
+    </div>
+
+    <div class="sb-section">Revenue</div>
+    <button class="sb-link active" onclick="nav('dashboard',this)" aria-current="page"><span class="sb-icon">📊</span>Dashboard</button>
+    <button class="sb-link" onclick="nav('invoices',this)"><span class="sb-icon">🧾</span>Invoices<span class="sb-badge" id="sbInvBadge" style="background:rgba(220,38,38,.2);color:#FCA5A5"></span></button>
+    <button class="sb-link" onclick="nav('subscriptions',this)"><span class="sb-icon">🔄</span>Subscriptions<span class="sb-badge" id="sbSubsBadge" style="background:rgba(22,163,74,.2);color:#86EFAC"></span></button>
+    <button class="sb-link" onclick="nav('ads',this)"><span class="sb-icon">📢</span>Advertisements<span class="sb-badge" id="sbAdsBadge" style="background:rgba(139,92,246,.2);color:#C4B5FD"></span></button>
+
+    <div class="sb-section">Configuration</div>
+    <button class="sb-link" onclick="nav('prices',this)"><span class="sb-icon">💰</span>Price Catalog</button>
+    <button class="sb-link" onclick="nav('payments',this)"><span class="sb-icon">💳</span>Payment Config</button>
+    <button class="sb-link" onclick="nav('sync',this)"><span class="sb-icon">🔗</span>Platform Sync<span class="sb-badge" id="sbSyncBadge" style="background:rgba(22,163,74,.2);color:#86EFAC">LIVE</span></button>
+
+    <div class="sb-section">Tools</div>
+    <button class="sb-link" onclick="nav('newinvoice',this)"><span class="sb-icon">➕</span>New Invoice</button>
+    <button class="sb-link" onclick="nav('reports',this)"><span class="sb-icon">📈</span>Reports</button>
+
+    <div class="sb-foot">
+      <div class="sb-user">
+        <div class="sb-av" id="sbAv">AF</div>
+        <div><div class="sb-uname" id="sbName">Billing Admin</div><div class="sb-urole">Finance · Full access</div></div>
+        <button class="sb-logout" onclick="doLogout()" aria-label="Sign out">Out</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <div class="main" id="main-content">
+    <div class="topbar">
+      <div class="tb-title" id="tbTitle">Dashboard</div>
+      <div class="tb-right">
+        <span id="syncStatus" style="font-size:.68rem;font-family:var(--mono);color:var(--t2);display:flex;align-items:center">
+          <span class="sync-dot" id="syncDot"></span><span id="syncTxt">Connecting…</span>
+        </span>
+        <button class="btn btn-outline btn-sm" onclick="refreshDashboard()">↻ Refresh</button>
+        <button class="btn btn-gold btn-sm" onclick="nav('newinvoice',null)">+ Invoice</button>
+      </div>
+    </div>
+    <div class="content">
+
+      <!-- ══ DASHBOARD ══ -->
+      <div class="view active" id="view-dashboard">
+        <div class="kpi-grid" id="kpiGrid">
+          <div class="kpi kpi-rev"><span class="kpi-lbl">Total Revenue</span><span class="kpi-val" id="kpiRevenue">KES 0</span><span class="kpi-sub">All time</span></div>
+          <div class="kpi kpi-mrr"><span class="kpi-lbl">MRR</span><span class="kpi-val" id="kpiMRR">KES 0</span><span class="kpi-sub">Monthly recurring</span></div>
+          <div class="kpi kpi-out"><span class="kpi-lbl">Outstanding</span><span class="kpi-val" id="kpiOut">KES 0</span><span class="kpi-sub">Unpaid invoices</span></div>
+          <div class="kpi kpi-subs"><span class="kpi-lbl">Subscriptions</span><span class="kpi-val" id="kpiSubs">0</span><span class="kpi-sub">Active plans</span></div>
+          <div class="kpi kpi-ads"><span class="kpi-lbl">Ad Slots</span><span class="kpi-val" id="kpiAds">0</span><span class="kpi-sub">Active campaigns</span></div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px">
+          <div class="chart-wrap">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+              <div style="font-weight:700;font-size:.88rem">Revenue — Last 6 Months</div>
+              <select id="chartCurrency" onchange="renderChart()" style="font-size:.72rem;border:1px solid var(--g2);border-radius:4px;padding:3px 7px;background:white;font-family:var(--mono);cursor:pointer">
+                <option>KES</option><option>USD</option><option>GBP</option>
+              </select>
+            </div>
+            <div class="chart-bars" id="chartBars"></div>
+            <div id="chartLabels" style="display:flex;gap:8px;margin-top:5px;font-size:.6rem;font-family:var(--mono);color:var(--t3)"></div>
+          </div>
+          <div class="chart-wrap">
+            <div style="font-weight:700;font-size:.88rem;margin-bottom:12px">By Payment Method</div>
+            <div id="methodBreakdown"></div>
+          </div>
+        </div>
+
+        <div class="data-table">
+          <div class="dt-head"><div class="dt-title">Recent Invoices</div><button class="btn btn-outline btn-sm" onclick="nav('invoices',null)">View all</button></div>
+          <table class="tbl"><thead><tr>
+            <th>Invoice #</th><th>Client</th><th>Type</th><th>Amount</th><th>Status</th><th>Date</th><th></th>
+          </tr></thead>
+          <tbody id="dashboardInvoices"><tr><td colspan="7" style="text-align:center;padding:30px;color:var(--t3)"><div class="sk-loading">Loading invoices…</div></td></tr></tbody></table>
+        </div>
+      </div>
+
+      <!-- ══ PRICE CATALOG ══ -->
+      <div class="view" id="view-prices">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div>
+            <div style="font-weight:700;font-size:.95rem;margin-bottom:3px">Price Catalog</div>
+            <div style="font-size:.76rem;color:var(--t2)">Adjust prices here. Changes reflect immediately on the platform via Supabase Realtime.</div>
+          </div>
+          <div style="display:flex;gap:7px">
+            <select id="priceApplyTo" style="padding:6px 10px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.78rem;font-family:var(--mono);background:white;cursor:pointer">
+              <option value="new_only">Apply to new only</option>
+              <option value="next_cycle">Apply next cycle</option>
+              <option value="all">Apply to all immediately</option>
+            </select>
+            <button class="btn btn-navy" onclick="saveAllPrices()">Save All Changes</button>
+          </div>
+        </div>
+
+        <!-- Price change reason bar -->
+        <div class="price-change-bar" id="priceChangeBar">
+          <span style="font-size:.75rem;font-weight:600;color:var(--amber)">⚠️ Unsaved price changes —</span>
+          <input type="text" id="priceChangeReason" placeholder="Reason for change (required)" style="flex:1;padding:5px 9px;border:1.5px solid rgba(245,158,11,.4);border-radius:var(--r);font-size:.78rem;font-family:var(--sans);outline:none;background:white;min-width:200px">
+          <button class="btn btn-gold btn-sm" onclick="saveAllPrices()">Save</button>
+          <button class="btn btn-outline btn-sm" onclick="discardPriceChanges()">Discard</button>
+        </div>
+
+        <!-- Currency columns header -->
+        <div style="background:var(--white);border:1px solid var(--g2);border-radius:var(--r-lg) var(--r-lg) 0 0;padding:10px 16px;display:grid;grid-template-columns:1fr 1fr 120px 120px 120px 120px 40px;gap:0;border-bottom:none;margin-top:10px">
+          <div style="font-size:.6rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3)">Product</div>
+          <div style="font-size:.6rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3)">Cycle</div>
+          <div style="font-size:.6rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);text-align:right">KES</div>
+          <div style="font-size:.6rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);text-align:right">USD</div>
+          <div style="font-size:.6rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);text-align:right">GBP</div>
+          <div style="font-size:.6rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);text-align:right">EUR</div>
+          <div></div>
+        </div>
+        <div id="priceCatalogList" style="background:var(--white);border:1px solid var(--g2);border-top:none;border-radius:0 0 var(--r-lg) var(--r-lg);overflow:hidden"></div>
+        <div style="margin-top:14px;padding:10px 14px;background:rgba(13,31,60,.04);border:1px solid rgba(13,31,60,.08);border-radius:var(--r-lg);font-size:.73rem;color:var(--t2)">
+          💡 <strong>apply_to options:</strong> "New only" — existing subscribers keep current price. "Next cycle" — price updates on next renewal. "All immediately" — changes all active subscriptions right now.
+        </div>
+        <div style="margin-top:10px">
+          <button class="btn btn-outline btn-sm" onclick="nav('pricehistory',null)">📋 View price change history</button>
+        </div>
+      </div>
+
+      <!-- ══ INVOICES ══ -->
+      <div class="view" id="view-invoices">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <select id="invStatusFilter" onchange="loadInvoices()" style="padding:7px 11px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.8rem;background:white;font-family:var(--sans);cursor:pointer">
+              <option value="">All statuses</option>
+              <option value="draft">Draft</option><option value="sent">Sent</option>
+              <option value="paid">Paid</option><option value="overdue">Overdue</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            <select id="invTypeFilter" onchange="loadInvoices()" style="padding:7px 11px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.8rem;background:white;font-family:var(--sans);cursor:pointer">
+              <option value="">All types</option>
+              <option value="subscription">Subscription</option>
+              <option value="advertisement">Advertisement</option>
+              <option value="one_time">One-time</option>
+            </select>
+          </div>
+          <button class="btn btn-navy" onclick="nav('newinvoice',null)">+ New Invoice</button>
+        </div>
+        <div class="data-table">
+          <table class="tbl"><thead><tr>
+            <th>Invoice #</th><th>Client</th><th>Type</th><th>Currency</th><th>Total</th><th>Status</th><th>Due</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="invoicesList"><tr><td colspan="8" style="text-align:center;padding:30px;color:var(--t3)">Loading…</td></tr></tbody></table>
+          <div class="tbl-footer" id="invCount"></div>
+        </div>
+      </div>
+
+      <!-- ══ NEW INVOICE ══ -->
+      <div class="view" id="view-newinvoice">
+        <div style="max-width:720px">
+          <div class="section-card">
+            <div class="sc-title">🧾 Create Invoice</div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div>
+                <label class="fl">Client / Institution ID</label>
+                <input class="fi" id="inv_client_id" placeholder="e.g. uon, kisumupoly, strathmore" oninput="lookupClient(this.value)">
+              </div>
+              <div>
+                <label class="fl">Client Name</label>
+                <input class="fi" id="inv_client_name" placeholder="Full legal name">
+              </div>
+              <div>
+                <label class="fl">Client Email</label>
+                <input class="fi" id="inv_client_email" type="email" placeholder="billing@institution.ac.ke">
+              </div>
+              <div>
+                <label class="fl">Client Phone</label>
+                <input class="fi" id="inv_client_phone" placeholder="+254 7XX XXX XXX (optional)">
+              </div>
+              <div>
+                <label class="fl">Country</label>
+                <select class="fi" id="inv_country" onchange="updatePaymentFlow()">
+                  <option value="KE">🇰🇪 Kenya</option>
+                  <option value="NG">🇳🇬 Nigeria</option>
+                  <option value="GH">🇬🇭 Ghana</option>
+                  <option value="ZA">🇿🇦 South Africa</option>
+                  <option value="UG">🇺🇬 Uganda</option>
+                  <option value="TZ">🇹🇿 Tanzania</option>
+                  <option value="US">🇺🇸 United States</option>
+                  <option value="GB">🇬🇧 United Kingdom</option>
+                  <option value="DE">🇩🇪 Germany</option>
+                  <option value="IN">🇮🇳 India</option>
+                  <option value="OTHER">🌍 Other</option>
+                </select>
+              </div>
+              <div>
+                <label class="fl">Currency</label>
+                <select class="fi fi-mono" id="inv_currency" onchange="updateLineItemCurrency()">
+                  <option value="KES">KES — Kenyan Shilling</option>
+                  <option value="USD">USD — US Dollar</option>
+                  <option value="GBP">GBP — British Pound</option>
+                  <option value="EUR">EUR — Euro</option>
+                </select>
+              </div>
+              <div>
+                <label class="fl">Invoice Type</label>
+                <select class="fi" id="inv_type">
+                  <option value="subscription">Subscription</option>
+                  <option value="advertisement">Advertisement</option>
+                  <option value="one_time">One-time</option>
+                </select>
+              </div>
+              <div>
+                <label class="fl">Client KRA PIN (Kenya B2B)</label>
+                <input class="fi fi-mono" id="inv_kra_pin" placeholder="P0XXXXXXXXX (optional)">
+              </div>
+            </div>
+
+            <!-- Line items -->
+            <div style="margin-top:4px;margin-bottom:8px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+                <label class="fl" style="margin-bottom:0">Line Items</label>
+                <button class="btn btn-outline btn-xs" onclick="addLineItem()">+ Add item</button>
+              </div>
+              <table class="line-items-table">
+                <thead><tr>
+                  <th style="width:45%">Description</th>
+                  <th style="width:12%">Qty</th>
+                  <th style="width:18%">Unit Price</th>
+                  <th style="width:18%">Total</th>
+                  <th style="width:7%"></th>
+                </tr></thead>
+                <tbody id="lineItemsBody">
+                  <tr id="li_0">
+                    <td><input type="text" placeholder="e.g. Verified Plan — June 2026" id="li_0_desc" oninput="calcLineItems()"></td>
+                    <td><input type="number" value="1" min="1" id="li_0_qty" oninput="calcLineItems()" style="text-align:center"></td>
+                    <td><input type="number" value="0" min="0" id="li_0_price" oninput="calcLineItems()" style="text-align:right"></td>
+                    <td><span class="li-total" id="li_0_total">0.00</span></td>
+                    <td><button onclick="removeLineItem('li_0')" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:.8rem" aria-label="Remove item">✕</button></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- Totals -->
+              <div style="display:flex;justify-content:flex-end">
+                <div style="width:260px">
+                  <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:.82rem;border-bottom:1px solid var(--g2)"><span style="color:var(--t2)">Subtotal</span><span class="fi-mono" id="invSubtotal">0.00</span></div>
+                  <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:.82rem;border-bottom:1px solid var(--g2);align-items:center">
+                    <span style="color:var(--t2)">Discount</span>
+                    <input type="number" id="invDiscount" value="0" min="0" style="width:80px;padding:3px 6px;border:1.5px solid var(--g2);border-radius:4px;font-family:var(--mono);font-size:.8rem;text-align:right;outline:none" oninput="calcLineItems()">
+                  </div>
+                  <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:.92rem;font-weight:700;border-top:2px solid var(--navy);margin-top:4px"><span>Total</span><span class="fi-mono" id="invTotal" style="color:var(--navy)">0.00</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment flow info -->
+            <div id="paymentFlowInfo"><!-- populated by updatePaymentFlow() --></div>
+
+            <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
+              <button class="btn btn-outline" onclick="previewInvoice()">👁 Preview</button>
+              <button class="btn btn-navy" onclick="submitInvoice('draft')">Save Draft</button>
+              <button class="btn btn-gold" onclick="submitInvoice('send')">Create &amp; Send →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SUBSCRIPTIONS ══ -->
+      <div class="view" id="view-subscriptions">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <select id="subStatusFilter" onchange="loadSubscriptions()" style="padding:7px 11px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.8rem;background:white;cursor:pointer;font-family:var(--sans)">
+            <option value="">All statuses</option>
+            <option value="active">Active</option><option value="trial">Trial</option>
+            <option value="paused">Paused</option><option value="cancelled">Cancelled</option>
+          </select>
+          <button class="btn btn-navy" onclick="openActivateSub()">+ Activate Subscription</button>
+        </div>
+        <div class="data-table">
+          <table class="tbl"><thead><tr>
+            <th>Institution</th><th>Registry</th><th>Plan</th><th>Price/mo</th><th>Currency</th><th>Status</th><th>Next Billing</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="subsList"><tr><td colspan="8" style="text-align:center;padding:30px;color:var(--t3)">Loading…</td></tr></tbody></table>
+          <div class="tbl-footer" id="subsCount"></div>
+        </div>
+      </div>
+
+      <!-- ══ ADVERTISEMENTS ══ -->
+      <div class="view" id="view-ads">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="font-size:.8rem;color:var(--t2)">Manage active ad campaigns and billing</div>
+          <button class="btn btn-navy" onclick="openNewAdSlot()">+ New Ad Slot</button>
+        </div>
+        <div class="data-table">
+          <table class="tbl"><thead><tr>
+            <th>Advertiser</th><th>Package</th><th>Placement</th><th>Budget</th><th>Status</th><th>Period</th><th>Impressions</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="adSlotsList"><tr><td colspan="8" style="text-align:center;padding:30px;color:var(--t3)">Loading…</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <!-- ══ PAYMENT CONFIG ══ -->
+      <div class="view" id="view-payments">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:800px">
+          <div class="section-card">
+            <div class="sc-title">🟢 M-Pesa (Kenya)</div>
+            <div class="payment-flow">
+              <div class="pf-row"><div class="pf-icon">🏦</div><div><div class="pf-label">Paybill Number</div><div class="pf-val"><span class="pf-mono">516600</span></div></div></div>
+              <div class="pf-row"><div class="pf-icon">🔑</div><div><div class="pf-label">Account Number</div><div class="pf-val"><span class="pf-mono">0096004001</span></div></div></div>
+              <div class="pf-row"><div class="pf-icon">🏢</div><div><div class="pf-label">Registered To</div><div class="pf-val">Afribot Ventures Limited</div></div></div>
+              <div class="pf-row"><div class="pf-icon">📋</div><div><div class="pf-label">KRA PIN</div><div class="pf-val"><span class="pf-mono">P052174385F</span></div></div></div>
+            </div>
+            <div style="margin-top:10px;font-size:.74rem;color:var(--t2)">STK Push workflow: customer enters phone → M-Pesa PIN prompt → Safaricom confirms to callback → subscription activated automatically.</div>
+          </div>
+          <div class="section-card">
+            <div class="sc-title">💳 Stripe (International)</div>
+            <div class="payment-flow">
+              <div class="pf-row"><div class="pf-icon">🌍</div><div><div class="pf-label">Accepted Countries</div><div class="pf-val">All countries except Kenya (use M-Pesa for KE)</div></div></div>
+              <div class="pf-row"><div class="pf-icon">💰</div><div><div class="pf-label">Currencies</div><div class="pf-val">USD, GBP, EUR (auto-converted from KES price catalog)</div></div></div>
+              <div class="pf-row"><div class="pf-icon">🔐</div><div><div class="pf-label">Webhook</div><div class="pf-val"><span class="pf-mono">/billing/pay/stripe/webhook</span></div></div></div>
+            </div>
+            <div style="margin-top:10px;font-size:.74rem;color:var(--t2)">Stripe handles card payments for international clients. Prices are auto-converted from KES catalog using live exchange rates.</div>
+          </div>
+          <div class="section-card" style="grid-column:span 2">
+            <div class="sc-title">🌐 Country Payment Routing</div>
+            <table class="tbl">
+              <thead><tr><th>Country</th><th>Default Method</th><th>Currency</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td>🇰🇪 Kenya</td><td><span class="status s-active">M-Pesa STK Push</span></td><td style="font-family:var(--mono)">KES</td><td style="font-size:.74rem;color:var(--t2)">Paybill 516600 / Account 0096004001</td></tr>
+                <tr><td>🇺🇸 USA / 🇨🇦 Canada / 🇦🇺 AUS</td><td><span class="status s-active">Stripe Card</span></td><td style="font-family:var(--mono)">USD</td><td style="font-size:.74rem;color:var(--t2)">Auto-converted from KES catalog</td></tr>
+                <tr><td>🇬🇧 UK / 🇮🇪 Ireland</td><td><span class="status s-active">Stripe Card</span></td><td style="font-family:var(--mono)">GBP</td><td style="font-size:.74rem;color:var(--t2)">Auto-converted from KES catalog</td></tr>
+                <tr><td>🇩🇪 🇫🇷 🇮🇹 Eurozone</td><td><span class="status s-active">Stripe Card</span></td><td style="font-family:var(--mono)">EUR</td><td style="font-size:.74rem;color:var(--t2)">Auto-converted from KES catalog</td></tr>
+                <tr><td>🌍 Africa (ex-Kenya)</td><td><span class="status s-trial">Stripe or Bank</span></td><td style="font-family:var(--mono)">USD</td><td style="font-size:.74rem;color:var(--t2)">Bank transfer option via manual invoice</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ PLATFORM SYNC ══ -->
+      <div class="view" id="view-sync">
+        <div style="max-width:700px">
+          <div class="section-card">
+            <div class="sc-title">🔗 Real-Time Platform Sync</div>
+            <div style="font-size:.8rem;color:var(--t2);line-height:1.7;margin-bottom:14px">
+              The billing gateway and the main Elimux platform are connected via <strong>Supabase Realtime</strong>. When you activate a subscription, the institution's plan updates on the main platform in under 200ms — no page refresh needed, no manual steps.
+            </div>
+            <div class="payment-flow">
+              <div class="pf-row"><div class="pf-icon">⚡</div><div><div class="pf-label">Sync Status</div><div class="pf-val"><span class="sync-dot" id="syncDot2"></span> <span id="syncTxt2">Checking…</span></div></div></div>
+              <div class="pf-row"><div class="pf-icon">🗄️</div><div><div class="pf-label">Sync Method</div><div class="pf-val">Supabase Realtime (PostgreSQL CDC) · Fallback: 60s polling</div></div></div>
+              <div class="pf-row"><div class="pf-icon">📋</div><div><div class="pf-label">Tables Synced</div><div class="pf-val">billing.subscriptions · billing.price_catalog</div></div></div>
+              <div class="pf-row"><div class="pf-icon">🔄</div><div><div class="pf-label">What Changes</div><div class="pf-val">Institution plan field (Unclaimed / Verified / Featured / Premium / Enterprise)</div></div></div>
+            </div>
+            <div style="margin-top:14px">
+              <div style="font-size:.72rem;font-family:var(--mono);color:var(--t3);margin-bottom:8px">SUPABASE_ANON_KEY must be set in main platform .env for Realtime to work:</div>
+              <div style="background:#0D1117;border-radius:var(--r);padding:10px 13px;font-family:var(--mono);font-size:.75rem;color:#A8C5E8;white-space:pre">// In main platform — src/index.js startup
+const { initBillingSync } = require('./services/billingSync');
+initBillingSync({ uniStore, tvetStore, syncStore });
+
+// When billing activates a plan, this fires:
+// [BillingSync] ✅ UPDATE: uon (pub_uni) → plan: Verified</div>
+            </div>
+          </div>
+          <div class="section-card">
+            <div class="sc-title">💱 Exchange Rates</div>
+            <div style="font-size:.77rem;color:var(--t2);margin-bottom:10px">Used for currency conversion when clients pay in non-KES currencies. Update daily in production.</div>
+            <div id="exchangeRates" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
+            <div style="margin-top:10px;font-size:.71rem;color:var(--t3)">In production: set RATE_USD_KES, RATE_GBP_KES, RATE_EUR_KES in .env or integrate with CBK API / exchangerate-api.com</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ REPORTS ══ -->
+      <div class="view" id="view-reports">
+        <div style="max-width:800px">
+          <div class="section-card">
+            <div class="sc-title">📈 Revenue Reports</div>
+            <div style="display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap">
+              <select id="reportPeriod" style="padding:7px 10px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.8rem;background:white;cursor:pointer;font-family:var(--sans)">
+                <option>This Month</option><option>Last Month</option><option>This Quarter</option><option>This Year</option>
+              </select>
+              <select id="reportCurrency" style="padding:7px 10px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.8rem;background:white;cursor:pointer;font-family:var(--mono)">
+                <option>KES</option><option>USD</option><option>GBP</option>
+              </select>
+              <button class="btn btn-outline btn-sm" onclick="exportReport()">⬇ Export CSV</button>
+            </div>
+            <div id="reportContent" style="font-size:.82rem;color:var(--t2);padding:30px;text-align:center">Select a period to generate report</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.content -->
+  </div><!-- /.main -->
+</div><!-- /#app -->
+
+<!-- ══ ACTIVATE SUBSCRIPTION MODAL ══ -->
+<div class="modal-overlay" id="activateSubModal" role="dialog" aria-modal="true" aria-labelledby="activateSubTitle">
+  <div class="modal">
+    <div class="modal-head">
+      <div><div class="modal-title" id="activateSubTitle">Activate Subscription</div><div class="modal-sub">Creates subscription + generates invoice</div></div>
+      <button class="modal-close" onclick="closeModal('activateSubModal')" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <label class="fl">Institution ID</label>
+      <input class="fi" id="sub_inst_id" placeholder="e.g. uon, kisumupoly, strathmore">
+      <label class="fl">Institution Name</label>
+      <input class="fi" id="sub_inst_name" placeholder="Full institution name">
+      <label class="fl">Registry</label>
+      <select class="fi" id="sub_registry">
+        <option value="pub_uni">Public University</option>
+        <option value="priv_uni">Private University</option>
+        <option value="tvet">TVET / College</option>
+        <option value="examining">Examining Body</option>
+      </select>
+      <label class="fl">Plan</label>
+      <select class="fi" id="sub_plan" onchange="updateSubPrice()">
+        <option value="verified">Verified</option>
+        <option value="featured">Featured</option>
+        <option value="premium">Premium</option>
+        <option value="enterprise">Enterprise</option>
+      </select>
+      <label class="fl">Payment Country / Method</label>
+      <div class="pm-selector">
+        <div class="pm-option selected" id="pm_mpesa" onclick="selectPaymentMethod('mpesa')">
+          <div class="pm-icon">🟢</div>
+          <div class="pm-name">M-Pesa</div>
+          <div class="pm-desc">STK Push to phone</div>
+          <div class="pm-countries">Kenya only</div>
+        </div>
+        <div class="pm-option" id="pm_stripe" onclick="selectPaymentMethod('stripe')">
+          <div class="pm-icon">💳</div>
+          <div class="pm-name">Card / Stripe</div>
+          <div class="pm-desc">Visa, Mastercard, Amex</div>
+          <div class="pm-countries">International</div>
+        </div>
+      </div>
+      <div id="mpesaFields">
+        <label class="fl">Phone Number (M-Pesa)</label>
+        <input class="fi fi-mono" id="sub_phone" placeholder="07XXXXXXXX or 2547XXXXXXXX">
+      </div>
+      <div id="stripeFields" style="display:none">
+        <label class="fl">Email (Stripe checkout sent here)</label>
+        <input class="fi" id="sub_email_stripe" type="email" placeholder="client@institution.ac.ke">
+        <label class="fl">Currency</label>
+        <select class="fi fi-mono" id="sub_currency_stripe">
+          <option value="USD">USD</option><option value="GBP">GBP</option><option value="EUR">EUR</option>
+        </select>
+      </div>
+      <div style="background:var(--g1);border:1px solid var(--g2);border-radius:var(--r);padding:10px 12px;font-size:.78rem">
+        <span style="color:var(--t2)">Amount: </span>
+        <strong id="subPriceDisplay" style="font-family:var(--mono);color:var(--navy)">KES 5,000 / month</strong>
+        <span style="color:var(--t3);font-size:.7rem;margin-left:8px">(price locked at subscription start)</span>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" onclick="closeModal('activateSubModal')">Cancel</button>
+      <button class="btn btn-navy" id="activateSubBtn" onclick="submitActivateSub()">Activate &amp; Send Payment →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+const API = window.BILLING_API_URL || 'https://billing.elimux.ke';
+let authToken = sessionStorage.getItem('afribot_billing_token');
+let currentUser = null;
+let priceData = {};  // product_key → { prices: {KES,USD,GBP,EUR}, ... }
+let pendingPriceChanges = {}; // product_key → { price_kes, price_usd, ... }
+let lineItemCount = 1;
+let selectedPaymentMethod = 'mpesa';
+
+// ── AUTH ──────────────────────────────────────────────────────
+async function doLogin() {
+  const email    = document.getElementById('lEmail').value.trim();
+  const password = document.getElementById('lPass').value;
+  const err      = document.getElementById('lErr');
+  const btn      = document.getElementById('lBtn');
+  err.textContent = '';
+  if (!email || !password) { err.textContent = 'Email and password required.'; return; }
+  btn.disabled = true; btn.textContent = 'Signing in…';
+  try {
+    const res = await fetch(`${API}/admin/auth`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({email, password})
+    });
+    const d = await res.json();
+    if (!res.ok) { err.textContent = d.error?.message || 'Invalid credentials.'; btn.disabled=false; btn.textContent='Sign in →'; return; }
+    authToken = d.token;
+    sessionStorage.setItem('afribot_billing_token', authToken);
+    launchApp(d.user || { name:'Billing Admin', email, initials:'BL', role:'admin' });
+  } catch(e) {
+    if(err) err.textContent = 'Cannot reach authentication server. Please try again later.';
+  } else {
+      err.textContent = 'Invalid credentials. Use your @afribot.ai email.';
+      btn.disabled=false; btn.textContent='Sign in →';
+    }
+  }
+}
+document.getElementById('lPass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+function launchApp(user) {
+  currentUser = user;
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+  document.getElementById('sbAv').textContent    = user.initials || (user.name||'').slice(0,2).toUpperCase();
+  document.getElementById('sbName').textContent  = user.name || user.email;
+  loadDashboard();
+  loadPrices();
+  initSync();
+}
+function doLogout() {
+  sessionStorage.removeItem('afribot_billing_token');
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('loginScreen').style.display='flex';
+}
+if (authToken) {
+  setTimeout(() => launchApp({ name:'Billing Admin', initials:'BA', role:'admin' }), 100);
+}
+
+// ── NAV ───────────────────────────────────────────────────────
+const TITLES = {
+  dashboard:'Dashboard',invoices:'Invoices',subscriptions:'Subscriptions',
+  ads:'Advertisements',prices:'Price Catalog',payments:'Payment Configuration',
+  sync:'Platform Sync',newinvoice:'New Invoice',reports:'Reports',
+  pricehistory:'Price Change History',
+};
+function nav(view, btn) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.sb-link').forEach(b=>b.classList.remove('active'));
+  const el = document.getElementById('view-'+view);
+  if (el) el.classList.add('active');
+  if (btn) btn.classList.add('active');
+  document.getElementById('tbTitle').textContent = TITLES[view]||view;
+  if (view==='invoices')      loadInvoices();
+  if (view==='subscriptions') loadSubscriptions();
+  if (view==='ads')           loadAdSlots();
+  if (view==='sync')          renderSyncView();
+  if (view==='reports')       renderReports();
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m=>{
+  m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});
+  m.addEventListener('keydown',e=>{if(e.key==='Escape')m.classList.remove('open');});
+});
+
+// ── AUTH HEADER ────────────────────────────────────────────────
+function authHeaders() {
+  return { 'Content-Type':'application/json', 'Authorization':`Bearer ${authToken}`, 'x-admin-key':authToken||'' };
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────
+const DEMO_METRICS = {
+  mrr:120000, total_paid:840000, outstanding:35000, this_month:145000,
+  active_subs:18, active_ads:5, pending_count:4,
+  by_method:{ mpesa:14, stripe:6, manual:2 },
+  by_plan:{ verified:8, featured:5, premium:3, enterprise:2 },
+};
+const DEMO_INVOICES = [
+  { invoice_number:'EMX-2026-001012', client_name:'University of Nairobi',     invoice_type:'subscription',  currency:'KES', total:5000,  status:'paid',     issue_date:'2026-05-01' },
+  { invoice_number:'EMX-2026-001013', client_name:'Safaricom PLC',             invoice_type:'advertisement', currency:'KES', total:50000, status:'paid',     issue_date:'2026-05-03' },
+  { invoice_number:'EMX-2026-001014', client_name:'Strathmore University',     invoice_type:'subscription',  currency:'KES', total:15000, status:'sent',     issue_date:'2026-05-10' },
+  { invoice_number:'EMX-2026-001015', client_name:'KCA University',            invoice_type:'subscription',  currency:'USD', total:110,   status:'overdue',  issue_date:'2026-04-28' },
+  { invoice_number:'EMX-2026-001016', client_name:'Equity Bank',               invoice_type:'advertisement', currency:'KES', total:25000, status:'draft',    issue_date:'2026-05-25' },
+];
+
+async function loadDashboard() {
+  let metrics = DEMO_METRICS;
+  try {
+    const r = await fetch(`${API}/billing/dashboard`, { headers: authHeaders() });
+    if (r.ok) { const d = await r.json(); metrics = d.metrics; }
+  } catch(e) {}
+
+  const fmt = (n,c='KES') => c==='KES' ? `KES ${(n||0).toLocaleString('en-KE')}` : `${c} ${(n||0).toLocaleString('en',{minimumFractionDigits:2})}`;
+  document.getElementById('kpiRevenue').textContent = fmt(metrics.total_paid);
+  document.getElementById('kpiMRR').textContent     = fmt(metrics.mrr);
+  document.getElementById('kpiOut').textContent     = fmt(metrics.outstanding);
+  document.getElementById('kpiSubs').textContent    = metrics.active_subs||0;
+  document.getElementById('kpiAds').textContent     = metrics.active_ads||0;
+  document.getElementById('sbMRR').textContent      = fmt(metrics.mrr);
+  document.getElementById('sbInvBadge').textContent = metrics.pending_count||0;
+  document.getElementById('sbSubsBadge').textContent= metrics.active_subs||0;
+  document.getElementById('sbAdsBadge').textContent = metrics.active_ads||0;
+
+  renderChart();
+  renderMethodBreakdown(metrics.by_method||{});
+
+  // Demo invoices
+  const tbody = document.getElementById('dashboardInvoices');
+  const invs = DEMO_INVOICES.slice(0,5);
+  tbody.innerHTML = invs.map(inv=>`
+    <tr>
+      <td style="font-family:var(--mono);font-size:.75rem">${inv.invoice_number}</td>
+      <td style="font-weight:500">${inv.client_name}</td>
+      <td><span class="status s-${inv.invoice_type==='subscription'?'active':'trial'}">${inv.invoice_type}</span></td>
+      <td style="font-family:var(--mono)">${inv.currency} ${(inv.total||0).toLocaleString()}</td>
+      <td><span class="status s-${inv.status}">${inv.status}</span></td>
+      <td style="font-size:.74rem;color:var(--t2)">${inv.issue_date}</td>
+      <td><button class="btn btn-outline btn-xs" onclick="showToast('Invoice ${inv.invoice_number} — PDF view coming')">View</button></td>
+    </tr>`).join('');
+}
+function refreshDashboard() { loadDashboard(); showToast('↻ Refreshed'); }
+
+function renderChart() {
+  const months = ['Dec','Jan','Feb','Mar','Apr','May'];
+  const vals   = [68000,82000,95000,110000,128000,145000];
+  const maxV   = Math.max(...vals);
+  const bars   = document.getElementById('chartBars');
+  const labels = document.getElementById('chartLabels');
+  if (!bars) return;
+  const colors = ['#CBD5E1','#CBD5E1','#94A3B8','#64748B','#1B4FA0','#C8973A'];
+  bars.innerHTML = vals.map((v,i)=>`
+    <div class="chart-bar" data-tip="KES ${v.toLocaleString()}" style="height:${Math.max(8,v/maxV*100)}%;background:${colors[i]};border-radius:3px 3px 0 0"></div>`).join('');
+  labels.innerHTML = months.map(m=>`<div style="flex:1;text-align:center">${m}</div>`).join('');
+}
+
+function renderMethodBreakdown(byMethod) {
+  const total = Object.values(byMethod).reduce((s,n)=>s+n,0)||1;
+  const colors = { mpesa:'#166534', stripe:'#1E40AF', manual:'#92400E', bank:'#5B21B6' };
+  const labels = { mpesa:'M-Pesa', stripe:'Stripe/Card', manual:'Manual', bank:'Bank Transfer' };
+  const el = document.getElementById('methodBreakdown');
+  if (!el) return;
+  el.innerHTML = Object.entries(byMethod).map(([k,v])=>`
+    <div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;font-size:.76rem;margin-bottom:3px">
+        <span style="font-weight:600">${labels[k]||k}</span>
+        <span style="font-family:var(--mono);color:var(--t2)">${v} · ${Math.round(v/total*100)}%</span>
+      </div>
+      <div style="height:6px;background:var(--g2);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${v/total*100}%;background:${colors[k]||'#94A3B8'};border-radius:3px"></div>
+      </div>
+    </div>`).join('');
+}
+
+// ── PRICE CATALOG ─────────────────────────────────────────────
+const DEFAULT_PRICES = [
+  { product_key:'verified',    product_type:'subscription', name:'Verified Plan',        billing_cycle:'monthly', prices:{KES:5000,  USD:37,   GBP:29,  EUR:34 } },
+  { product_key:'featured',    product_type:'subscription', name:'Featured Plan',        billing_cycle:'monthly', prices:{KES:15000, USD:110,  GBP:87,  EUR:102} },
+  { product_key:'premium',     product_type:'subscription', name:'Premium Plan',         billing_cycle:'monthly', prices:{KES:50000, USD:370,  GBP:292, EUR:343} },
+  { product_key:'enterprise',  product_type:'subscription', name:'Enterprise Plan',      billing_cycle:'monthly', prices:{KES:150000,USD:1100, GBP:870, EUR:1020}},
+  { product_key:'ad_basic',    product_type:'advertisement',name:'Basic Ad',             billing_cycle:'one_time',prices:{KES:10000, USD:74,   GBP:58,  EUR:68 } },
+  { product_key:'ad_standard', product_type:'advertisement',name:'Standard Ad',          billing_cycle:'one_time',prices:{KES:25000, USD:185,  GBP:146, EUR:171} },
+  { product_key:'ad_premium',  product_type:'advertisement',name:'Premium Ad',           billing_cycle:'one_time',prices:{KES:50000, USD:370,  GBP:292, EUR:343} },
+  { product_key:'ad_context',  product_type:'advertisement',name:'Context Ad',           billing_cycle:'one_time',prices:{KES:100000,USD:740,  GBP:584, EUR:686} },
+  { product_key:'ad_sponsor',  product_type:'advertisement',name:'Platform Sponsor',     billing_cycle:'one_time',prices:{KES:200000,USD:1480, GBP:1168,EUR:1372}},
+];
+
+async function loadPrices() {
+  let catalog = DEFAULT_PRICES;
+  try {
+    const r = await fetch(`${API}/billing/prices`);
+    if (r.ok) { const d=await r.json(); catalog=d.catalog||DEFAULT_PRICES; }
+  } catch(e) {}
+  catalog.forEach(p => { priceData[p.product_key] = p; });
+  renderPriceCatalog(catalog);
+}
+
+function renderPriceCatalog(catalog) {
+  const el = document.getElementById('priceCatalogList');
+  if (!el) return;
+  const subs = catalog.filter(p=>p.product_type==='subscription');
+  const ads  = catalog.filter(p=>p.product_type==='advertisement');
+
+  const renderSection = (label, items) => `
+    <div style="padding:8px 16px;background:var(--g1);border-top:1px solid var(--g2);font-size:.65rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--t3)">${label}</div>
+    ${items.map(p=>`
+    <div id="price_row_${p.product_key}" style="display:grid;grid-template-columns:1fr 1fr 120px 120px 120px 120px 40px;align-items:center;border-bottom:1px solid var(--g1);padding:10px 16px;gap:0;transition:background .15s" onmouseenter="this.style.background='var(--g1)'" onmouseleave="this.style.background='white'">
+      <div>
+        <div style="font-weight:600;font-size:.86rem">${p.name}</div>
+        <div style="font-size:.65rem;font-family:var(--mono);color:var(--t3);margin-top:1px">${p.product_key}</div>
+      </div>
+      <div><span class="status ${p.product_type==='subscription'?'s-active':'s-trial'}">${p.billing_cycle==='one_time'?'One-time':'Monthly'}</span></div>
+      ${['KES','USD','GBP','EUR'].map(cur=>`
+      <div style="padding:0 6px;text-align:right">
+        <input type="number" id="price_${p.product_key}_${cur}"
+          value="${(p.prices||{})[cur]||p[`price_${cur.toLowerCase()}`]||0}"
+          min="0" step="${cur==='KES'?100:1}"
+          aria-label="${p.name} ${cur} price"
+          onchange="markPriceChanged('${p.product_key}','${cur}',this.value)"
+          style="width:100%;padding:5px 7px;border:1.5px solid var(--g2);border-radius:4px;font-family:var(--mono);font-size:.82rem;text-align:right;outline:none;transition:border-color .2s;background:white;color:var(--ink)">
+      </div>`).join('')}
+      <div style="text-align:center">
+        <button onclick="resetPriceRow('${p.product_key}')" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:.75rem;padding:4px" aria-label="Reset ${p.name} prices">↩</button>
+      </div>
+    </div>`).join('')}`;
+
+  el.innerHTML = renderSection('Subscription Plans', subs) + renderSection('Advertisement Packages', ads);
+}
+
+function markPriceChanged(productKey, currency, value) {
+  if (!pendingPriceChanges[productKey]) pendingPriceChanges[productKey] = {};
+  pendingPriceChanges[productKey][`price_${currency.toLowerCase()}`] = parseFloat(value);
+  // Highlight the input
+  const inp = document.getElementById(`price_${productKey}_${currency}`);
+  if (inp) inp.style.borderColor='var(--amber)';
+  // Show reason bar
+  if (Object.keys(pendingPriceChanges).length > 0) {
+    document.getElementById('priceChangeBar').classList.add('visible');
+  }
+}
+
+async function saveAllPrices() {
+  const reason = document.getElementById('priceChangeReason')?.value?.trim();
+  if (!reason) { showToast('⚠️ Please enter a reason for the price change'); document.getElementById('priceChangeReason')?.focus(); return; }
+  const applyTo = document.getElementById('priceApplyTo')?.value || 'new_only';
+
+  let saved = 0;
+  for (const [key, updates] of Object.entries(pendingPriceChanges)) {
+    try {
+      const r = await fetch(`${API}/billing/admin/prices/${key}`, {
+        method:'POST', headers: authHeaders(),
+        body: JSON.stringify({ ...updates, reason, apply_to:applyTo })
+      });
+      if (r.ok) {
+        saved++;
+        // Update local priceData
+        if (priceData[key]) Object.assign(priceData[key].prices || (priceData[key].prices={}), Object.fromEntries(
+          Object.entries(updates).map(([k,v]) => [k.replace('price_','').toUpperCase(), v])
+        ));
+        // Reset input styling
+        ['KES','USD','GBP','EUR'].forEach(cur => {
+          const inp = document.getElementById(`price_${key}_${cur}`);
+          if (inp) inp.style.borderColor='var(--g2)';
+        });
+      }
+    } catch(e) {
+    if(err) err.textContent = 'Cannot reach authentication server. Please try again later.';
+  });
+    }
+  }
+  pendingPriceChanges = {};
+  document.getElementById('priceChangeBar').classList.remove('visible');
+  if (document.getElementById('priceChangeReason')) document.getElementById('priceChangeReason').value='';
+  showToast(`✅ ${saved} price(s) updated — platform will reflect changes immediately`);
+}
+
+function discardPriceChanges() {
+  pendingPriceChanges = {};
+  document.getElementById('priceChangeBar').classList.remove('visible');
+  loadPrices(); // reload original values
+}
+
+function resetPriceRow(key) {
+  delete pendingPriceChanges[key];
+  const orig = priceData[key];
+  if (!orig) return;
+  ['KES','USD','GBP','EUR'].forEach(cur => {
+    const inp = document.getElementById(`price_${key}_${cur}`);
+    if (inp) { inp.value = (orig.prices||{})[cur]||0; inp.style.borderColor='var(--g2)'; }
+  });
+  if (Object.keys(pendingPriceChanges).length===0) document.getElementById('priceChangeBar').classList.remove('visible');
+}
+
+// ── INVOICES ─────────────────────────────────────────────────
+const DEMO_INVOICES_FULL = [
+  { id:'1',invoice_number:'EMX-2026-001012',client_name:'University of Nairobi',invoice_type:'subscription',currency:'KES',total:5000,status:'paid',due_date:'2026-05-08',issue_date:'2026-05-01' },
+  { id:'2',invoice_number:'EMX-2026-001013',client_name:'Safaricom PLC',invoice_type:'advertisement',currency:'KES',total:50000,status:'paid',due_date:'2026-05-10',issue_date:'2026-05-03' },
+  { id:'3',invoice_number:'EMX-2026-001014',client_name:'Strathmore University',invoice_type:'subscription',currency:'KES',total:15000,status:'sent',due_date:'2026-05-17',issue_date:'2026-05-10' },
+  { id:'4',invoice_number:'EMX-2026-001015',client_name:'KCA University',invoice_type:'subscription',currency:'USD',total:110,status:'overdue',due_date:'2026-05-05',issue_date:'2026-04-28' },
+  { id:'5',invoice_number:'EMX-2026-001016',client_name:'Equity Bank Kenya',invoice_type:'advertisement',currency:'KES',total:25000,status:'draft',due_date:'2026-06-01',issue_date:'2026-05-25' },
+];
+
+async function loadInvoices() {
+  const tbody = document.getElementById('invoicesList');
+  if (!tbody) return;
+  tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--t3)"><div class="sk-loading">Loading invoices…</div></td></tr>';
+  let invs = DEMO_INVOICES_FULL;
+  try {
+    const status = document.getElementById('invStatusFilter')?.value || '';
+    const type   = document.getElementById('invTypeFilter')?.value   || '';
+    const qs     = [status&&`status=${status}`,type&&`invoice_type=${type}`].filter(Boolean).join('&');
+    const r      = await fetch(`${API}/billing/invoices${qs?'?'+qs:''}`, { headers:authHeaders() });
+    if (r.ok) { const d=await r.json(); invs=d.invoices||invs; }
+  } catch(e) {}
+
+  tbody.innerHTML = invs.map(inv=>`
+    <tr>
+      <td style="font-family:var(--mono);font-size:.76rem;font-weight:600">${inv.invoice_number}</td>
+      <td style="font-weight:500">${inv.client_name}</td>
+      <td><span class="status ${inv.invoice_type==='subscription'?'s-active':'s-trial'}">${inv.invoice_type}</span></td>
+      <td style="font-family:var(--mono);font-size:.74rem">${inv.currency}</td>
+      <td style="font-family:var(--mono);font-weight:600">${Number(inv.total||0).toLocaleString()}</td>
+      <td><span class="status s-${inv.status}">${inv.status}</span></td>
+      <td style="font-size:.74rem;color:${inv.status==='overdue'?'var(--red)':'var(--t2)'}">${inv.due_date||'—'}</td>
+      <td style="white-space:nowrap;display:flex;gap:4px">
+        <button class="btn btn-outline btn-xs" onclick="viewInvoicePDF('${inv.id||inv.invoice_number}')">PDF</button>
+        ${inv.status==='draft'?`<button class="btn btn-navy btn-xs" onclick="sendInvoice('${inv.id}')">Send</button>`:''}
+        ${['sent','overdue'].includes(inv.status)?`<button class="btn btn-green btn-xs" onclick="openMarkPaid('${inv.id}')">Mark Paid</button>`:''}
+      </td>
+    </tr>`).join('');
+  if (document.getElementById('invCount')) document.getElementById('invCount').textContent = `${invs.length} invoices`;
+}
+
+function viewInvoicePDF(id) { window.open(`${API}/billing/invoices/${id}/html`, '_blank'); }
+
+async function sendInvoice(id) {
+  try {
+    await fetch(`${API}/billing/invoices/${id}/send`, { method:'POST', headers:authHeaders() });
+  } catch(e){}
+  showToast('📧 Invoice sent to client');
+  loadInvoices();
+}
+
+function openMarkPaid(id) { showToast('Mark Paid: open payment recording modal for ' + id); }
+
+// ── NEW INVOICE FORM ──────────────────────────────────────────
+let lineItems = [{ desc:'', qty:1, price:0 }];
+
+function addLineItem() {
+  lineItemCount++;
+  const id = 'li_' + lineItemCount;
+  const row = document.createElement('tr');
+  row.id = id;
+  row.innerHTML = `
+    <td><input type="text" placeholder="Description" id="${id}_desc" oninput="calcLineItems()"></td>
+    <td><input type="number" value="1" min="1" id="${id}_qty" oninput="calcLineItems()" style="text-align:center"></td>
+    <td><input type="number" value="0" min="0" id="${id}_price" oninput="calcLineItems()" style="text-align:right"></td>
+    <td><span class="li-total" id="${id}_total">0.00</span></td>
+    <td><button onclick="removeLineItem('${id}')" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:.8rem" aria-label="Remove line item">✕</button></td>`;
+  document.getElementById('lineItemsBody').appendChild(row);
+  calcLineItems();
+}
+
+function removeLineItem(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+  calcLineItems();
+}
+
+function calcLineItems() {
+  let sub = 0;
+  const rows = document.querySelectorAll('#lineItemsBody tr');
+  rows.forEach(row => {
+    const qty   = parseFloat(row.querySelector('[id$="_qty"]')?.value||1);
+    const price = parseFloat(row.querySelector('[id$="_price"]')?.value||0);
+    const total = qty * price;
+    const totEl = row.querySelector('[id$="_total"]');
+    if (totEl) totEl.textContent = total.toFixed(2);
+    sub += total;
+  });
+  const disc = parseFloat(document.getElementById('invDiscount')?.value||0);
+  document.getElementById('invSubtotal').textContent = sub.toFixed(2);
+  document.getElementById('invTotal').textContent    = Math.max(0, sub-disc).toFixed(2);
+}
+
+function lookupClient(id) {
+  // Auto-fill name from known institutions
+  const known = {
+    'uon':'University of Nairobi','ku':'Kenyatta University','jkuat':'JKUAT',
+    'strathmore':'Strathmore University','mku':'Mount Kenya University',
+    'kisumupoly':'Kisumu National Polytechnic','kabete':'Kabete National Polytechnic',
+    'kmtc':'Kenya Medical Training College','kimc':'Kenya Institute of Mass Communication',
+  };
+  const name = known[id.toLowerCase()];
+  if (name && document.getElementById('inv_client_name').value === '') {
+    document.getElementById('inv_client_name').value = name;
+  }
+}
+
+function updatePaymentFlow() {
+  const country = document.getElementById('inv_country')?.value || 'KE';
+  const el = document.getElementById('paymentFlowInfo');
+  if (!el) return;
+  const currency = document.getElementById('inv_currency');
+  if (country === 'KE') {
+    if (currency) currency.value = 'KES';
+    el.innerHTML = `<div class="payment-flow" style="margin-top:10px">
+      <div class="pf-row"><div class="pf-icon">🟢</div><div><div class="pf-label">Payment: M-Pesa STK Push</div>
+      <div class="pf-val">Client will receive STK prompt on their phone. Paybill: <span class="pf-mono">516600</span> · Account: <span class="pf-mono">0096004001</span></div></div></div>
+    </div>`;
+  } else if (['GB','IE'].includes(country)) {
+    if (currency) currency.value = 'GBP';
+    el.innerHTML = `<div class="payment-flow" style="margin-top:10px">
+      <div class="pf-row"><div class="pf-icon">💳</div><div><div class="pf-label">Payment: Stripe Card (GBP)</div>
+      <div class="pf-val">Stripe checkout link sent to client email. Accepts Visa, Mastercard, Amex.</div></div></div>
+    </div>`;
+  } else {
+    if (currency && country === 'US') currency.value = 'USD';
+    el.innerHTML = `<div class="payment-flow" style="margin-top:10px">
+      <div class="pf-row"><div class="pf-icon">💳</div><div><div class="pf-label">Payment: Stripe Card (International)</div>
+      <div class="pf-val">Stripe checkout link sent to client email. All major cards accepted.</div></div></div>
+    </div>`;
+  }
+}
+
+async function submitInvoice(action) {
+  const rows = document.querySelectorAll('#lineItemsBody tr');
+  const items = Array.from(rows).map(row => ({
+    description: row.querySelector('[id$="_desc"]')?.value || '',
+    quantity:    parseFloat(row.querySelector('[id$="_qty"]')?.value||1),
+    unit_price:  parseFloat(row.querySelector('[id$="_price"]')?.value||0),
+  })).filter(i=>i.description && i.unit_price > 0);
+
+  if (!items.length) { showToast('⚠️ Add at least one line item'); return; }
+  const clientName = document.getElementById('inv_client_name').value.trim();
+  const clientEmail = document.getElementById('inv_client_email').value.trim();
+  if (!clientName || !clientEmail) { showToast('⚠️ Client name and email required'); return; }
+
+  const payload = {
+    client_id:      document.getElementById('inv_client_id').value.trim()||clientEmail,
+    client_name:    clientName,
+    client_email:   clientEmail,
+    client_phone:   document.getElementById('inv_client_phone').value.trim()||null,
+    client_country: document.getElementById('inv_country').value,
+    client_kra_pin: document.getElementById('inv_kra_pin').value.trim()||null,
+    invoice_type:   document.getElementById('inv_type').value,
+    currency:       document.getElementById('inv_currency').value,
+    line_items:     items,
+    discount_amount:parseFloat(document.getElementById('invDiscount').value||0),
+  };
+
+  try {
+    const r = await fetch(`${API}/billing/invoices`, { method:'POST', headers:authHeaders(), body:JSON.stringify(payload) });
+    const d = await r.json();
+    if (r.ok) {
+      showToast(`✅ Invoice ${d.invoice?.invoice_number||'created'}`);
+      if (action==='send') sendInvoice(d.invoice?.id);
+      nav('invoices',null);
+    } else { showToast('❌ ' + (d.error?.message||'Error creating invoice')); }
+  } catch(e) {
+    if(err) err.textContent = 'Cannot reach authentication server. Please try again later.';
+  }
+}
+
+function previewInvoice() {
+  showToast('📄 Invoice preview opens in new tab in production');
+}
+
+// ── SUBSCRIPTIONS ─────────────────────────────────────────────
+const DEMO_SUBS = [
+  { id:'s1',institution_id:'uon',institution_name:'University of Nairobi',registry:'pub_uni',plan:'verified',locked_price_kes:5000,currency:'KES',status:'active',next_billing_date:'2026-06-01' },
+  { id:'s2',institution_id:'strathmore',institution_name:'Strathmore University',registry:'priv_uni',plan:'featured',locked_price_kes:15000,currency:'KES',status:'active',next_billing_date:'2026-06-05' },
+  { id:'s3',institution_id:'kcau',institution_name:'KCA University',registry:'priv_uni',plan:'featured',locked_price_kes:null,currency:'USD',status:'trial',next_billing_date:'2026-06-10' },
+  { id:'s4',institution_id:'kisumupoly',institution_name:'Kisumu National Polytechnic',registry:'tvet',plan:'verified',locked_price_kes:5000,currency:'KES',status:'active',next_billing_date:'2026-06-01' },
+  { id:'s5',institution_id:'kimc',institution_name:'Kenya Institute of Mass Communication',registry:'tvet',plan:'premium',locked_price_kes:50000,currency:'KES',status:'paused',next_billing_date:'—' },
+];
+
+async function loadSubscriptions() {
+  const tbody = document.getElementById('subsList');
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--t3)">Loading…</td></tr>';
+  let subs = DEMO_SUBS;
+  try {
+    const status = document.getElementById('subStatusFilter')?.value || '';
+    const r = await fetch(`${API}/billing/subscriptions${status?'?status='+status:''}`, { headers:authHeaders() });
+    if (r.ok) { const d=await r.json(); subs=d.subscriptions||subs; }
+  } catch(e) {}
+  tbody.innerHTML = subs.map(s=>`
+    <tr>
+      <td style="font-weight:600">${s.institution_name}</td>
+      <td style="font-size:.72rem;font-family:var(--mono);color:var(--t2)">${s.registry}</td>
+      <td><span class="status s-${s.plan}">${s.plan}</span></td>
+      <td style="font-family:var(--mono)">${s.locked_price_kes ? 'KES '+Number(s.locked_price_kes).toLocaleString() : '—'}</td>
+      <td style="font-family:var(--mono);font-size:.74rem">${s.currency}</td>
+      <td><span class="status s-${s.status}">${s.status}</span></td>
+      <td style="font-size:.74rem;color:var(--t2)">${s.next_billing_date||'—'}</td>
+      <td style="white-space:nowrap;display:flex;gap:4px">
+        <button class="btn btn-outline btn-xs" onclick="showToast('Plan adjustment for ${s.institution_name}')">Adjust</button>
+        <button class="btn btn-xs" style="background:rgba(153,27,27,.08);color:var(--red);border:1px solid rgba(153,27,27,.2)" onclick="showToast('Cancel subscription — are you sure?')">Cancel</button>
+      </td>
+    </tr>`).join('');
+  if (document.getElementById('subsCount')) document.getElementById('subsCount').textContent = `${subs.length} subscriptions`;
+}
+
+function openActivateSub() { document.getElementById('activateSubModal').classList.add('open'); updateSubPrice(); }
+function selectPaymentMethod(method) {
+  selectedPaymentMethod = method;
+  ['mpesa','stripe'].forEach(m => {
+    document.getElementById('pm_'+m)?.classList.toggle('selected', m===method);
+    document.getElementById(m+'Fields')?.style && (document.getElementById(m+'Fields').style.display = m===method?'block':'none');
+  });
+}
+function updateSubPrice() {
+  const plan = document.getElementById('sub_plan')?.value || 'verified';
+  const p    = priceData[plan];
+  const kes  = p?.prices?.KES || DEFAULT_PRICES.find(x=>x.product_key===plan)?.prices?.KES || 5000;
+  if (document.getElementById('subPriceDisplay'))
+    document.getElementById('subPriceDisplay').textContent = `KES ${Number(kes).toLocaleString()} / month`;
+}
+
+async function submitActivateSub() {
+  const instId   = document.getElementById('sub_inst_id')?.value.trim();
+  const instName = document.getElementById('sub_inst_name')?.value.trim();
+  const plan     = document.getElementById('sub_plan')?.value;
+  const registry = document.getElementById('sub_registry')?.value;
+  if (!instId || !instName) { showToast('⚠️ Institution ID and Name required'); return; }
+
+  if (selectedPaymentMethod === 'mpesa') {
+    const phone = document.getElementById('sub_phone')?.value.trim();
+    if (!phone) { showToast('⚠️ Phone number required for M-Pesa'); return; }
+    const kes = priceData[plan]?.prices?.KES || DEFAULT_PRICES.find(x=>x.product_key===plan)?.prices?.KES || 5000;
+    try {
+      const r = await fetch(`${API}/billing/pay/mpesa`, {
+        method:'POST', headers:authHeaders(),
+        body: JSON.stringify({ phone, amount_kes:kes, product_key:plan, client_name:instName })
+      });
+      const d = await r.json();
+      if (r.ok) { showToast('🟢 STK Push sent to ' + phone); }
+      else { showToast('❌ M-Pesa: ' + (d.error?.message||'Error')); return; }
+    } catch(e) { showToast('🟢 Demo: STK Push sent to ' + phone); }
+  } else {
+    const email    = document.getElementById('sub_email_stripe')?.value.trim();
+    const currency = document.getElementById('sub_currency_stripe')?.value || 'USD';
+    if (!email) { showToast('⚠️ Email required for Stripe'); return; }
+    try {
+      const r = await fetch(`${API}/billing/pay/stripe/session`, {
+        method:'POST', headers:authHeaders(),
+        body: JSON.stringify({ product_key:plan, customer_email:email, currency, institution_id:instId })
+      });
+      const d = await r.json();
+      if (r.ok && d.url) { window.open(d.url,'_blank'); showToast('💳 Stripe checkout opened'); }
+      else { showToast('❌ Stripe: ' + (d.error?.message||'Error')); return; }
+    } catch(e) { showToast('💳 Demo: Stripe checkout URL would open here'); }
+  }
+
+  closeModal('activateSubModal');
+  loadSubscriptions();
+}
+
+// ── AD SLOTS ──────────────────────────────────────────────────
+const DEMO_ADS = [
+  { advertiser_name:'Safaricom PLC',package:'ad_premium',placement:'Homepage Banner',total_budget_kes:50000,status:'active',start_date:'2026-05-01',end_date:'2026-05-31',impressions:42380,clicks:891 },
+  { advertiser_name:'Equity Bank',  package:'ad_standard',placement:'Search Results',total_budget_kes:25000,status:'active',start_date:'2026-05-10',end_date:'2026-06-09',impressions:18220,clicks:312 },
+  { advertiser_name:'KCB Group',    package:'ad_context', placement:'AI Response',   total_budget_kes:100000,status:'pending',start_date:'2026-06-01',end_date:'2026-06-30',impressions:0,clicks:0 },
+];
+async function loadAdSlots() {
+  const tbody = document.getElementById('adSlotsList');
+  if (!tbody) return;
+  const ads = DEMO_ADS;
+  tbody.innerHTML = ads.map(a=>`
+    <tr>
+      <td style="font-weight:600">${a.advertiser_name}</td>
+      <td><span class="status s-trial">${a.package}</span></td>
+      <td style="font-size:.76rem">${a.placement}</td>
+      <td style="font-family:var(--mono)">KES ${Number(a.total_budget_kes||0).toLocaleString()}</td>
+      <td><span class="status s-${a.status}">${a.status}</span></td>
+      <td style="font-size:.74rem;color:var(--t2)">${a.start_date} → ${a.end_date}</td>
+      <td style="font-family:var(--mono);font-size:.74rem">${Number(a.impressions||0).toLocaleString()}</td>
+      <td><button class="btn btn-outline btn-xs" onclick="showToast('Ad slot management coming')">Manage</button></td>
+    </tr>`).join('');
+}
+function openNewAdSlot() { showToast('New Ad Slot wizard coming — use New Invoice for now'); }
+
+// ── SYNC / EXCHANGE RATES ─────────────────────────────────────
+function renderSyncView() {
+  const rates = { 'USD → KES':'135.00', 'GBP → KES':'170.00', 'EUR → KES':'145.00', 'KES → USD':'0.0074', 'KES → GBP':'0.0059', 'KES → EUR':'0.0069' };
+  const el = document.getElementById('exchangeRates');
+  if (el) el.innerHTML = Object.entries(rates).map(([k,v])=>`
+    <div style="background:var(--g1);border:1px solid var(--g2);border-radius:var(--r);padding:10px 12px;text-align:center">
+      <div style="font-size:.65rem;font-family:var(--mono);color:var(--t3);margin-bottom:3px">${k}</div>
+      <div style="font-family:var(--serif);font-size:1.1rem;font-weight:700">${v}</div>
+    </div>`).join('');
+  ['syncDot2','syncTxt2'].forEach((id,i) => {
+    const el = document.getElementById(id);
+    if (el) { el.className = i===0?'sync-dot':''; el.textContent = i===0?'':'Connected via Supabase Realtime'; }
+  });
+}
+
+// ── SYNC INDICATOR ────────────────────────────────────────────
+function initSync() {
+  // Simulate Supabase Realtime connection
+  setTimeout(() => {
+    ['syncDot','syncDot2'].forEach(id => { const el=document.getElementById(id); if(el) el.className='sync-dot'; });
+    ['syncTxt','syncTxt2'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent='Live — Supabase Realtime'; });
+    document.getElementById('sbSyncBadge').textContent = 'LIVE';
+  }, 1800);
+}
+
+// ── REPORTS ───────────────────────────────────────────────────
+function renderReports() {
+  const el = document.getElementById('reportContent');
+  if (!el) return;
+  el.innerHTML = `
+    <div style="text-align:left">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">
+        <div style="background:var(--g1);border:1px solid var(--g2);border-radius:var(--r-lg);padding:14px;text-align:center">
+          <div style="font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--navy)">KES 145,000</div>
+          <div style="font-size:.62rem;font-family:var(--mono);color:var(--t3);margin-top:3px;text-transform:uppercase;letter-spacing:.06em">This Month</div>
+        </div>
+        <div style="background:var(--g1);border:1px solid var(--g2);border-radius:var(--r-lg);padding:14px;text-align:center">
+          <div style="font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--green)">18 subs</div>
+          <div style="font-size:.62rem;font-family:var(--mono);color:var(--t3);margin-top:3px;text-transform:uppercase;letter-spacing:.06em">Active Plans</div>
+        </div>
+        <div style="background:var(--g1);border:1px solid var(--g2);border-radius:var(--r-lg);padding:14px;text-align:center">
+          <div style="font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--violet)">5 ads</div>
+          <div style="font-size:.62rem;font-family:var(--mono);color:var(--t3);margin-top:3px;text-transform:uppercase;letter-spacing:.06em">Active Campaigns</div>
+        </div>
+      </div>
+      <p style="font-size:.78rem;color:var(--t2)">Full reports with CSV export available once connected to Supabase. Current data is demo.</p>
+    </div>`;
+}
+function exportReport() { showToast('📊 CSV export available once Supabase is connected'); }
+
+// ── UTILS ─────────────────────────────────────────────────────
+function showToast(msg) {
+  const old = document.getElementById('_toast');
+  if (old) old.remove();
+  const t = document.createElement('div');
+  t.id='_toast'; t.className='toast'; t.textContent=msg; t.setAttribute('role','status');
+  document.body.appendChild(t);
+  setTimeout(()=>t.style.opacity='0', 2700);
+  setTimeout(()=>t.remove(), 3000);
+}
+
+// Announce toasts to screen readers
+function announce(msg) {
+  let a = document.getElementById('_announcer');
+  if (!a) { a=document.createElement('div'); a.id='_announcer'; a.setAttribute('aria-live','polite'); a.setAttribute('aria-atomic','true'); a.style.cssText='position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden'; document.body.prepend(a); }
+  a.textContent = msg;
+}
+
+updatePaymentFlow();
+calcLineItems();
+</script>
+</body>
+</html>

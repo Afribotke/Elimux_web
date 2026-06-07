@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Allow: /index.html
+Disallow: /elimux-admin.html
+Disallow: /elimux-billing.html
+Disallow: /elimux-payments.html
+Disallow: /elimux-domains.html
+Disallow: /elimux-developer.html
+Disallow: /elimux-examining.html
+Disallow: /elimux-university.html
+Sitemap: https://www.elimux.ke/sitemap.xml

@@ -1,0 +1,2227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Elimux Ask — Find Your Course</title>
+
+  <!-- PWA meta (inline assets — no server required) -->
+  <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIkVsaW11eCBcdTIwMTQgR2xvYmFsIEVkdWNhdGlvbiBEaXNjb3ZlcnkiLAogICJzaG9ydF9uYW1lIjogIkVsaW11eCIsCiAgImRlc2NyaXB0aW9uIjogIkRpc2NvdmVyIHVuaXZlcnNpdGllcywgVFZFVHMgYW5kIHZlcmlmaWVkIHZpc2EgYWdlbnRzIGFjcm9zcyAxODYgY291bnRyaWVzLiBBSS1wb3dlcmVkIHNlYXJjaC4gMjEsODQ3IGluc3RpdHV0aW9ucy4iLAogICJzdGFydF91cmwiOiAiLyIsCiAgInNjb3BlIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdC1wcmltYXJ5IiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMEQxRjNDIiwKICAidGhlbWVfY29sb3IiOiAiIzBEMUYzQyIsCiAgImxhbmciOiAiZW4iLAogICJkaXIiOiAibHRyIiwKICAiY2F0ZWdvcmllcyI6IFsKICAgICJlZHVjYXRpb24iLAogICAgInJlZmVyZW5jZSIsCiAgICAicHJvZHVjdGl2aXR5IgogIF0sCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogIi9pY29ucy9pY29uLTcyLnBuZyIsCiAgICAgICJzaXplcyI6ICI3Mng3MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiL2ljb25zL2ljb24tOTYucG5nIiwKICAgICAgInNpemVzIjogIjk2eDk2IiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICIvaWNvbnMvaWNvbi0xMjgucG5nIiwKICAgICAgInNpemVzIjogIjEyOHgxMjgiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogIi9pY29ucy9pY29uLTE0NC5wbmciLAogICAgICAic2l6ZXMiOiAiMTQ0eDE0NCIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiL2ljb25zL2ljb24tMTUyLnBuZyIsCiAgICAgICJzaXplcyI6ICIxNTJ4MTUyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICIvaWNvbnMvaWNvbi0xOTIucG5nIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciLAogICAgICAicHVycG9zZSI6ICJhbnkiCiAgICB9LAogICAgewogICAgICAic3JjIjogIi9pY29ucy9pY29uLTM4NC5wbmciLAogICAgICAic2l6ZXMiOiAiMzg0eDM4NCIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiL2ljb25zL2ljb24tNTEyLnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInB1cnBvc2UiOiAiYW55IgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICIvaWNvbnMvaWNvbi01MTItbWFza2FibGUucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciLAogICAgICAicHVycG9zZSI6ICJtYXNrYWJsZSIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiL2ljb25zL2FwcGxlLXRvdWNoLWljb24ucG5nIiwKICAgICAgInNpemVzIjogIjE4MHgxODAiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9CiAgXSwKICAic2hvcnRjdXRzIjogWwogICAgewogICAgICAibmFtZSI6ICJVbml2ZXJzaXR5IFNlYXJjaCIsCiAgICAgICJzaG9ydF9uYW1lIjogIlVuaXZlcnNpdGllcyIsCiAgICAgICJkZXNjcmlwdGlvbiI6ICJBSSBzZWFyY2ggYWNyb3NzIDIxLDg0NyB1bml2ZXJzaXRpZXMgd29ybGR3aWRlIiwKICAgICAgInVybCI6ICIvIiwKICAgICAgImljb25zIjogWwogICAgICAgIHsKICAgICAgICAgICJzcmMiOiAiL2ljb25zL2ljb24tOTYucG5nIiwKICAgICAgICAgICJzaXplcyI6ICI5Nng5NiIKICAgICAgICB9CiAgICAgIF0KICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIlNraWxscyAmIFRyYWRlcyIsCiAgICAgICJzaG9ydF9uYW1lIjogIlRWRVRzIiwKICAgICAgImRlc2NyaXB0aW9uIjogIlNlYXJjaCBUVkVUcywgcG9seXRlY2huaWNzIGFuZCB2b2NhdGlvbmFsIGNvbGxlZ2VzIiwKICAgICAgInVybCI6ICIvI3R2ZXQiLAogICAgICAiaWNvbnMiOiBbCiAgICAgICAgewogICAgICAgICAgInNyYyI6ICIvaWNvbnMvaWNvbi05Ni5wbmciLAogICAgICAgICAgInNpemVzIjogIjk2eDk2IgogICAgICAgIH0KICAgICAgXQogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiVmVyaWZpZWQgVmlzYSBBZ2VudHMiLAogICAgICAic2hvcnRfbmFtZSI6ICJWaXNhIEFnZW50cyIsCiAgICAgICJkZXNjcmlwdGlvbiI6ICJGaW5kIHZlcmlmaWVkIHZpc2EgYWdlbnRzIGJ5IGNvdW50cnkiLAogICAgICAidXJsIjogIi8jYWdlbnRzIiwKICAgICAgImljb25zIjogWwogICAgICAgIHsKICAgICAgICAgICJzcmMiOiAiL2ljb25zL2ljb24tOTYucG5nIiwKICAgICAgICAgICJzaXplcyI6ICI5Nng5NiIKICAgICAgICB9CiAgICAgIF0KICAgIH0sCiAgICB7CiAgICAgICJuYW1lIjogIlVuaXZlcnNpdHkgUG9ydGFsIiwKICAgICAgInNob3J0X25hbWUiOiAiTXkgUG9ydGFsIiwKICAgICAgImRlc2NyaXB0aW9uIjogIk1hbmFnZSB5b3VyIGluc3RpdHV0aW9uIG9uIEVsaW11eCIsCiAgICAgICJ1cmwiOiAiL3BvcnRhbC8iLAogICAgICAiaWNvbnMiOiBbCiAgICAgICAgewogICAgICAgICAgInNyYyI6ICIvaWNvbnMvaWNvbi05Ni5wbmciLAogICAgICAgICAgInNpemVzIjogIjk2eDk2IgogICAgICAgIH0KICAgICAgXQogICAgfQogIF0sCiAgInNjcmVlbnNob3RzIjogWwogICAgewogICAgICAic3JjIjogIi9zY3JlZW5zaG90cy9zZWFyY2gucG5nIiwKICAgICAgInNpemVzIjogIjM5MHg4NDQiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciLAogICAgICAiZm9ybV9mYWN0b3IiOiAibmFycm93IiwKICAgICAgImxhYmVsIjogIkVsaW11eCBBSSBzZWFyY2ggXHUyMDE0IGZpbmQgeW91ciB0b3AgMTAiCiAgICB9LAogICAgewogICAgICAic3JjIjogIi9zY3JlZW5zaG90cy9yZXN1bHRzLnBuZyIsCiAgICAgICJzaXplcyI6ICIzOTB4ODQ0IiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgImZvcm1fZmFjdG9yIjogIm5hcnJvdyIsCiAgICAgICJsYWJlbCI6ICJSYW5rZWQgcmVzdWx0cyB3aXRoIHNoYXJlIHRvIFdoYXRzQXBwIgogICAgfQogIF0sCiAgInByZWZlcl9yZWxhdGVkX2FwcGxpY2F0aW9ucyI6IGZhbHNlLAogICJyZWxhdGVkX2FwcGxpY2F0aW9ucyI6IFtdCn0=">
+  <meta name="theme-color" content="#0D1F3C">
+  <meta name="background-color" content="#0D1F3C">
+  <meta name="msapplication-TileColor" content="#0D1F3C">
+  <meta name="msapplication-TileImage" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAGlUlEQVR4nO2dzXXdNhCFR+9km7SQdKGFkqV6UQkuQSW4Fy0jLdxF1IK198kCPjAFcogfgsSdwf1WPsdPIIj5eAHiUdSdnM/vf/59wVFm4+P99exD3J3ULoW4kpNE6SwHnRhLX0v6yEEn0OhiyVE5qAUyBxW5HflhmgHOwQI1Jge1sEVbhLQkB80wR1vJ6pKDWlinKkIqkoNmOKCqiKVy0Aw3lJeySA6a4YzCgubloBkuKSlrRg6a4ZhscffkoBnu2S+xKgfNmISdQh/aPie+2ZaDsTEVWrk35KAZE7JZdE4rRCWVg7ExLevS3/b/m0xFIgCnFaLySw7GBpHPGjA5iArlICo/5eCcQiJRBiYHUaEcROUmnFPIiqAEk4OoUA6iQjmIyh0XHESDyUFUKAdRoRxEhXIQFcpBVCgHUaEcRIVyEBXKQVR+G92BYbx8+RH+cf/0tvmBb18fwj8enye9hCbaPo82BDQn1kRLAvO44l+OrBNJ7cs/6d4St3IkTgSW9dacaPgpr5Y4lKOjFlUt+FPElRybWsiirm1aVDXlSREncmhaSFczyhv0oYgHObJm9NKiqmUHftiWY0cLOdOMbPsOzBDTcow1QzuKDy0CVs8EwYx4iLgK8WSGWNw+39dCarY+O3L/9PbHX/9cf9xTMWZ61ozIBbFx8YGux9Kao8SMyyaUBGcTSsDMKZWbQXphQ47y2UQYG/0wcFaFZoyaUBxjQA4yCnQ5GBsDgZajaqlBuoMrR7kZjI2TwJXDEF4TDlSOqWID1i1EOWAHa4fmPocfxDxlRDkICHDfrVRdQw1zypEt9uyBardKk5NF22m195V9OZseHFmdZBt8+fKjvMCYU8kSLDkOjldSvO6r1M0Gk4O+yIPkMkA7zSq3LgBLjirinNL9+fIqkoOGznx/km9fH9aVxk+LJUBrjtqBG+tElubu4YSHveQ4e+7oRYw0cIl3sCRHcm9i5dGepMOGFEGZVmqfJrcy0G09B5lZ0JPDigTlLH+bAfy8cOUwMXzNmFAEQo71nHL/9AY7ZB2JiiQnC7LhMb4HayYxI7LcqoECTo7ZzAhg+oElx5xmBAD9AJKj3AzwddyS5Detsx+G8mO8HGE1OnNmLIl+IHwLM14OAguEHIyNJTiTC4QcBJPxcjA21oCEx3g5CCyUg6iM/8r++3//ju0ALMNfMsbkICoQ38rWLkgN7ZBKa2+5IBWBWZlDAXIHN14OAguEHAyPJSCxISByEEzGyxGeh2N4BGJs8DHBT5T7UfWQxFiqblVwJpQAkBwyd36gmSFocsisfgCaIYByyHx+YJohIDukj8+35Km46AfmqPVCO0eE1aiAyLGJid8Ja8bEeeHKEfCniKFzGf+VfaTw73MZeqNBW4dB5hTBT44lhrY3lvDlLdeRXIiwS327TkSA5Fjfs5Qw/IVxCcvONIQczpwiUHLUEkZ/mRxDXhemHRR/SZQFS4628IhsvvVx/zNVdG8wASo2BE2OvpS8U/Z4g44BupWNnP368wto6BVabAjmdysEBEQ5AK+hs8E8ZcQ+Sc1gAe6M1c4pmGYIrBwEAVw5jIaHm9gQZDkEe+C6AH6C0J2T4uEDCY+q2AA3Q/DlIAMxIIeV8HAWG2JCDqkcyiF+VB3UhBliRQ4pG9Dhm+glHbBihhiSQ2r8uDg8yicUQ2aILTmkZnAv86P8QLbMEHNyiMjj821/lBH+gGhCts+Y2OtxoMSPC8LD0B9sa8BqvwXAD99mCObDPrXsPBx03qNA2ZZNaxHwIIcU+CH9FClp0IEZ4kaOgKZIRz+yTfnQIuBKjsCmIsvFR5si2RY8aRFwKEegoyITahFwK0cksWR9/6JZkv2kVyci/uWIZC3RmM2JyERyJERXNEuiE/PYkDCvHCTLpNcEKYFyEBXKQVQoB1GhHESFchAVykFUKAdRoRxE5fbx/jq6DwSRj/dXJgdRoRxEhXIQlZuIcNlBEoISTA6iQjmIyk85OLOQSJSByUFUKAdR+SUHZxYinzVgchCVT3IwPCYnESBNDvoxLevSc1ohKhtyMDwmZLPo28lBP6ZCKzenFaKiysHwmISdQu8lB/1wz36JM9MK/XBMtrj5NQf9cElJWYsWpPTDGYUFLb1boR9uKC9lxa0s/XBAVRHvGg7AN0VZpOHabtkEY4SYo61kLckRYYTgc+RKPrR9zggB52CBDiVHhBGCRpfrto8cEVoylr5Z3lmOCC25kpPm97PkWEJRzuCCBd//UQAb4MttbTcAAAAASUVORK5CYII=">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Elimux">
+  <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAGlUlEQVR4nO2dzXXdNhCFR+9km7SQdKGFkqV6UQkuQSW4Fy0jLdxF1IK198kCPjAFcogfgsSdwf1WPsdPIIj5eAHiUdSdnM/vf/59wVFm4+P99exD3J3ULoW4kpNE6SwHnRhLX0v6yEEn0OhiyVE5qAUyBxW5HflhmgHOwQI1Jge1sEVbhLQkB80wR1vJ6pKDWlinKkIqkoNmOKCqiKVy0Aw3lJeySA6a4YzCgubloBkuKSlrRg6a4ZhscffkoBnu2S+xKgfNmISdQh/aPie+2ZaDsTEVWrk35KAZE7JZdE4rRCWVg7ExLevS3/b/m0xFIgCnFaLySw7GBpHPGjA5iArlICo/5eCcQiJRBiYHUaEcROUmnFPIiqAEk4OoUA6iQjmIyh0XHESDyUFUKAdRoRxEhXIQFcpBVCgHUaEcRIVyEBXKQVR+G92BYbx8+RH+cf/0tvmBb18fwj8enye9hCbaPo82BDQn1kRLAvO44l+OrBNJ7cs/6d4St3IkTgSW9dacaPgpr5Y4lKOjFlUt+FPElRybWsiirm1aVDXlSREncmhaSFczyhv0oYgHObJm9NKiqmUHftiWY0cLOdOMbPsOzBDTcow1QzuKDy0CVs8EwYx4iLgK8WSGWNw+39dCarY+O3L/9PbHX/9cf9xTMWZ61ozIBbFx8YGux9Kao8SMyyaUBGcTSsDMKZWbQXphQ47y2UQYG/0wcFaFZoyaUBxjQA4yCnQ5GBsDgZajaqlBuoMrR7kZjI2TwJXDEF4TDlSOqWID1i1EOWAHa4fmPocfxDxlRDkICHDfrVRdQw1zypEt9uyBardKk5NF22m195V9OZseHFmdZBt8+fKjvMCYU8kSLDkOjldSvO6r1M0Gk4O+yIPkMkA7zSq3LgBLjirinNL9+fIqkoOGznx/km9fH9aVxk+LJUBrjtqBG+tElubu4YSHveQ4e+7oRYw0cIl3sCRHcm9i5dGepMOGFEGZVmqfJrcy0G09B5lZ0JPDigTlLH+bAfy8cOUwMXzNmFAEQo71nHL/9AY7ZB2JiiQnC7LhMb4HayYxI7LcqoECTo7ZzAhg+oElx5xmBAD9AJKj3AzwddyS5Detsx+G8mO8HGE1OnNmLIl+IHwLM14OAguEHIyNJTiTC4QcBJPxcjA21oCEx3g5CCyUg6iM/8r++3//ju0ALMNfMsbkICoQ38rWLkgN7ZBKa2+5IBWBWZlDAXIHN14OAguEHAyPJSCxISByEEzGyxGeh2N4BGJs8DHBT5T7UfWQxFiqblVwJpQAkBwyd36gmSFocsisfgCaIYByyHx+YJohIDukj8+35Km46AfmqPVCO0eE1aiAyLGJid8Ja8bEeeHKEfCniKFzGf+VfaTw73MZeqNBW4dB5hTBT44lhrY3lvDlLdeRXIiwS327TkSA5Fjfs5Qw/IVxCcvONIQczpwiUHLUEkZ/mRxDXhemHRR/SZQFS4628IhsvvVx/zNVdG8wASo2BE2OvpS8U/Z4g44BupWNnP368wto6BVabAjmdysEBEQ5AK+hs8E8ZcQ+Sc1gAe6M1c4pmGYIrBwEAVw5jIaHm9gQZDkEe+C6AH6C0J2T4uEDCY+q2AA3Q/DlIAMxIIeV8HAWG2JCDqkcyiF+VB3UhBliRQ4pG9Dhm+glHbBihhiSQ2r8uDg8yicUQ2aILTmkZnAv86P8QLbMEHNyiMjj821/lBH+gGhCts+Y2OtxoMSPC8LD0B9sa8BqvwXAD99mCObDPrXsPBx03qNA2ZZNaxHwIIcU+CH9FClp0IEZ4kaOgKZIRz+yTfnQIuBKjsCmIsvFR5si2RY8aRFwKEegoyITahFwK0cksWR9/6JZkv2kVyci/uWIZC3RmM2JyERyJERXNEuiE/PYkDCvHCTLpNcEKYFyEBXKQVQoB1GhHESFchAVykFUKAdRoRxE5fbx/jq6DwSRj/dXJgdRoRxEhXIQlZuIcNlBEoISTA6iQjmIyk85OLOQSJSByUFUKAdR+SUHZxYinzVgchCVT3IwPCYnESBNDvoxLevSc1ohKhtyMDwmZLPo28lBP6ZCKzenFaKiysHwmISdQu8lB/1wz36JM9MK/XBMtrj5NQf9cElJWYsWpPTDGYUFLb1boR9uKC9lxa0s/XBAVRHvGg7AN0VZpOHabtkEY4SYo61kLckRYYTgc+RKPrR9zggB52CBDiVHhBGCRpfrto8cEVoylr5Z3lmOCC25kpPm97PkWEJRzuCCBd//UQAb4MttbTcAAAAASUVORK5CYII=">
+  <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABRklEQVR4nO1XsW3DMBA8EW6TFZItXMgps4tG0AgZQbuwtF1oC3kFuVdSGESetPJ/pGGqyQGCgBepu/97UmKDFby8Hb7X4o/iejk1aSwKPItYE+Jqk6dcrjZ5KsJZA5+NZovsJTavQJEA3y+Yp2N0+X4pErDLJQaAfXfGOLTRs313hsct9vnF50X3gEYuRby+f9DkAGkBQw4gm5wSUOotOzerB4BbFf7C3P1WgRWuCpClD9AsAIB5isf6flGb0rRA+m6RyzHj0KrVogRYTceIsUSoy3CejsXkEtrqUHsgZCDvDO7nPNADsoyMp3IsI9jcCeVyYgQAcbNa23L2PmBlxYoMMC3I+bCUzKXeHl5kLSvpOyucTs8SUUIOFP6S+X65EzEObZFd//+Ebu24VAvXy6nZvgJBSW3iwOnSQE1yIDkdB9Q8nv8AkhKsIvtmgm0AAAAASUVORK5CYII=">
+  <link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABRklEQVR4nO1XsW3DMBA8EW6TFZItXMgps4tG0AgZQbuwtF1oC3kFuVdSGESetPJ/pGGqyQGCgBepu/97UmKDFby8Hb7X4o/iejk1aSwKPItYE+Jqk6dcrjZ5KsJZA5+NZovsJTavQJEA3y+Yp2N0+X4pErDLJQaAfXfGOLTRs313hsct9vnF50X3gEYuRby+f9DkAGkBQw4gm5wSUOotOzerB4BbFf7C3P1WgRWuCpClD9AsAIB5isf6flGb0rRA+m6RyzHj0KrVogRYTceIsUSoy3CejsXkEtrqUHsgZCDvDO7nPNADsoyMp3IsI9jcCeVyYgQAcbNa23L2PmBlxYoMMC3I+bCUzKXeHl5kLSvpOyucTs8SUUIOFP6S+X65EzEObZFd//+Ebu24VAvXy6nZvgJBSW3iwOnSQE1yIDkdB9Q8nv8AkhKsIvtmgm0AAAAASUVORK5CYII=">
+  <meta name="description" content="Discover universities, TVETs and verified visa agents across Africa and beyond. AI-powered search.">
+  <meta property="og:title" content="Elimux — Global Education Discovery">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.elimux.ke">
+  <meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & root ─────────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D1F3C;--gold:#C8973A;--blue:#1B4FA0;
+  --parch:#F8F5EE;--white:#FFFFFF;
+  --g1:#F0EDE6;--g2:#E2DDD5;--g3:#B0A898;
+  --text:#1A2035;--t2:#5A6070;--t3:#9AA0B0;
+  --serif:'Libre Baskerville',serif;
+  --sans:'DM Sans',sans-serif;
+  --mono:'DM Mono',monospace;
+  --r:12px;--r-lg:18px;--r-full:9999px;
+  --shadow:0 2px 16px rgba(13,31,60,.08);
+  --shadow-lg:0 8px 40px rgba(13,31,60,.14);
+}
+
+html,body{height:100%;font-family:var(--sans);background:var(--parch);color:var(--text);-webkit-font-smoothing:antialiased}
+
+/* ── Animated background ──────────────────────────────── */
+.bg-orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;opacity:.35;filter:blur(80px)}
+.orb1{width:600px;height:600px;background:radial-gradient(var(--navy),transparent);top:-200px;left:-200px}
+.orb2{width:500px;height:500px;background:radial-gradient(var(--gold),transparent);bottom:-150px;right:-150px;opacity:.18}
+
+/* ── Layout ───────────────────────────────────────────── */
+.shell{min-height:100vh;display:flex;flex-direction:column;position:relative;z-index:1}
+
+/* ── Header ───────────────────────────────────────────── */
+header{padding:20px 28px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:14px;text-decoration:none}
+.logo-icon{width:56px;height:56px;filter:drop-shadow(0 3px 10px rgba(13,31,60,.22))}
+.logo-text{font-family:var(--serif);font-size:1.55rem;font-weight:700;color:var(--navy);letter-spacing:-.01em;line-height:1.1}
+.logo-sub{font-size:.72rem;font-family:var(--mono);color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-left:2px;opacity:.85}
+.header-link{font-size:.8rem;color:var(--t3);text-decoration:none;padding:6px 14px;border:1px solid var(--g2);border-radius:var(--r-full);transition:all .2s}
+.header-link:hover{border-color:var(--navy);color:var(--navy)}
+
+/* ── Main stage ───────────────────────────────────────── */
+main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:0 20px 60px}
+
+/* ── Hero ─────────────────────────────────────────────── */
+.hero{text-align:center;padding:40px 0 32px;max-width:640px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;padding:5px 14px;background:rgba(200,151,58,.12);border:1px solid rgba(200,151,58,.25);border-radius:var(--r-full);font-size:.72rem;font-family:var(--mono);color:var(--gold);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px}
+.hero-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hero h1{font-family:var(--serif);font-size:clamp(1.9rem,5vw,2.9rem);font-weight:700;line-height:1.2;color:var(--navy);margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{font-size:.95rem;color:var(--t2);line-height:1.7;max-width:480px;margin:0 auto}
+
+/* ── Search card ──────────────────────────────────────── */
+.search-card{width:100%;max-width:680px;background:var(--white);border:1px solid var(--g2);border-radius:var(--r-lg);box-shadow:var(--shadow-lg);overflow:hidden;transition:box-shadow .3s}
+.search-card:focus-within{box-shadow:0 12px 48px rgba(13,31,60,.18)}
+
+.search-input-area{display:flex;align-items:flex-end;gap:0;padding:16px 16px 12px}
+.search-textarea{flex:1;border:none;outline:none;font-family:var(--sans);font-size:.95rem;color:var(--text);resize:none;min-height:52px;max-height:160px;line-height:1.6;background:transparent;padding:4px 0}
+.search-textarea::placeholder{color:var(--t3)}
+.search-btn{flex-shrink:0;width:44px;height:44px;border-radius:var(--r);background:var(--navy);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;align-self:flex-end}
+.search-btn:hover{background:var(--blue);transform:scale(1.04)}
+.search-btn:disabled{background:var(--g2);cursor:not-allowed;transform:none}
+.search-btn svg{width:20px;height:20px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.search-footer{padding:8px 16px 14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.search-pill{font-size:.75rem;color:var(--t2);background:var(--g1);border:1px solid var(--g2);border-radius:var(--r-full);padding:4px 12px;cursor:pointer;transition:all .15s;white-space:nowrap;font-family:var(--sans)}
+.search-pill:hover{background:var(--navy);color:white;border-color:var(--navy)}
+
+/* ── Results area ─────────────────────────────────────── */
+.results-area{width:100%;max-width:680px;margin-top:24px}
+
+/* ── State: loading ───────────────────────────────────── */
+.thinking{display:flex;flex-direction:column;align-items:center;padding:40px 0;gap:16px}
+.thinking-dots{display:flex;gap:6px}
+.thinking-dots span{width:8px;height:8px;border-radius:50%;background:var(--navy);animation:bounce 1.2s ease-in-out infinite}
+.thinking-dots span:nth-child(2){animation-delay:.2s}
+.thinking-dots span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,100%{transform:translateY(0);opacity:.3}50%{transform:translateY(-8px);opacity:1}}
+.thinking p{font-size:.85rem;color:var(--t3);font-style:italic}
+
+/* ── Query echo ───────────────────────────────────────── */
+.query-echo{font-size:.82rem;color:var(--t2);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.query-echo strong{color:var(--navy)}
+.result-count{font-family:var(--mono);font-size:.7rem;color:var(--t3);padding:2px 8px;background:var(--g1);border-radius:var(--r-full)}
+
+/* ── Result cards ─────────────────────────────────────── */
+.result-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+
+.result-card{background:var(--white);border:1px solid var(--g2);border-radius:var(--r-lg);padding:16px 18px;display:flex;gap:14px;align-items:flex-start;cursor:pointer;transition:all .2s;animation:slideIn .35s ease forwards;opacity:0}
+@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.result-card:hover{border-color:var(--navy);box-shadow:0 4px 20px rgba(13,31,60,.1);transform:translateY(-1px)}
+
+.result-num{font-family:var(--mono);font-size:.72rem;font-weight:500;color:var(--gold);background:rgba(200,151,58,.12);border:1px solid rgba(200,151,58,.2);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+
+.result-body{flex:1;min-width:0}
+.result-institution{font-family:var(--serif);font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:3px;line-height:1.3}
+.result-course{font-size:.85rem;color:var(--text);margin-bottom:8px;line-height:1.4}
+.result-meta{display:flex;gap:6px;flex-wrap:wrap}
+.meta-tag{font-size:.7rem;font-family:var(--mono);padding:3px 8px;border-radius:var(--r-full);white-space:nowrap}
+.tag-country{background:#EBF0FA;color:var(--blue)}
+.tag-fee{background:rgba(200,151,58,.1);color:#8A6320}
+.tag-dur{background:var(--g1);color:var(--t2)}
+.tag-mode{background:#EBF7F0;color:#1A6B40}
+.tag-match{background:var(--navy);color:white}
+
+.result-ai{font-size:.78rem;color:var(--t2);line-height:1.6;margin-top:8px;padding-top:8px;border-top:1px solid var(--g1);font-style:italic}
+
+/* ── Share bar ─────────────────────────────────────────── */
+.share-bar{background:var(--white);border:1px solid var(--g2);border-radius:var(--r-lg);padding:18px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;box-shadow:var(--shadow)}
+.share-label{font-size:.82rem;color:var(--t2);display:flex;align-items:center;gap:7px}
+.share-label strong{color:var(--navy);font-weight:600}
+.share-btns{display:flex;gap:8px}
+
+.btn-wa{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:var(--r-full);background:#25D366;color:white;font-size:.82rem;font-weight:600;font-family:var(--sans);border:none;cursor:pointer;transition:all .2s;text-decoration:none}
+.btn-wa:hover{background:#1ebe5c;transform:translateY(-1px);box-shadow:0 4px 16px rgba(37,211,102,.3)}
+
+.btn-email{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:var(--r-full);background:transparent;color:var(--navy);font-size:.82rem;font-weight:600;font-family:var(--sans);border:1.5px solid var(--navy);cursor:pointer;transition:all .2s;text-decoration:none}
+.btn-email:hover{background:var(--navy);color:white;transform:translateY(-1px)}
+
+/* ── MCP badge ─────────────────────────────────────────── */
+.mcp-badge{margin-top:24px;text-align:center}
+.mcp-badge a{font-size:.72rem;font-family:var(--mono);color:var(--t3);text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid var(--g2);border-radius:var(--r-full);transition:all .2s}
+.mcp-badge a:hover{border-color:var(--t2);color:var(--t2)}
+
+/* ── Footer ───────────────────────────────────────────── */
+footer{padding:20px 24px;display:flex;align-items:center;justify-content:center;gap:20px;border-top:1px solid var(--g2)}
+footer a{font-size:.75rem;color:var(--t3);text-decoration:none}
+footer a:hover{color:var(--navy)}
+
+/* ── Error state ───────────────────────────────────────── */
+.error-state{background:white;border:1px solid #FAD0D0;border-radius:var(--r-lg);padding:20px;text-align:center;color:#C0392B;font-size:.85rem}
+
+/* ═══════════════════════════════════════════════════════
+   ADS ECOSYSTEM — Full advertiser marketplace
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Section wrapper ──────────────────────────────────── */
+.ads-section{width:100%;max-width:680px;margin-top:40px}
+
+/* ── Section header ───────────────────────────────────── */
+.ads-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.ads-header-left{display:flex;align-items:center;gap:10px}
+.ads-label{font-size:.63rem;font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--t3);padding:3px 9px;border:1px solid var(--g2);border-radius:3px;background:var(--white)}
+.ads-title{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--navy)}
+.ads-cta-link{font-size:.75rem;color:var(--gold);text-decoration:none;font-weight:600;border-bottom:1px solid rgba(200,151,58,.3);padding-bottom:1px;transition:border-color .2s;white-space:nowrap}
+.ads-cta-link:hover{border-color:var(--gold)}
+
+/* ── Category tab strip ───────────────────────────────── */
+.ads-tabs{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;margin-bottom:16px;border-bottom:2px solid var(--g2)}
+.ads-tabs::-webkit-scrollbar{display:none}
+.ads-tab{padding:9px 16px;font-size:.78rem;font-weight:600;font-family:var(--sans);color:var(--t2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .18s;display:flex;align-items:center;gap:5px;flex-shrink:0}
+.ads-tab:hover{color:var(--navy)}
+.ads-tab.active{color:var(--navy);border-bottom-color:var(--gold)}
+.ads-tab-icon{font-size:.9rem}
+
+/* ── Context ad (injected after result #5) ────────────── */
+.context-ad-inject{background:linear-gradient(135deg,rgba(27,79,160,.07),rgba(200,151,58,.06));border:1px solid rgba(200,151,58,.25);border-left:3px solid var(--gold);border-radius:var(--r-lg);padding:14px 16px;margin:10px 0;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s;animation:slideIn .35s ease forwards}
+.context-ad-inject:hover{box-shadow:0 4px 20px rgba(13,31,60,.1);transform:translateY(-1px)}
+.context-ad-icon{font-size:1.6rem;flex-shrink:0}
+.context-ad-body{flex:1;min-width:0}
+.context-ad-category{font-size:.63rem;font-family:var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.context-ad-name{font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:3px;font-family:var(--serif)}
+.context-ad-desc{font-size:.77rem;color:var(--t2);line-height:1.5}
+.context-ad-cta{flex-shrink:0;padding:7px 14px;background:var(--navy);color:white;border:none;border-radius:var(--r-full);font-size:.73rem;font-weight:600;font-family:var(--sans);cursor:pointer;transition:background .2s;white-space:nowrap}
+.context-ad-cta:hover{background:var(--blue)}
+.context-ad-imp{font-size:.6rem;font-family:var(--mono);color:var(--t3);margin-top:3px}
+
+/* ── Featured hero card ───────────────────────────────── */
+.ad-featured{border-radius:var(--r-lg);overflow:hidden;margin-bottom:12px;cursor:pointer;transition:transform .22s,box-shadow .22s;position:relative}
+.ad-featured:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(13,31,60,.22)}
+.af-edu{background:var(--navy)}
+.af-finance{background:linear-gradient(135deg,#0F3460,#1B4FA0)}
+.af-visa{background:linear-gradient(135deg,#1A3A2A,#2D6A4F)}
+.af-tech{background:linear-gradient(135deg,#1A1A2E,#16213E)}
+.af-career{background:linear-gradient(135deg,#2D1B69,#4A2F8A)}
+.af-health{background:linear-gradient(135deg,#1A2E40,#2B5876)}
+.ad-featured-inner{display:flex;gap:0;min-height:148px}
+.ad-featured-accent{width:5px;flex-shrink:0;background:var(--gold)}
+.ad-featured-content{flex:1;padding:20px 20px 16px}
+.ad-featured-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+.ad-uni-badge{display:flex;align-items:center;gap:10px}
+.ad-uni-logo{width:42px;height:42px;border-radius:9px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:.82rem;font-weight:700;color:white;flex-shrink:0}
+.ad-uni-name{font-family:var(--serif);font-size:.98rem;font-weight:700;color:white;line-height:1.3}
+.ad-uni-country{font-size:.7rem;color:rgba(255,255,255,.5);margin-top:2px}
+.ad-featured-tag{font-size:.6rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:rgba(200,151,58,.18);border:1px solid rgba(200,151,58,.32);padding:3px 8px;border-radius:3px;flex-shrink:0}
+.ad-featured-headline{font-size:.87rem;color:rgba(255,255,255,.82);line-height:1.55;margin-bottom:13px}
+.ad-featured-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.ad-tags{display:flex;gap:5px;flex-wrap:wrap}
+.ad-tag{font-size:.66rem;font-family:var(--mono);padding:3px 8px;border-radius:var(--r-full);background:rgba(255,255,255,.09);color:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.14)}
+.ad-btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;background:var(--gold);color:var(--navy);border-radius:var(--r-full);font-size:.76rem;font-weight:700;font-family:var(--sans);border:none;cursor:pointer;transition:all .2s;text-decoration:none;flex-shrink:0}
+.ad-btn:hover{background:#E0A840;transform:scale(1.03)}
+.ad-impressions{position:absolute;bottom:10px;right:16px;font-size:.58rem;font-family:var(--mono);color:rgba(255,255,255,.28);letter-spacing:.04em}
+
+/* ── Standard grid cards ──────────────────────────────── */
+.ads-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.ad-card{background:var(--white);border:1px solid var(--g2);border-radius:var(--r-lg);padding:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.ad-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;transition:background .2s}
+.ad-card.cat-edu::before{background:rgba(27,79,160,.15)}
+.ad-card.cat-finance::before{background:rgba(200,151,58,.2)}
+.ad-card.cat-visa::before{background:rgba(45,106,79,.2)}
+.ad-card.cat-tech::before{background:rgba(99,60,180,.2)}
+.ad-card.cat-career::before{background:rgba(180,60,60,.2)}
+.ad-card.cat-health::before{background:rgba(0,128,128,.2)}
+.ad-card:hover{border-color:var(--navy);box-shadow:0 6px 24px rgba(13,31,60,.1);transform:translateY(-2px)}
+.ad-card:hover::before{background:var(--gold)}
+.ad-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.ad-card-logo{width:38px;height:38px;border-radius:9px;border:1px solid var(--g2);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:.78rem;font-weight:700;flex-shrink:0}
+.ac-edu{background:#EBF0FA;color:var(--blue)}
+.ac-finance{background:#FBF5E8;color:#7A5C1A}
+.ac-visa{background:#EBF7F0;color:#1A6B40}
+.ac-tech{background:#F0EBF8;color:#4A2F8A}
+.ac-career{background:#FAF0F0;color:#8A2020}
+.ac-health{background:#EBF7F7;color:#1A6B6B}
+.ad-card-tag{font-size:.58rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);padding:2px 7px;border:1px solid var(--g2);border-radius:3px}
+.ad-card-name{font-family:var(--serif);font-size:.84rem;font-weight:700;color:var(--navy);margin-bottom:3px;line-height:1.3}
+.ad-card-desc{font-size:.74rem;color:var(--t2);margin-bottom:10px;line-height:1.45}
+.ad-card-meta{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.ad-card-pill{font-size:.63rem;font-family:var(--mono);padding:2px 7px;border-radius:var(--r-full);background:var(--g1);color:var(--t2)}
+.ad-card-footer{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.ad-card-imp{font-size:.6rem;font-family:var(--mono);color:var(--t3)}
+.ad-card-btn{padding:7px 12px;background:var(--navy);color:white;border:none;border-radius:var(--r);font-size:.73rem;font-weight:600;font-family:var(--sans);cursor:pointer;transition:background .2s;flex-shrink:0}
+.ad-card-btn:hover{background:var(--blue)}
+
+/* ── Placeholder slot ─────────────────────────────────── */
+.ad-placeholder{background:repeating-linear-gradient(45deg,var(--g1),var(--g1) 4px,var(--white) 4px,var(--white) 14px);border:2px dashed var(--g2);border-radius:var(--r-lg);padding:28px 16px;text-align:center;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ad-placeholder:hover{border-color:var(--gold);background:rgba(200,151,58,.04)}
+
+/* ── Bottom advertise strip ───────────────────────────── */
+.ads-footer-strip{background:var(--navy);border-radius:var(--r-lg);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:4px}
+.ads-footer-text{font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.5}
+.ads-footer-text strong{color:white;display:block;margin-bottom:2px}
+.ads-footer-actions{display:flex;gap:8px;flex-shrink:0}
+.ads-footer-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:var(--gold);color:var(--navy);border-radius:var(--r-full);font-size:.8rem;font-weight:700;font-family:var(--sans);border:none;cursor:pointer;transition:all .2s;text-decoration:none;white-space:nowrap}
+.ads-footer-btn:hover{background:#E0A840;transform:translateY(-1px)}
+.ads-footer-wa{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:#25D366;color:white;border-radius:var(--r-full);font-size:.8rem;font-weight:700;font-family:var(--sans);border:none;cursor:pointer;transition:all .2s;text-decoration:none;white-space:nowrap}
+.ads-footer-wa:hover{background:#1ebe5c;transform:translateY(-1px)}
+
+
+/* TV ROTATION SYSTEM */
+.now-featuring{display:flex;align-items:center;justify-content:space-between;background:var(--navy);border-radius:var(--r) var(--r) 0 0;padding:9px 14px}
+.nf-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0;flex:1}
+.nf-live{display:flex;align-items:center;gap:5px;font-size:.6rem;font-family:var(--mono);letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.45);flex-shrink:0}
+.nf-dot{width:7px;height:7px;border-radius:50%;background:#FF4444;animation:live-pulse 1.2s ease-in-out infinite;flex-shrink:0}
+@keyframes live-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.75)}}
+.nf-name{font-size:.8rem;font-weight:600;color:white;font-family:var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+.nf-cat-badge{font-size:.6rem;font-family:var(--mono);color:var(--gold);padding:2px 7px;background:rgba(200,151,58,.15);border:1px solid rgba(200,151,58,.3);border-radius:3px;letter-spacing:.06em;flex-shrink:0}
+.nf-controls{display:flex;align-items:center;gap:5px;flex-shrink:0;margin-left:8px}
+.nf-btn{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:white;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;line-height:1}
+.nf-btn:hover{background:rgba(255,255,255,.25)}
+.nf-count{font-size:.6rem;font-family:var(--mono);color:rgba(255,255,255,.3);min-width:30px;text-align:center}
+.hero-stage{position:relative;overflow:hidden;border-radius:0 0 var(--r-lg) var(--r-lg);min-height:150px}
+.hero-slide{opacity:0;transform:translateX(50px);transition:opacity .5s ease,transform .5s ease;position:absolute;top:0;left:0;right:0;pointer-events:none}
+.hero-slide.active{opacity:1;transform:translateX(0);position:relative;pointer-events:auto}
+.hero-progress{height:3px;background:rgba(200,151,58,.2);overflow:hidden;margin-bottom:9px;border-radius:0 0 2px 2px}
+.hero-progress-fill{height:100%;background:var(--gold);width:0%;transition:width linear}
+.hero-dots{display:flex;gap:5px;justify-content:center;margin-bottom:12px}
+.hero-dot{width:20px;height:3px;border-radius:2px;background:var(--g2);cursor:pointer;transition:all .22s}
+.hero-dot.active{background:var(--gold);width:30px}
+.hero-dot:hover{background:var(--g3)}
+.ticker-wrap{overflow:hidden;background:var(--navy);border-radius:var(--r);padding:7px 0;margin-bottom:14px;border:1px solid rgba(255,255,255,.07)}
+.ticker-inner{display:flex;align-items:center;overflow:hidden}
+.ticker-label-box{font-size:.58rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gold);padding:0 11px;border-right:1px solid rgba(255,255,255,.12);white-space:nowrap;flex-shrink:0;line-height:1.5}
+.ticker-track{display:flex;align-items:center;animation:ticker-scroll 45s linear infinite;width:max-content}
+.ticker-track:hover{animation-play-state:paused}
+@keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{display:inline-flex;align-items:center;gap:5px;padding:0 18px;font-size:.7rem;color:rgba(255,255,255,.6);font-family:var(--sans);font-weight:500;white-space:nowrap;border-right:1px solid rgba(255,255,255,.07)}
+.ticker-item-name{font-weight:600;color:rgba(255,255,255,.82)}
+.ticker-cat{font-size:.6rem;color:rgba(255,255,255,.28);margin-left:2px}
+.ticker-sep{color:var(--gold);opacity:.35;padding:0 2px;font-size:.65rem}
+.rb-dot{width:5px;height:5px;border-radius:50%;background:#22C55E;animation:live-pulse 1.8s ease-in-out infinite;display:inline-block;margin-right:3px}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media(max-width:600px){
+  .hero{padding:28px 0 24px}
+  .hero h1{font-size:1.7rem}
+  .share-bar{flex-direction:column;align-items:flex-start}
+  .share-btns{width:100%}
+  .btn-wa,.btn-email{flex:1;justify-content:center}
+  .ads-grid{grid-template-columns:1fr}
+  .ads-footer-strip{flex-direction:column;align-items:flex-start}
+  .ads-footer-btn{width:100%;justify-content:center}
+}
+
+/* TVET card styles */
+.result-card.tvet-card{border-left:3px solid #1A6B40}
+.result-num.tvet-num{background:rgba(26,107,64,.12);border-color:rgba(26,107,64,.25);color:#1A6B40}
+.badge-tveta{font-size:.63rem;font-family:var(--mono);padding:2px 7px;border-radius:3px;background:#EBF7F0;color:#1A6B40;border:1px solid rgba(26,107,64,.2);display:inline-block}
+.badge-kcse{font-size:.63rem;font-family:var(--mono);padding:2px 7px;border-radius:3px;background:#FBF5E8;color:#8A6320;border:1px solid rgba(200,151,58,.25);display:inline-block}
+.tvet-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.pathway-box{margin-top:8px;padding:8px 10px;background:rgba(26,107,64,.05);border:1px solid rgba(26,107,64,.15);border-radius:8px}
+.pathway-title{font-size:.63rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:#1A6B40;margin-bottom:4px}
+.pathway-routes{font-size:.75rem;color:var(--t2);line-height:1.6}
+/* Agent card styles */
+.tier-badge{display:inline-flex;align-items:center;gap:4px;font-size:.62rem;font-family:var(--mono);padding:3px 8px;border-radius:3px;letter-spacing:.06em;font-weight:700;flex-shrink:0}
+.tier-verified{background:#EBF0FA;color:var(--blue);border:1px solid rgba(27,79,160,.25)}
+.tier-premium{background:rgba(200,151,58,.12);color:#8A6320;border:1px solid rgba(200,151,58,.3)}
+.tier-gov{background:var(--navy);color:var(--gold);border:1px solid rgba(200,151,58,.3)}
+
+
+/* ── Country selector ─────────────────────────────── */
+.country-selector{display:flex;align-items:center;gap:8px}
+.country-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--white);border:1px solid var(--g2);border-radius:var(--r-full);font-size:.78rem;font-weight:600;font-family:var(--sans);color:var(--navy);cursor:pointer;transition:all .2s;white-space:nowrap}
+.country-btn:hover{border-color:var(--navy);box-shadow:0 2px 8px rgba(13,31,60,.1)}
+.country-flag{font-size:1rem;line-height:1}
+.country-name-short{font-size:.75rem;color:var(--navy);font-weight:600}
+
+/* Country panel overlay */
+.country-panel{position:fixed;top:0;right:0;bottom:0;width:320px;background:var(--white);box-shadow:-8px 0 40px rgba(13,31,60,.15);z-index:998;transform:translateX(100%);transition:transform .3s ease;display:flex;flex-direction:column;overflow:hidden}
+.country-panel.open{transform:translateX(0)}
+.cp-header{background:var(--navy);padding:20px 20px 16px;flex-shrink:0}
+.cp-title{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:white;margin-bottom:4px}
+.cp-sub{font-size:.74rem;color:rgba(255,255,255,.5)}
+.cp-close{position:absolute;top:14px;right:16px;background:rgba(255,255,255,.1);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center}
+.cp-search{padding:12px 16px;border-bottom:1px solid var(--g1)}
+.cp-search input{width:100%;padding:8px 12px;border:1px solid var(--g2);border-radius:var(--r);font-size:.83rem;font-family:var(--sans);outline:none;color:var(--text)}
+.cp-list{flex:1;overflow-y:auto;padding:8px 0}
+.cp-region{padding:6px 16px 4px;font-size:.62rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--t3)}
+.cp-country-item{display:flex;align-items:center;gap:12px;padding:10px 16px;cursor:pointer;transition:background .15s}
+.cp-country-item:hover{background:var(--g1)}
+.cp-country-item.selected{background:rgba(13,31,60,.06)}
+.cp-flag{font-size:1.3rem;width:28px;text-align:center}
+.cp-info{flex:1;min-width:0}
+.cp-country-name{font-size:.85rem;font-weight:600;color:var(--navy)}
+.cp-country-detail{font-size:.68rem;color:var(--t3);margin-top:1px}
+.cp-check{color:var(--gold);font-size:.9rem;flex-shrink:0}
+
+/* Country badge shown in search card */
+.country-context-bar{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:rgba(13,31,60,.04);border-bottom:1px solid var(--g1);font-size:.74rem;color:var(--t2)}
+.ccb-left{display:flex;align-items:center;gap:6px}
+.ccb-flag{font-size:.95rem}
+.ccb-change{font-size:.7rem;color:var(--gold);cursor:pointer;text-decoration:none;font-weight:600;border:none;background:none;font-family:var(--sans);padding:0}
+.ccb-change:hover{text-decoration:underline}
+
+/* Language toggle */
+.lang-toggle{display:flex;gap:0;background:var(--g1);border-radius:var(--r-full);padding:2px;overflow:hidden}
+.lang-btn{padding:3px 10px;border-radius:var(--r-full);border:none;font-size:.68rem;font-weight:600;font-family:var(--mono);cursor:pointer;transition:all .2s;letter-spacing:.04em}
+.lang-btn.active{background:var(--navy);color:white}
+.lang-btn:not(.active){background:transparent;color:var(--t2)}
+
+/* Dim overlay */
+.panel-dim{position:fixed;inset:0;background:rgba(13,31,60,.4);z-index:997;opacity:0;pointer-events:none;transition:opacity .3s}
+.panel-dim.visible{opacity:1;pointer-events:auto}
+
+@media(max-width:600px){
+  .country-name-short{display:none}
+  .country-panel{width:100%}
+}
+
+
+/* ── Global platform nav ──────────────────────────────── */
+.platform-nav{background:rgba(13,31,60,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(200,151,58,.15);padding:0 24px;display:flex;align-items:center;height:52px;position:sticky;top:0;z-index:200;gap:0}
+.pn-logo{font-family:var(--serif);font-size:.9rem;font-weight:700;color:white;text-decoration:none;margin-right:28px;white-space:nowrap;letter-spacing:-.01em}
+.pn-logo span{color:var(--gold)}
+.pn-links{display:flex;align-items:center;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none}
+.pn-links::-webkit-scrollbar{display:none}
+.pn-link{padding:6px 12px;font-size:.78rem;font-weight:500;color:rgba(255,255,255,.55);text-decoration:none;border-radius:6px;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:5px;border:none;background:none;cursor:pointer;font-family:var(--sans)}
+.pn-link:hover{color:white;background:rgba(255,255,255,.08)}
+.pn-link.pn-active{color:white;background:rgba(200,151,58,.15);border:1px solid rgba(200,151,58,.2)}
+.pn-link .pn-icon{font-size:.85rem}
+.pn-right{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0}
+.pn-cta{padding:6px 14px;background:var(--gold);color:var(--navy);border-radius:var(--r-full);font-size:.76rem;font-weight:700;font-family:var(--sans);border:none;cursor:pointer;transition:all .2s;white-space:nowrap;text-decoration:none}
+.pn-cta:hover{background:var(--gold2);transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:6px;border:none;background:none}
+.hamburger span{width:20px;height:2px;background:rgba(255,255,255,.7);border-radius:2px;transition:all .25s;display:block}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.hamburger.open span:nth-child(2){opacity:0;transform:translateX(-8px)}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+.mobile-menu{display:none;position:fixed;top:52px;left:0;right:0;bottom:0;background:rgba(13,31,60,.98);z-index:199;padding:16px;flex-direction:column;gap:4px;overflow-y:auto}
+.mobile-menu.open{display:flex}
+.mm-link{padding:14px 16px;font-size:.92rem;font-weight:500;color:rgba(255,255,255,.7);text-decoration:none;border-radius:10px;transition:all .15s;display:flex;align-items:center;gap:12px;border:none;background:none;cursor:pointer;font-family:var(--sans);width:100%;text-align:left}
+.mm-link:hover,.mm-link.active{color:white;background:rgba(200,151,58,.12)}
+.mm-link .mm-icon{font-size:1.1rem;width:26px;text-align:center}
+.mm-divider{height:1px;background:rgba(255,255,255,.08);margin:8px 0}
+.mm-section{font-size:.62rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.25);padding:10px 16px 4px}
+
+/* ── Skip to content ──────────────────────────────────── */
+.skip-link{position:fixed;top:-100px;left:16px;z-index:9999;background:var(--gold);color:var(--navy);padding:8px 16px;border-radius:var(--r);font-weight:700;font-size:.85rem;text-decoration:none;transition:top .2s}
+.skip-link:focus{top:8px}
+
+/* ── Safe area (iPhone notch) ─────────────────────────── */
+@supports(padding-top:env(safe-area-inset-top)){
+  .platform-nav{padding-top:env(safe-area-inset-top)}
+  .mobile-menu{padding-top:calc(env(safe-area-inset-top) + 16px)}
+}
+
+/* ── Bottom mobile nav ────────────────────────────────── */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(13,31,60,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(200,151,58,.15);z-index:198;padding:0 0 env(safe-area-inset-bottom,0)}
+.bn-inner{display:flex;justify-content:space-around}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px 8px;text-decoration:none;color:rgba(255,255,255,.45);font-size:.6rem;font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase;transition:color .15s;border:none;background:none;cursor:pointer}
+.bn-item:hover,.bn-item.active{color:var(--gold)}
+.bn-item .bn-icon{font-size:1.3rem;line-height:1}
+
+/* ── Scroll to top ────────────────────────────────────── */
+.scroll-top{position:fixed;bottom:80px;right:16px;width:40px;height:40px;background:var(--navy);border:1px solid rgba(200,151,58,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transform:translateY(10px);transition:all .3s;z-index:100;box-shadow:0 4px 16px rgba(13,31,60,.3);font-size:1rem;color:white}
+.scroll-top.visible{opacity:1;transform:translateY(0)}
+.scroll-top:hover{background:var(--blue);transform:translateY(-2px)}
+
+/* ── Voice search button ──────────────────────────────── */
+.voice-btn{width:36px;height:36px;border-radius:50%;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--t3);transition:all .2s;flex-shrink:0}
+.voice-btn:hover{color:var(--navy);background:var(--g1)}
+.voice-btn.listening{color:var(--red);animation:voice-pulse 1s ease-in-out infinite}
+@keyframes voice-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+
+/* ── Character counter ────────────────────────────────── */
+.char-counter{font-size:.65rem;font-family:var(--mono);color:var(--t3);flex-shrink:0;padding-right:4px;align-self:flex-end;padding-bottom:6px}
+.char-counter.warn{color:var(--amber)}.char-counter.max{color:var(--red)}
+
+/* ── Loading skeleton ─────────────────────────────────── */
+.skeleton-card{background:var(--white);border:1px solid var(--g2);border-radius:var(--r-lg);padding:18px;margin-bottom:10px;animation:shimmer 1.6s ease-in-out infinite}
+@keyframes shimmer{0%{opacity:.7}50%{opacity:.4}100%{opacity:.7}}
+.sk-line{height:12px;border-radius:6px;background:var(--g2);margin-bottom:8px}
+.sk-title{width:60%;height:16px}
+.sk-body{width:85%}.sk-short{width:40%}
+.sk-meta{display:flex;gap:6px;margin-bottom:8px}
+.sk-pill{height:22px;width:70px;border-radius:var(--r-full);background:var(--g2)}
+
+/* ── Empty / no results state ─────────────────────────── */
+.empty-state{text-align:center;padding:48px 24px;color:var(--t2)}
+.empty-state .es-icon{font-size:3rem;margin-bottom:12px;opacity:.5}
+.empty-state .es-title{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:8px}
+.empty-state .es-desc{font-size:.85rem;line-height:1.7;margin-bottom:18px}
+
+/* ── Search history ───────────────────────────────────── */
+.search-history{padding:10px 16px 6px;border-bottom:1px solid var(--g1);display:none}
+.sh-label{font-size:.62rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
+.sh-items{display:flex;flex-wrap:wrap;gap:5px}
+.sh-item{font-size:.74rem;padding:4px 10px;background:var(--g1);border:1px solid var(--g2);border-radius:var(--r-full);cursor:pointer;color:var(--t2);transition:all .15s;display:flex;align-items:center;gap:5px}
+.sh-item:hover{border-color:var(--navy);color:var(--navy)}
+.sh-x{color:var(--t3);font-size:.65rem;line-height:1;cursor:pointer}
+.sh-x:hover{color:var(--red)}
+
+/* ── Copy to clipboard button ─────────────────────────── */
+.copy-btn{padding:4px 9px;font-size:.68rem;font-family:var(--mono);border:1px solid var(--g2);border-radius:4px;background:transparent;color:var(--t3);cursor:pointer;transition:all .15s;white-space:nowrap}
+.copy-btn:hover{border-color:var(--navy);color:var(--navy)}
+.copy-btn.copied{border-color:var(--green);color:var(--green)}
+
+/* ── ARIA live region ─────────────────────────────────── */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ── Retry button on error ────────────────────────────── */
+.error-state .retry-btn{margin-top:12px;padding:8px 18px;background:var(--navy);color:white;border:none;border-radius:var(--r-full);font-size:.82rem;font-weight:600;font-family:var(--sans);cursor:pointer;transition:all .2s}
+.error-state .retry-btn:hover{background:var(--blue)}
+
+/* ── Terms link ───────────────────────────────────────── */
+
+/* ── Responsive: hide top nav, show bottom nav on mobile  */
+@media(max-width:640px){
+  .pn-links{display:none}
+  .hamburger{display:flex}
+  .bottom-nav{display:block}
+  main{padding-bottom:72px!important}
+  .scroll-top{bottom:86px}
+}
+
+
+/* [FIX U-01] Loading states */
+.sk-loading{display:flex;align-items:center;justify-content:center;padding:40px;gap:10px;color:var(--t2,#6B7280);font-size:.85rem}
+.sk-loading::before{content:'';width:18px;height:18px;border:2px solid var(--g2,#E5E7EB);border-top-color:var(--navy,#0D1F3C);border-radius:50%;animation:sk-spin .7s linear infinite;flex-shrink:0}
+@keyframes sk-spin{to{transform:rotate(360deg)}}
+.sk-error{padding:16px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:8px;color:#DC2626;font-size:.82rem;display:flex;align-items:center;gap:8px}
+.sk-empty{padding:32px;text-align:center;color:var(--t3,#9CA3AF);font-size:.85rem}
+.sk-empty::before{content:'📋';display:block;font-size:1.5rem;margin-bottom:8px}
+</style>
+
+  
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+</head>
+<body>
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+
+<div class="shell">
+
+<!-- ── Header ─────────────────────────────────────────── -->
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<!-- ── Global Platform Navigation ─────────────────── -->
+<nav class="platform-nav" role="navigation" aria-label="Elimux platform navigation">
+  <a href="/" class="pn-logo" style="display:inline-flex;align-items:center;gap:9px"><svg viewBox="0 0 56 56" width="26" height="26" style="flex-shrink:0" xmlns="http://www.w3.org/2000/svg"><circle cx="28" cy="28" r="27" fill="#C8973A"/><circle cx="28" cy="28" r="18" fill="none" stroke="white" stroke-width="2" opacity=".9"/><ellipse cx="28" cy="28" rx="18" ry="6.8" fill="none" stroke="white" stroke-width="1.3" opacity=".6" transform="rotate(-22 28 28)"/><line x1="10" y1="28" x2="46" y2="28" stroke="white" stroke-width="1" opacity=".22"/><line x1="28" y1="10" x2="28" y2="46" stroke="white" stroke-width="1" opacity=".22"/><circle cx="41.5" cy="16" r="4.5" fill="#0D1F3C"/></svg><span>Elimux <span style="opacity:.85">Ask</span></span></a>
+
+  <div class="pn-links" role="list">
+    <a href="/" class="pn-link pn-active" role="listitem" aria-current="page">
+      <span class="pn-icon">🔍</span>Ask AI
+    </a>
+    <a href="/university" class="pn-link" role="listitem">
+      <span class="pn-icon">🎓</span>University Portal
+    </a>
+    <a href="/payments" class="pn-link" role="listitem">
+      <span class="pn-icon">💳</span>Payments
+    </a>
+    <a href="/admin" class="pn-link" role="listitem">
+      <span class="pn-icon">📊</span>Admin
+    </a>
+      <a href="/examining" class="pn-link">🏛️ Examining Bodies</a>
+  </div>
+
+  <div class="pn-right">
+    <div class="country-selector" id="navCountrySelector">
+      <button class="country-btn" id="countryBtn" onclick="openCountryPanel()" aria-label="Select country">
+        <span class="country-flag" id="selectedFlag">🇰🇪</span>
+        <span class="country-name-short" id="selectedName">Kenya</span>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+    <a href="/university" class="pn-cta">University login →</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile full-screen menu -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Navigation menu" aria-modal="true">
+  <div class="mm-section">Platform</div>
+  <a href="/"        class="mm-link active"><span class="mm-icon">🔍</span>Ask AI — Search courses</a>
+  <a href="/university" class="mm-link"><span class="mm-icon">🎓</span>University Portal</a>
+  <a href="/payments"   class="mm-link"><span class="mm-icon">💳</span>Payment Centre</a>
+  <a href="/admin"      class="mm-link"><span class="mm-icon">📊</span>Admin Dashboard</a>
+  <div class="mm-divider"></div>
+  <div class="mm-section">Quick actions</div>
+  <button class="mm-link" onclick="setMode('tvet');toggleMenu()"><span class="mm-icon">🔧</span>Search Skills & Trades</button>
+  <button class="mm-link" onclick="showAgentsDir(document.getElementById('atab-agents'));toggleMenu()"><span class="mm-icon">✈️</span>Find Visa Agent</button>
+  <div class="mm-divider"></div>
+  <div style="padding:16px;display:flex;gap:8px;flex-wrap:wrap">
+    <a href="https://wa.me/254793002436?text=Hi+I+need+help+with+Elimux" target="_blank" style="flex:1;text-align:center;padding:11px;background:#25D366;color:white;border-radius:10px;font-size:.82rem;font-weight:600;text-decoration:none">💬 WhatsApp Help</a>
+    <a href="/university" style="flex:1;text-align:center;padding:11px;background:var(--gold);color:var(--navy);border-radius:10px;font-size:.82rem;font-weight:700;text-decoration:none">University login</a>
+  </div>
+</div>
+
+<!-- Bottom mobile navigation -->
+<nav class="bottom-nav" role="navigation" aria-label="Bottom navigation">
+  <div class="bn-inner">
+    <a href="/" class="bn-item active" aria-label="Search">
+      <span class="bn-icon">🔍</span>Search
+    </a>
+    <button class="bn-item" onclick="setMode('tvet')" aria-label="Skills and trades">
+      <span class="bn-icon">🔧</span>Skills
+    </button>
+    <button class="bn-item" onclick="showAgentsDir(document.getElementById('atab-agents'))" aria-label="Visa agents">
+      <span class="bn-icon">✈️</span>Agents
+    </button>
+    <a href="/university" class="bn-item" aria-label="University portal">
+      <span class="bn-icon">🎓</span>Portal
+    </a>
+  </div>
+</nav>
+
+<!-- ARIA live region for screen readers -->
+<div id="aria-live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+<!-- Scroll to top -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">↑</button>
+
+
+<!-- ── Main ───────────────────────────────────────────── -->
+<main id="main-content" tabindex="-1">
+
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      AI-powered · a growing directory of institutions · many countries
+    </div>
+    <h1>Ask anything.<br>Get your <em>top 10</em> options.</h1>
+    <p>Tell us in plain language what you want to study, where, and your budget. We find your best 10 matches — ready to share.</p>
+
+    <!-- Mode toggle -->
+    <div style="display:inline-flex;background:var(--white);border:1.5px solid var(--g2);border-radius:var(--r-full);padding:4px;gap:2px;box-shadow:var(--shadow);margin-top:8px">
+      <button id="modeUni" onclick="setMode('uni')" style="padding:8px 18px;border-radius:var(--r-full);border:none;cursor:pointer;font-family:var(--sans);font-size:.82rem;font-weight:600;background:var(--navy);color:white;transition:all .2s;display:flex;align-items:center;gap:6px">🎓 University &amp; College</button>
+      <button id="modeTvet" onclick="setMode('tvet')" style="padding:8px 18px;border-radius:var(--r-full);border:none;cursor:pointer;font-family:var(--sans);font-size:.82rem;font-weight:600;background:transparent;color:var(--t2);transition:all .2s;display:flex;align-items:center;gap:6px">🔧 Skills &amp; Trades</button>
+    </div>
+  </div>
+
+  <!-- ── Search card ──────────────────────────────────── -->
+  <div class="search-card" id="searchCard">
+    <!-- Country context bar -->
+    <div class="country-context-bar" id="countryContextBar">
+      <div class="ccb-left">
+        <span class="ccb-flag" id="ccbFlag">🇰🇪</span>
+        <span id="ccbText">Showing results for <strong>Kenya</strong> · Qualification: <strong>KCSE</strong> · Currency: <strong>KES</strong></span>
+      </div>
+      <button class="ccb-change" onclick="openCountryPanel()">Change country</button>
+    </div>
+    <div class="search-input-area">
+      <textarea
+        id="queryInput"
+        class="search-textarea"
+        placeholder="e.g. I want to study Medicine in East Africa, budget under KES 500,000 per year..."
+        rows="2"
+        onkeydown="handleKey(event)"
+        oninput="autoResize(this)"
+      ></textarea>
+      <button class="search-btn" id="searchBtn" onclick="runSearch()" title="Search">
+        <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+      </button>
+    </div>
+    <!-- Grade filter — TVET mode only -->
+    <div id="gradeFilter" style="display:none;align-items:center;gap:8px;padding:10px 16px;background:rgba(26,107,64,.06);border-top:1px solid rgba(26,107,64,.12)">
+      <label style="font-size:.75rem;font-weight:600;color:#1A6B40;white-space:nowrap">My KCSE grade:</label>
+      <select id="gradeSelect" style="font-size:.78rem;padding:5px 10px;border:1px solid rgba(26,107,64,.3);border-radius:var(--r);font-family:var(--sans);color:var(--text);background:white;outline:none">
+        <option value="">Any / Not sure</option>
+        <option>A</option><option>A-</option><option>B+</option><option>B</option>
+        <option>B-</option><option>C+</option><option>C</option><option>C-</option>
+        <option>D+</option><option>D</option><option>D-</option><option>E</option>
+        <option value="none">Did not sit KCSE</option>
+      </select>
+      <span style="font-size:.7rem;color:var(--t3)">We show courses you qualify for</span>
+    </div>
+
+    <div class="search-footer" id="searchFooter">
+      <span style="font-size:.72rem;color:var(--t3);margin-right:4px">Try:</span>
+      <span class="search-pill" onclick="setQuery(this)">Medicine in Kenya under KES 500k</span>
+      <span class="search-pill" onclick="setQuery(this)">MBA with scholarship in Germany</span>
+      <span class="search-pill" onclick="setQuery(this)">Online nursing degree from Africa</span>
+      <span class="search-pill" onclick="setQuery(this)">Short tech course, 3 months, online</span>
+    </div>
+  </div>
+
+  <!-- ── Results ─────────────────────────────────────── -->
+  <div class="results-area" id="resultsArea" style="display:none">
+
+    <!-- Loading -->
+    <div class="thinking" id="thinkingState" style="display:none">
+      <div class="thinking-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <p id="thinkingMsg">Searching a growing directory of institutions…</p>
+    </div>
+
+    <!-- Error -->
+    <div class="error-state" id="errorState" style="display:none">
+      <strong>Something went wrong.</strong> Please try again.
+    </div>
+
+    <!-- Results -->
+    <div id="resultsList" style="display:none">
+      <div class="query-echo" id="queryEcho"></div>
+      <div class="result-list" id="resultCards"></div>
+
+      <!-- Share bar -->
+      <div class="share-bar">
+        <div class="share-label">
+          ✅ <strong>Your top 10 are ready</strong> — share them instantly
+        </div>
+        <div class="share-btns">
+          <a id="waBtn" href="#" class="btn-wa" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Share to WhatsApp
+          </a>
+          <a id="emailBtn" href="#" class="btn-email">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+            Send to Email
+          </a>
+        </div>
+      </div>
+
+      <!-- MCP badge -->
+      <div class="mcp-badge">
+        <a href="#" title="MCP-compatible endpoint — for developers">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          MCP endpoint: /api/v1/search · JSON · GET/POST
+        </a>
+      </div>
+    </div>
+
+<!-- ELIMUX ADVERTISER MARKETPLACE - TV ROTATION -->
+      <div class="ads-section" id="adsSection">
+
+        <!-- Header -->
+        <div class="ads-header">
+          <div class="ads-header-left">
+            <span style="font-size:.62rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--t3);padding:3px 9px;border:1px solid var(--g2);border-radius:3px;background:var(--white);display:inline-flex;align-items:center"><span class="rb-dot"></span>LIVE</span>
+            <span style="font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--navy)">Partners &amp; Advertisers</span>
+          </div>
+          <a href="#" style="font-size:.75rem;color:var(--gold);text-decoration:none;font-weight:600;border-bottom:1px solid rgba(200,151,58,.3);padding-bottom:1px" onclick="openModal();return false">Advertise here →</a>
+        </div>
+
+        <!-- Category tabs -->
+        <div class="ads-tabs" id="adsTabs">
+          <div class="ads-tab active" id="atab-edu"     onclick="manualTab('edu',this)"><span class="ads-tab-icon">🎓</span>Education</div>
+          <div class="ads-tab"        id="atab-finance"  onclick="manualTab('finance',this)"><span class="ads-tab-icon">🏦</span>Finance</div>
+          <div class="ads-tab"        id="atab-agents"   onclick="showAgentsDir(this)"><span class="ads-tab-icon">✈️</span>Visa Agents</div>
+          <div class="ads-tab"        id="atab-tvet"     onclick="showTvetTab(this)"><span class="ads-tab-icon">🔧</span>TVET &amp; Trades</div>
+          <div class="ads-tab"        id="atab-visa"     onclick="manualTab('visa',this)"><span class="ads-tab-icon">✈️</span>Visa &amp; Travel</div>
+          <div class="ads-tab"        id="atab-tech"     onclick="manualTab('tech',this)"><span class="ads-tab-icon">💻</span>Technology</div>
+          <div class="ads-tab"        id="atab-career"   onclick="manualTab('career',this)"><span class="ads-tab-icon">💼</span>Career</div>
+          <div class="ads-tab"        id="atab-health"   onclick="manualTab('health',this)"><span class="ads-tab-icon">🏥</span>Health</div>
+        </div>
+
+        <!-- NOW FEATURING bar -->
+        <div class="now-featuring">
+          <div class="nf-left">
+            <span class="nf-live"><span class="nf-dot"></span>Now featuring</span>
+            <span class="nf-name" id="nfName">Featured Partner</span>
+            <span class="nf-cat-badge" id="nfCat">Education</span>
+          </div>
+          <div class="nf-controls">
+            <button class="nf-btn" onclick="heroPrev()" title="Previous">&#8249;</button>
+            <span class="nf-count" id="nfCount">1 / 12</span>
+            <button class="nf-btn" onclick="heroNext()" title="Next">&#8250;</button>
+            <button class="nf-btn" id="pauseBtn" onclick="togglePause()" title="Pause" style="font-size:.55rem;letter-spacing:.02em">&#9646;&#9646;</button>
+          </div>
+        </div>
+
+        <!-- Hero stage -->
+        <div class="hero-stage" id="heroStage"
+             onmouseenter="hoverPause()" onmouseleave="hoverResume()">
+        </div>
+
+        <!-- Progress bar -->
+        <div class="hero-progress"><div class="hero-progress-fill" id="heroBar"></div></div>
+
+        <!-- Dot indicators -->
+        <div class="hero-dots" id="heroDots"></div>
+
+        <!-- Sponsor ticker crawl -->
+        <div class="ticker-wrap">
+          <div class="ticker-inner">
+            <div class="ticker-label-box">SPONSORS</div>
+            <div style="overflow:hidden;flex:1">
+              <div class="ticker-track" id="tickerTrack"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rotating grid -->
+        <div class="ads-grid" id="adsGrid" style="transition:opacity .4s ease,transform .4s ease"></div>
+
+        <!-- Footer strip -->
+        <div class="ads-footer-strip">
+          <div class="ads-footer-text">
+            <strong>Reach students at their decision moment</strong>
+            Universities · Banks · Airlines · Insurance · Tech · Employers
+          </div>
+          <div class="ads-footer-actions">
+            <a href="https://wa.me/254793002436?text=Hi%2C+I+want+to+advertise+on+Elimux" target="_blank" class="ads-footer-wa">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              WhatsApp us
+            </a>
+            <button class="ads-footer-btn" onclick="openModal()">🎯 Advertise</button>
+          </div>
+        </div>
+
+      </div><!-- /.ads-section -->
+
+<footer>
+  <a href="/about">About Elimux</a>
+  <a href="/university">For Universities</a>
+  <a href="/privacy">Privacy</a>
+  <a href="/terms">Terms</a>
+  <a href="#">AfriBot AI</a>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════════════
+     ADVERTISER MODAL — Full onboarding experience
+     ══════════════════════════════════════════════════════ -->
+<div id="advertiseModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(13,31,60,.7);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:16px;overflow-y:auto" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:var(--white);border-radius:var(--r-lg);max-width:580px;width:100%;box-shadow:0 32px 100px rgba(13,31,60,.4);overflow:hidden;margin:auto">
+
+    <!-- Modal header -->
+    <div style="background:var(--navy);padding:22px 24px;display:flex;align-items:flex-start;justify-content:space-between">
+      <div>
+        <div style="font-family:var(--serif);font-size:1.25rem;font-weight:700;color:white;margin-bottom:4px">🎯 Advertise on Elimux</div>
+        <div style="font-size:.78rem;color:rgba(255,255,255,.45)">Query-matched display · All industries welcome</div>
+      </div>
+      <button onclick="closeModal()" style="background:rgba(255,255,255,.1);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:12px" aria-label="Close">×</button>
+    </div>
+
+    <div style="padding:22px 24px">
+
+      <!-- ── Who can advertise ── -->
+      <div style="margin-bottom:18px">
+        <div style="font-size:.72rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:10px">Who advertises on Elimux</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span style="font-size:.72rem;padding:4px 10px;background:var(--g1);border:1px solid var(--g2);border-radius:var(--r-full);color:var(--t2)">🎓 Universities &amp; Colleges</span>
+          <span style="font-size:.72rem;padding:4px 10px;background:var(--g1);border:1px solid var(--g2);border-radius:var(--r-full);color:var(--t2)">🏦 Banks &amp; SACCOs</span>
+          <span style="font-size:.72rem;padding:4px 10px;background:var(--g1);border:1px solid var(--g2);border-radius:var(--r-full);color:var(--t2)">🛡 Insurance companies</span>
+          <span style="font-size:.72rem;padding:4px 10px;background:var(--g1);border:1px solid var(--g2);border-radius:var(--r-full);color:var(--t2)">✈️ Airlines &amp; Visa agents</span>
+          <span style="font-size:.72rem;padding:4px 10px;background:var(--g1);border:1px solid var(--g2);border-radius:var(--r-full);color:var(--t2)">💻 Tech &amp; Laptop brands</span>
+          <span style="font-size:.72rem;padding:4px 10px;background:var(--g1);border:1px solid var(--g2);border-radius:var(--r-full);color:var(--t2)">💼 Graduate employers</span>
+          <span style="font-size:.72rem;padding:4px 10px;background:var(--g1);border:1px solid var(--g2);border-radius:var(--r-full);color:var(--t2)">🏥 Health &amp; Insurance</span>
+          <span style="font-size:.72rem;padding:4px 10px;background:var(--g1);border:1px solid var(--g2);border-radius:var(--r-full);color:var(--t2)">📱 Telcos &amp; Data</span>
+          <span style="font-size:.72rem;padding:4px 10px;background:rgba(200,151,58,.12);border:1px solid rgba(200,151,58,.25);border-radius:var(--r-full);color:var(--gold)">+ Any student-relevant brand</span>
+        </div>
+      </div>
+
+      <!-- ── Pricing tiers ── -->
+      <div style="font-size:.72rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:10px">Advertising plans</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:18px">
+        <div style="border:1.5px solid var(--g2);border-radius:var(--r);padding:12px;text-align:center;cursor:pointer;transition:all .2s" onclick="selectPlan(this,'basic')" id="plan-basic">
+          <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:5px">Basic</div>
+          <div style="font-size:1rem;font-weight:700;color:var(--gold);font-family:var(--mono)">8k</div>
+          <div style="font-size:.6rem;color:var(--t3);margin-bottom:7px">/month</div>
+          <div style="font-size:.65rem;color:var(--t2);line-height:1.5">Grid slot<br>500 views<br>CTA button</div>
+        </div>
+        <div style="border:2px solid var(--gold);border-radius:var(--r);padding:12px;text-align:center;background:rgba(200,151,58,.05);cursor:pointer;position:relative" onclick="selectPlan(this,'standard')" id="plan-standard">
+          <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy);font-size:.55rem;font-weight:700;padding:2px 8px;border-radius:var(--r-full);white-space:nowrap">POPULAR</div>
+          <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:5px">Standard</div>
+          <div style="font-size:1rem;font-weight:700;color:var(--gold);font-family:var(--mono)">22k</div>
+          <div style="font-size:.6rem;color:var(--t3);margin-bottom:7px">/month</div>
+          <div style="font-size:.65rem;color:var(--t2);line-height:1.5">2 grid slots<br>2k views<br>Analytics</div>
+        </div>
+        <div style="border:1.5px solid var(--g2);border-radius:var(--r);padding:12px;text-align:center;cursor:pointer;transition:all .2s" onclick="selectPlan(this,'premium')" id="plan-premium">
+          <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:5px">Premium</div>
+          <div style="font-size:1rem;font-weight:700;color:var(--navy);font-family:var(--mono)">55k</div>
+          <div style="font-size:.6rem;color:var(--t3);margin-bottom:7px">/month</div>
+          <div style="font-size:.65rem;color:var(--t2);line-height:1.5">Hero slot<br>Unlimited<br>AI targeting</div>
+        </div>
+        <div style="border:1.5px solid var(--g2);border-radius:var(--r);padding:12px;text-align:center;cursor:pointer;transition:all .2s" onclick="selectPlan(this,'context')" id="plan-context">
+          <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:5px">Context</div>
+          <div style="font-size:1rem;font-weight:700;color:var(--navy);font-family:var(--mono)">35k</div>
+          <div style="font-size:.6rem;color:var(--t3);margin-bottom:7px">/month</div>
+          <div style="font-size:.65rem;color:var(--t2);line-height:1.5">In-results<br>Query-match<br>High CTR</div>
+        </div>
+      </div>
+
+      <!-- ── Targeting options ── -->
+      <div style="background:var(--g1);border-radius:var(--r);padding:14px;margin-bottom:16px">
+        <div style="font-size:.72rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:8px">Your target audience</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <label style="display:flex;align-items:center;gap:7px;font-size:.76rem;color:var(--t2);cursor:pointer"><input type="checkbox" checked style="accent-color:var(--navy)"> Students searching courses</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:.76rem;color:var(--t2);cursor:pointer"><input type="checkbox" style="accent-color:var(--navy)"> Parents of students</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:.76rem;color:var(--t2);cursor:pointer"><input type="checkbox" style="accent-color:var(--navy)"> Students going abroad</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:.76rem;color:var(--t2);cursor:pointer"><input type="checkbox" style="accent-color:var(--navy)"> Scholarship seekers</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:.76rem;color:var(--t2);cursor:pointer"><input type="checkbox" style="accent-color:var(--navy)"> Graduate job seekers</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:.76rem;color:var(--t2);cursor:pointer"><input type="checkbox" style="accent-color:var(--navy)"> Online learners</label>
+        </div>
+      </div>
+
+      <!-- ── Contact form ── -->
+      <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:14px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+          <input id="ad-org-name" placeholder="Organisation name" oninput="updateModalWA()" style="padding:10px 13px;border:1px solid var(--g2);border-radius:var(--r);font-size:.83rem;font-family:var(--sans);outline:none;color:var(--text)">
+          <select id="ad-category" style="padding:10px 13px;border:1px solid var(--g2);border-radius:var(--r);font-size:.83rem;font-family:var(--sans);outline:none;color:var(--t2);background:white">
+            <option value="">Organisation type</option>
+            <option>University / College</option>
+            <option>TVET / Polytechnic</option>
+            <option>Visa Agent</option>
+            <option>Bank / SACCO</option>
+            <option>Insurance company</option>
+            <option>Airline / Travel</option>
+            <option>Technology company</option>
+            <option>Employer / Recruiter</option>
+            <option>Health provider</option>
+            <option>Government / NGO</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <input id="ad-email" placeholder="Contact email" type="email" style="padding:10px 13px;border:1px solid var(--g2);border-radius:var(--r);font-size:.83rem;font-family:var(--sans);outline:none;color:var(--text)">
+        <input id="ad-phone" placeholder="WhatsApp / phone number" style="padding:10px 13px;border:1px solid var(--g2);border-radius:var(--r);font-size:.83rem;font-family:var(--sans);outline:none;color:var(--text)">
+      </div>
+
+      <!-- ── Action buttons ── -->
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <button onclick="submitAdEnquiry()" style="flex:1;padding:12px;background:var(--navy);color:white;border:none;border-radius:var(--r);font-size:.85rem;font-weight:700;font-family:var(--sans);cursor:pointer;transition:background .2s" onmouseover="this.style.background='var(--blue)'" onmouseout="this.style.background='var(--navy)'">
+          Submit enquiry →
+        </button>
+        <a id="modal-wa-btn" href="https://wa.me/254793002436?text=Hi%2C%20I%20want%20to%20advertise%20on%20Elimux" target="_blank" style="display:inline-flex;align-items:center;gap:7px;padding:12px 18px;background:#25D366;color:white;border-radius:var(--r);font-size:.85rem;font-weight:700;font-family:var(--sans);text-decoration:none;flex-shrink:0;transition:background .2s" onmouseover="this.style.background='#1ebe5c'" onmouseout="this.style.background='#25D366'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+      </div>
+      <div style="font-size:.7rem;color:var(--t3);text-align:center">M-Pesa · Card · Bank transfer · AfriBot AI Ltd · Nairobi, Kenya</div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- AGENT APPLICATION MODAL -->
+<div id="agentModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(13,31,60,.7);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:16px;overflow-y:auto" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:var(--white);border-radius:var(--r-lg);max-width:500px;width:100%;box-shadow:0 32px 100px rgba(13,31,60,.4);overflow:hidden;margin:auto">
+    <div style="background:var(--navy);padding:18px 22px;display:flex;align-items:flex-start;justify-content:space-between">
+      <div><div style="font-family:var(--serif);font-size:1.1rem;font-weight:700;color:white;margin-bottom:4px">✈️ Apply to be a Verified Agent</div>
+      <div style="font-size:.74rem;color:rgba(255,255,255,.45)">Reviewed by Elimux compliance team · 3-5 business days · Documents required</div></div>
+      <button onclick="document.getElementById('agentModal').style.display='none'" style="background:rgba(255,255,255,.1);border:none;color:white;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:10px" aria-label="Close">×</button>
+    </div>
+    <div style="padding:20px 22px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:16px">
+        <div style="border:1.5px solid var(--blue);border-radius:var(--r);padding:11px;text-align:center"><div style="font-size:.72rem;font-weight:700;color:var(--blue);margin-bottom:4px">✓ Verified</div><div style="font-size:.62rem;color:var(--t2);line-height:1.5">Business reg<br>Valid licence<br>KES 5,000 setup</div></div>
+        <div style="border:2px solid var(--gold);border-radius:var(--r);padding:11px;text-align:center;background:rgba(200,151,58,.04);position:relative"><div style="position:absolute;top:-7px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy);font-size:.52rem;font-weight:700;padding:2px 7px;border-radius:var(--r-full);white-space:nowrap">POPULAR</div><div style="font-size:.72rem;font-weight:700;color:#8A6320;margin-bottom:4px">⭐ Premium</div><div style="font-size:.62rem;color:var(--t2);line-height:1.5">Verified +<br>IATA/ATAF<br>KES 15,000/yr</div></div>
+        <div style="border:1.5px solid var(--navy);border-radius:var(--r);padding:11px;text-align:center"><div style="font-size:.72rem;font-weight:700;color:var(--navy);margin-bottom:4px">🏛️ Gov</div><div style="font-size:.62rem;color:var(--t2);line-height:1.5">Embassy<br>referral<br>By invitation</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <input id="ag-name" placeholder="Agency name" style="padding:10px 12px;border:1px solid var(--g2);border-radius:var(--r);font-size:.82rem;font-family:var(--sans);outline:none;color:var(--text)">
+          <input id="ag-licence" placeholder="Licence / Reg number" style="padding:10px 12px;border:1px solid var(--g2);border-radius:var(--r);font-size:.82rem;font-family:var(--sans);outline:none;color:var(--text)">
+        </div>
+        <input id="ag-countries" placeholder="Countries you handle (e.g. UK, Germany, Canada)" style="padding:10px 12px;border:1px solid var(--g2);border-radius:var(--r);font-size:.82rem;font-family:var(--sans);outline:none;color:var(--text)">
+        <input id="ag-email" placeholder="Business email" type="email" style="padding:10px 12px;border:1px solid var(--g2);border-radius:var(--r);font-size:.82rem;font-family:var(--sans);outline:none;color:var(--text)">
+        <input id="ag-phone" placeholder="WhatsApp / phone" style="padding:10px 12px;border:1px solid var(--g2);border-radius:var(--r);font-size:.82rem;font-family:var(--sans);outline:none;color:var(--text)">
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <button onclick="submitAgentApp()" style="flex:1;padding:11px;background:var(--navy);color:white;border:none;border-radius:var(--r);font-size:.84rem;font-weight:700;font-family:var(--sans);cursor:pointer">Submit application →</button>
+        <a href="https://wa.me/254793002436?text=Hi+I+want+to+become+a+Elimux+Verified+Visa+Agent" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:11px 16px;background:#25D366;color:white;border-radius:var(--r);font-size:.84rem;font-weight:700;font-family:var(--sans);text-decoration:none;flex-shrink:0">WhatsApp</a>
+      </div>
+      <div style="font-size:.68rem;color:var(--t3);text-align:center">Business registration · Valid licence · 2 references required · AfriBot AI Ltd</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /.shell -->
+
+
+<script>
+'use strict';
+  // ─── API CONFIGURATION ────────────────────────────────
+  // To use the Elimux API proxy instead of calling Claude directly:
+  //   window.ELIMUX_API_URL = 'https://api.elimux.ke';
+  //   window.ELIMUX_API_KEY = 'YOUR_LIVE_API_KEY';
+  // Without this, the platform falls back to direct Claude calls (sandbox only).
+  // In production ALWAYS use the proxy — never expose your Anthropic key.
+  // ─────────────────────────────────────────────────────
+
+// ─── STATE ────────────────────────────────────────────
+let searchMode = 'uni';
+let currentQuery = '';
+let currentResults = [];
+let heroIdx = 0, gridIdx = 0;
+let heroTimer = null, gridTimer = null;
+let isPaused = false, isHovered = false;
+const HERO_MS = 7000, GRID_MS = 12000;
+
+// ─── UTILS ────────────────────────────────────────────
+function autoResize(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,160)+'px'; }
+function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function show(id){ document.getElementById(id).style.display='block'; }
+function hide(id){ document.getElementById(id).style.display='none'; }
+function showState(id){
+  ['thinkingState','errorState','resultsList'].forEach(s=>{
+    document.getElementById(s).style.display = s===id?'block':'none';
+  });
+}
+
+// ─── MODE TOGGLE ──────────────────────────────────────
+const UNI_PILLS  = ['Medicine in Kenya under KES 500k','MBA with scholarship in Germany','Online nursing degree from Africa','Short tech course, 3 months, online'];
+const TVET_PILLS = ['Electrical installation, D+ grade','Beauty therapy diploma, Nairobi','Welding & fabrication, 6 months','Hospitality catering, open entry','ICT technician, D plain grade'];
+
+function setMode(mode){
+  searchMode = mode;
+  const card = document.getElementById('searchCard');
+  const btn  = document.getElementById('searchBtn');
+  const gf   = document.getElementById('gradeFilter');
+  const ta   = document.getElementById('queryInput');
+  const sf   = document.getElementById('searchFooter');
+  const mu   = document.getElementById('modeUni');
+  const mt   = document.getElementById('modeTvet');
+  if(mu){ mu.style.background = mode==='uni'?'var(--navy)':'transparent'; mu.style.color = mode==='uni'?'white':'var(--t2)'; }
+  if(mt){ mt.style.background = mode==='tvet'?'#1A6B40':'transparent'; mt.style.color = mode==='tvet'?'white':'var(--t2)'; }
+  if(btn){ btn.style.background = mode==='tvet'?'#1A6B40':'var(--navy)'; }
+  if(card){ card.className = mode==='tvet'?'search-card tvet-mode':'search-card'; }
+  if(gf){ gf.style.display = mode==='tvet'?'flex':'none'; }
+  if(ta){ ta.placeholder = mode==='uni'
+    ?'e.g. I want to study Medicine in East Africa, budget under KES 500,000 per year...'
+    :'e.g. I got C- in KCSE and want to study electrical engineering, budget KES 50,000...'; }
+  const pills = mode==='uni' ? UNI_PILLS : TVET_PILLS;
+  const col   = mode==='uni' ? '#0D1F3C' : '#1A6B40';
+  if(sf){ sf.innerHTML = `<span style="font-size:.72rem;color:var(--t3);margin-right:4px">Try:</span>`
+    + pills.map(p=>`<span class="search-pill" onclick="setQuery(this)"
+        onmouseover="this.style.background='${col}';this.style.color='white'"
+        onmouseout="this.style.background='var(--g1)';this.style.color='var(--t2)'">${p}</span>`).join(''); }
+  const tm = document.getElementById('thinkingMsg');
+  if(tm){ tm.textContent = mode==='tvet'?'Searching TVETs, polytechnics & colleges…':'Searching a growing directory of institutions…'; }
+}
+
+function setQuery(el){ const q=el.textContent.trim(); document.getElementById('queryInput').value=q; autoResize(document.getElementById('queryInput')); runSearch(); }
+function handleKey(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); runSearch(); } }
+
+// ─── SEARCH ───────────────────────────────────────────
+async function runSearch(){
+  const q = document.getElementById('queryInput').value.trim();
+  if(!q) return;
+  currentQuery = q;
+  document.getElementById('searchBtn').disabled = true;
+  document.getElementById('resultsArea').style.display = 'block';
+  showState('thinkingState');
+  try{
+    let results;
+    if(searchMode === 'tvet'){
+      results = await fetchTvet(q);
+      renderTvetResults(q, results);
+    } else {
+      results = await fetchFromClaude(q);
+      renderResults(q, results);
+    }
+    currentResults = results;
+    buildShareLinks(q, results);
+    showState('resultsList');
+    injectContextAd(q);
+  } catch(err){
+    console.error(err);
+    showState('errorState');
+  } finally {
+    document.getElementById('searchBtn').disabled = false;
+  }
+}
+
+// ─── CLAUDE API — UNIVERSITY ──────────────────────────
+async function fetchFromClaude(query){
+  const SYS = `You are Elimux, a global education discovery AI. Return EXACTLY 10 course/institution recommendations as a JSON array. Each object: rank(1-10), institution, country, flag(emoji), course, level, fees, fees_usd, duration, mode(On campus|Online|Hybrid), scholarship(true/false), match_reason, apply_url(https://api.elimux.ke/apply/slug). Return ONLY a valid JSON array.`;
+  const PROXY = window.ELIMUX_API_URL || 'https://api.elimux.ke';
+  const SKEY  = window.ELIMUX_API_KEY || 'PLACEHOLDER_SANDBOX_KEY';
+  const r = await fetch(`${PROXY}/v1/search`, {
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization': `Bearer ${SKEY}`,
+    },
+    body: JSON.stringify({
+      query,
+      mode: 'uni',
+      limit: 10,
+      country_context: activeCountry || 'KE',
+      language: activeLang === 'secondary' ?
+        (COUNTRY_CONFIGS[activeCountry]?.languages[1]?.code || 'en') : 'en',
+    })
+  });
+  if(!r.ok) throw new Error('API '+r.status);
+  const d = await r.json();
+  const txt = d.content[0].text.trim();
+  return JSON.parse(txt.startsWith('[') ? txt : txt.slice(txt.indexOf('['), txt.lastIndexOf(']')+1));
+}
+
+// ─── CLAUDE API — TVET ────────────────────────────────
+async function fetchTvet(query){
+  const grade = document.getElementById('gradeSelect')?.value || '';
+  const gradeNote = grade ? ` Student KCSE grade: ${grade}. Only include qualifying courses.` : '';
+  const SYS = `You are Elimux, specialising in TVETs, polytechnics and certificate programmes in Kenya and Africa. Return EXACTLY 10 recommendations as a JSON array. Each object: rank(1-10), institution, country, flag(emoji), course, level(Certificate|Diploma|Artisan|Short Course|Higher Diploma), min_kcse(e.g. D+|D|C-|Open entry), duration(e.g. 12 months), fees(e.g. KES 45,000/yr), tveta_approved(true/false), pathway(array of 1-2 degree paths), match_reason, apply_url(https://api.elimux.ke/apply/slug). Return ONLY valid JSON array.${gradeNote}`;
+  const r = await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:[{role:'user',content:query}]})
+  });
+  if(!r.ok) throw new Error('API '+r.status);
+  const d = await r.json();
+  const txt = d.content[0].text.trim();
+  return JSON.parse(txt.startsWith('[') ? txt : txt.slice(txt.indexOf('['), txt.lastIndexOf(']')+1));
+}
+
+// ─── RENDER UNIVERSITY RESULTS ────────────────────────
+function renderResults(query, results){
+  document.getElementById('queryEcho').innerHTML =
+    `Results for <strong>"${escHtml(query)}"</strong> <span class="result-count">10 of a growing directory of institutions</span>`;
+  const cont = document.getElementById('resultCards');
+  cont.innerHTML = '';
+  results.forEach((r,i) => {
+    const sch = r.scholarship ? `<span class="meta-tag" style="background:#E8F7EE;color:#1A7A4A">🎓 Scholarship</span>` : '';
+    const card = document.createElement('div');
+    card.className = 'result-card';
+    card.style.animationDelay = (i*55)+'ms';
+    card.innerHTML = `
+      <div class="result-num">${r.rank}</div>
+      <div class="result-body">
+        <div class="result-institution">${r.flag} ${escHtml(r.institution)}</div>
+        <div class="result-course">${escHtml(r.course)}</div>
+        <div class="result-meta">
+          <span class="meta-tag tag-country">${escHtml(r.country)}</span>
+          <span class="meta-tag tag-fee">${escHtml(r.fees)}</span>
+          <span class="meta-tag tag-dur">⏱ ${escHtml(r.duration)}</span>
+          <span class="meta-tag tag-mode">${escHtml(r.mode)}</span>
+          ${sch}
+        </div>
+        <div class="result-ai">${escHtml(r.match_reason)}</div>
+      </div>
+      <div style="flex-shrink:0">
+        <a href="${escHtml(r.apply_url)}" target="_blank"
+           style="display:inline-block;padding:7px 14px;background:var(--navy);color:white;border-radius:var(--r-full);font-size:.72rem;font-weight:600;font-family:var(--sans);text-decoration:none;white-space:nowrap">View →</a>
+      </div>`;
+    cont.appendChild(card);
+  });
+}
+
+// ─── RENDER TVET RESULTS ──────────────────────────────
+function renderTvetResults(query, results){
+  const grade = document.getElementById('gradeSelect')?.value;
+  const gl = grade ? ` · Grade: <strong>${escHtml(grade)}</strong>` : '';
+  document.getElementById('queryEcho').innerHTML =
+    `Skills & Trades for <strong>"${escHtml(query)}"</strong>${gl} <span class="result-count" style="background:rgba(26,107,64,.1);color:#1A6B40">10 options</span>`;
+  const cont = document.getElementById('resultCards');
+  cont.innerHTML = '';
+  results.forEach((r,i) => {
+    const tveta = r.tveta_approved ? `<span class="badge-tveta">✓ TVETA Approved</span>` : '';
+    const pathHtml = (r.pathway && r.pathway.length) ?
+      `<div class="pathway-box"><div class="pathway-title">📈 Degree pathway</div><div class="pathway-routes">${r.pathway.map(p=>'→ '+escHtml(p)).join('<br>')}</div></div>` : '';
+    const card = document.createElement('div');
+    card.className = 'result-card';
+    card.style.animationDelay = (i*55)+'ms';
+    card.style.borderLeft = '3px solid #1A6B40';
+    card.innerHTML = `
+      <div class="result-num" style="background:rgba(26,107,64,.12);border-color:rgba(26,107,64,.25);color:#1A6B40">${r.rank}</div>
+      <div class="result-body">
+        <div class="result-institution">${r.flag} ${escHtml(r.institution)}</div>
+        <div class="result-course">${escHtml(r.course)}</div>
+        <div class="result-meta">
+          <span class="meta-tag tag-country">${escHtml(r.country)}</span>
+          <span class="meta-tag tag-fee">${escHtml(r.fees)}</span>
+          <span class="meta-tag tag-dur">⏱ ${escHtml(r.duration)}</span>
+          <span class="meta-tag" style="background:rgba(26,107,64,.1);color:#1A6B40">${escHtml(r.level)}</span>
+        </div>
+        <div class="tvet-badges">
+          ${tveta}
+          <span class="badge-kcse">Min: ${escHtml(r.min_kcse||'Open entry')}</span>
+        </div>
+        ${pathHtml}
+        <div class="result-ai">${escHtml(r.match_reason)}</div>
+      </div>
+      <div style="flex-shrink:0">
+        <a href="${escHtml(r.apply_url)}" target="_blank"
+           style="display:inline-block;padding:7px 14px;background:#1A6B40;color:white;border-radius:var(--r-full);font-size:.72rem;font-weight:600;font-family:var(--sans);text-decoration:none;white-space:nowrap">Apply →</a>
+      </div>`;
+    cont.appendChild(card);
+  });
+}
+
+// ─── SHARE LINKS ──────────────────────────────────────
+function buildShareLinks(query, results){
+  const isTvet = searchMode === 'tvet';
+  let waText = isTvet
+    ? `🔧 *Elimux Skills & Trades — My top 10:*\n_"${query}"_\n\n`
+    : `🎓 *Elimux — My top 10 for:*\n_"${query}"_\n\n`;
+  results.forEach(r => {
+    waText += `*${r.rank}. ${r.institution}*\n📚 ${r.course}\n📍 ${r.flag||''} ${r.country||''} | 💰 ${r.fees||''} | ⏱ ${r.duration||''}\n`;
+    if(r.tveta_approved) waText += '✅ TVETA Approved\n';
+    if(r.scholarship) waText += '✅ Scholarship available\n';
+    if(r.pathway && r.pathway.length) waText += `📈 Path: ${r.pathway[0]}\n`;
+    waText += `🔗 ${r.apply_url}\n\n`;
+  });
+  waText += 'View: https://api.elimux.ke/ask\n_Powered by Elimux · AfriBot AI_';
+  document.getElementById('waBtn').href = 'https://wa.me/?text=' + encodeURIComponent(waText);
+  const subj = encodeURIComponent(`My top 10 ${isTvet?'skills & trades':'course'} options — Elimux`);
+  let body = `${isTvet?'Skills & Trades':'Courses'} from Elimux for: "${query}"\n\n`;
+  results.forEach(r => { body += `${r.rank}. ${r.institution}\n   ${r.course}\n   ${r.fees||''} | ${r.duration||''}\n   Apply: ${r.apply_url}\n\n`; });
+  body += 'https://api.elimux.ke/ask | AfriBot AI Ltd, Nairobi';
+  document.getElementById('emailBtn').href = 'mailto:?subject=' + subj + '&body=' + encodeURIComponent(body);
+}
+
+// ─── CONTEXT AD INJECTION ─────────────────────────────
+const CTX_ADS = {
+  finance:[{icon:'🏦',cat:'Finance',name:'KCB Education Loan',desc:'Up to KES 5M. 48hr approval. No security under 500k.',cta:'Apply',id:'kcb-ctx'},{icon:'📋',cat:'Finance',name:'HELB Loan',desc:'Government loans & bursaries. Now covers TVET programmes.',cta:'Apply',id:'helb-ctx'}],
+  visa:   [{icon:'🛂',cat:'Visa',name:'Verified Visa Agents',desc:'Student visa for UK, Germany, Canada, Australia. 98% success.',cta:'Start',id:'visa-ctx'},{icon:'💱',cat:'Forex',name:'Wise — Send Fees Abroad',desc:'Real exchange rate. No hidden charges.',cta:'Send',id:'wise-ctx'}],
+  tech:   [{icon:'📱',cat:'Tech',name:'Safaricom Student Bundle',desc:'20GB + unlimited WhatsApp KES 500/month.',cta:'Activate',id:'saf-ctx'},{icon:'💻',cat:'Tech',name:'HP Student Laptops',desc:'From KES 42,000. Free Microsoft 365.',cta:'Shop',id:'hp-ctx'}],
+  career: [{icon:'🏢',cat:'Career',name:'Graduate Employer',desc:'2026 intake open. 18-month rotation programme.',cta:'Apply',id:'saf-grad-ctx'}],
+  health: [{icon:'🏥',cat:'Health',name:'SHA Registration',desc:'Student health cover. All public hospitals. KES 500/mo.',cta:'Register',id:'sha-ctx'}],
+  tvet:   [{icon:'🔧',cat:'TVET',name:'TVET Government Bursary',desc:'Government bursaries for TVET students. Apply online.',cta:'Apply',id:'tvet-bursary'},{icon:'📋',cat:'Finance',name:'HELB TVET Loan',desc:'HELB loans for accredited TVET programmes.',cta:'Apply',id:'helb-tvet'}],
+  edu:    [{icon:'🎓',cat:'Education',name:'Partner University',desc:'AACSB-accredited MBA & business. Applications open.',cta:'Apply',id:'strath-ctx'}],
+};
+function detectCat(q){
+  q = q.toLowerCase();
+  if(/loan|bursary|scholarship|helb|afford|fees|budget|sacco|bank|insurance/.test(q)) return 'finance';
+  if(/uk|germany|canada|australia|usa|abroad|visa|overseas|international/.test(q)) return 'visa';
+  if(/online|tech|it|computer|software|data|ai|digital|laptop/.test(q)) return 'tech';
+  if(/mba|management|job|career|graduate|recrui/.test(q)) return 'career';
+  if(/medicine|nursing|pharmacy|health|doctor/.test(q)) return 'health';
+  if(/tvet|polytechnic|artisan|trade|certificate|diploma|vocational/.test(q)) return 'tvet';
+  return 'edu';
+}
+function injectContextAd(q){
+  document.querySelectorAll('.context-ad-inject').forEach(e=>e.remove());
+  const cat = detectCat(q);
+  const ads = CTX_ADS[cat] || CTX_ADS['edu'];
+  const ad  = ads[Math.floor(Math.random()*ads.length)];
+  const cards = document.querySelectorAll('#resultCards .result-card');
+  if(cards.length < 5) return;
+  const imp = (Math.floor(Math.random()*8000)+1000).toLocaleString();
+  const el = document.createElement('div');
+  el.className = 'context-ad-inject';
+  el.innerHTML = `
+    <div class="context-ad-icon">${ad.icon}</div>
+    <div class="context-ad-body">
+      <div class="context-ad-cat">Sponsored · ${ad.cat}</div>
+      <div class="context-ad-name">${ad.name}</div>
+      <div class="context-ad-desc">${ad.desc}</div>
+      <div class="context-ad-imp">${imp} impressions · Matched to your search</div>
+    </div>
+    <button class="context-ad-cta" onclick="adClick('${ad.id}','ctx')">${ad.cta} →</button>`;
+  cards[4].insertAdjacentElement('afterend', el);
+}
+
+// ─── TV ROTATION DATA ─────────────────────────────────
+const HERO_ADS = [
+  {id:'uon',     tabKey:'edu',     catLabel:'Education',    bg:'var(--navy)',                              logo:'UoN',  name:'Partner University',        sub:'🇰🇪 Nairobi, Kenya · Est. 1956',           headline:'Now enrolling Sep 2026 — 94 programmes across Engineering, Medicine, Business, Law & Technology. Ranked #1 in Kenya. Scholarships available.',              tags:['From KES 120k/yr','21 colleges','🎓 Scholarships','On campus'],cta:'Explore →',imp:'12,847'},
+  {id:'kcb',     tabKey:'finance', catLabel:'Finance',      bg:'linear-gradient(135deg,#0F3460,#1B4FA0)', logo:'KCB',  name:'KCB Education Loan',           sub:'🇰🇪 Kenya · Financial Partner',             headline:'Education Loan up to KES 5M. No security under KES 500k. 48hr approval. Covers tuition, accommodation & living expenses.',                              tags:['Up to KES 5M','From 12% p.a.','48hr approval','No guarantor <500k'],cta:'Apply now →',imp:'9,340'},
+  {id:'saf',     tabKey:'tech',    catLabel:'Technology',   bg:'linear-gradient(135deg,#003A14,#006920)', logo:'SAF',  name:'Safaricom Student Bundle',     sub:"🇰🇪 Kenya's Best Network",                  headline:"20GB data + unlimited WhatsApp for KES 500/month. Night data included. Perfect for online classes, research & video calls.",                              tags:['20GB/month','KES 500','Unlimited WhatsApp','Night data'],cta:'Activate →',imp:'11,200'},
+  {id:'kva',     tabKey:'agents',  catLabel:'Visa Agency',  bg:'linear-gradient(135deg,#1A3A2A,#2D6A4F)', logo:'KVA',  name:'Verified Visa Agents',            sub:'🌍 UK · Germany · Canada · Australia',       headline:'Student visa for all major destinations. 98% success rate, 7–21 day turnaround. Full document prep, biometrics scheduling & appeal support.',            tags:['From KES 15,000','98% success','All countries','Free consult'],cta:'Start visa →',imp:'6,214'},
+  {id:'sgp',     tabKey:'career',  catLabel:'Career',       bg:'linear-gradient(135deg,#2D1B69,#4A2F8A)', logo:'SAF',  name:'Safaricom Graduate Programme', sub:'🇰🇪 Kenya · 2026 Intake Open',              headline:'18-month rotation across Technology, Finance, Commercial & Operations. Open to all degree disciplines. Competitive salary + benefits.',                   tags:['18-month rotation','All degrees','Class of 2026','Mentorship'],cta:'Apply now →',imp:'7,540'},
+  {id:'sha',     tabKey:'health',  catLabel:'Health',       bg:'linear-gradient(135deg,#1A2E40,#2B5876)', logo:'SHA',  name:'SHA Social Health Authority',  sub:'🇰🇪 Kenya · Mandatory Student Cover',       headline:'Register for SHA student cover. Outpatient, inpatient & maternity at all public hospitals. From KES 500/month. Easy online registration.',               tags:['KES 500/mo','All public hospitals','Inpatient','Mandatory'],cta:'Register →',imp:'8,900'},
+  {id:'kttc',    tabKey:'tvet',    catLabel:'TVET',         bg:'linear-gradient(135deg,#1A3A1A,#1A6B40)', logo:'KTTC', name:'Kenya Technical Trainers College',sub:'🇰🇪 Nairobi · TVETA Accredited · Est. 1964', headline:"Kenya's premier TVET. Diploma & certificate in Engineering, ICT & Business. D+ minimum. HELB loans & government bursaries accepted.",                  tags:['From KES 35k/yr','D+ entry','TVETA approved','🎓 Bursaries'],cta:'Explore →',imp:'5,320'},
+  {id:'su',      tabKey:'edu',     catLabel:'Education',    bg:'linear-gradient(135deg,#0D1F3C,#1B3A6A)', logo:'SU',   name:'Partner University',        sub:'🇰🇪 Nairobi · AACSB Accredited',           headline:'MBA & Business programmes internationally recognised. Small class sizes, industry mentors, strong alumni network. Jan 2026 applications open.',          tags:['From KES 280k','MBA · BBA','🎓 Scholarship','Flexible'],cta:'Apply now →',imp:'4,210'},
+  {id:'helb',    tabKey:'finance', catLabel:'Finance',      bg:'linear-gradient(135deg,#1A2F0A,#2D5A14)', logo:'HELB', name:'HELB Government Loans',        sub:'🇰🇪 Kenya · Official Government Body',      headline:'Higher Education Loans Board. Loans up to KES 60,000/year. Now covers TVET programmes. Apply online — results in 14 days.',                           tags:['Up to KES 60k/yr','Low interest','TVET eligible','Bursaries'],cta:'Apply online →',imp:'8,102'},
+  {id:'kq',      tabKey:'agents',  catLabel:'Travel',       bg:'linear-gradient(135deg,#1A0A0A,#6A1414)', logo:'KQ',   name:'Kenya Airways Student Fares',  sub:'✈️ Fly to 50+ destinations',               headline:'Student air fares to UK, Germany, India, USA & 50+ destinations. Up to 30% discount with student ID. Flexible date changes & open returns.',            tags:['30% discount','50+ destinations','Flexible dates','Open return'],cta:'Book flight →',imp:'5,600'},
+  {id:'nita',    tabKey:'tvet',    catLabel:'TVET',         bg:'linear-gradient(135deg,#1A2A0A,#2D5A14)', logo:'NITA', name:'Partner TVET',                   sub:'🇰🇪 National Industrial Training Authority', headline:'Artisan & craft training: motor vehicle, welding, plumbing, electrical, masonry. 6–18 month programmes. Open entry — no KCSE required.',              tags:['Open entry','6–18 months','Artisan cert','Job placement'],cta:'Enrol →',imp:'3,840'},
+  {id:'hp',      tabKey:'tech',    catLabel:'Technology',   bg:'linear-gradient(135deg,#1A1A2E,#16213E)', logo:'HP',   name:'HP Student Laptops',           sub:'🇰🇪 Kenya · Authorised Partner',            headline:'HP laptops for students from KES 42,000. Student discount at all HP authorised dealers. Free Microsoft 365 Education included.',                         tags:['From KES 42,000','Student discount','MS365 free','2yr warranty'],cta:'Shop now →',imp:'4,900'},
+  {id:'mak',     tabKey:'edu',     catLabel:'Education',    bg:'linear-gradient(135deg,#1A2A0A,#2D5A14)', logo:'MAK',  name:'Partner University',          sub:'🇺🇬 Kampala, Uganda · 100+ years',          headline:"East Africa's premier research university. 130+ undergraduate & postgraduate programmes. Regional scholarship programme for East African students.",      tags:['From UGX 2.8M','130+ programmes','Research-led','Online options'],cta:'Discover →',imp:'3,561'},
+  {id:'wise',    tabKey:'agents',  catLabel:'Forex',        bg:'linear-gradient(135deg,#003A2A,#00695C)', logo:'WSE',  name:'Wise — Send Tuition Fees',     sub:'💱 Real exchange rate · No hidden fees',    headline:'Send tuition fees abroad at the real exchange rate. KES to GBP, EUR, USD and 50+ currencies. Saves students thousands each semester.',                  tags:['Real exchange rate','No hidden fees','50+ currencies','Instant'],cta:'Send money →',imp:'4,820'},
+];
+
+const GRID_ADS = [
+  {id:'strathmore',cat:'edu',    logo:'SU',   lc:'ac-edu',    cc:'cat-edu',    name:'Partner University',       desc:'AACSB MBA & business. Internationally recognised.',        pills:['🇰🇪 Kenya','KES 280k','🎓 Scholarship'],imp:'4,210',cta:'View'},
+  {id:'makerere',  cat:'edu',    logo:'MAK',  lc:'ac-edu',    cc:'cat-edu',    name:'Partner University',         desc:"East Africa's top research university. 130+ programmes.",  pills:['🇺🇬 Uganda','UGX 2.8M','Online'],              imp:'3,561',cta:'View'},
+  {id:'usiu',      cat:'edu',    logo:'USIU', lc:'ac-edu',    cc:'cat-edu',    name:'USIU-Africa',                 desc:'American-style education. Dual US/Kenya recognition.',      pills:['🇰🇪 Kenya','KES 350k','Hybrid'],               imp:'2,980',cta:'View'},
+  {id:'kcb',       cat:'finance',logo:'KCB',  lc:'ac-finance',cc:'cat-finance',name:'KCB Education Loan',          desc:'Up to KES 5M. 48hr approval. No security under 500k.',      pills:['KES 5M max','12% p.a.','48hr'],                imp:'9,340',cta:'Apply'},
+  {id:'helb',      cat:'finance',logo:'HELB', lc:'ac-finance',cc:'cat-finance',name:'HELB Government Loan',        desc:'Government loans & bursaries. TVET eligible.',              pills:['KES 60k/yr','TVET ok','Bursaries'],            imp:'8,102',cta:'Apply'},
+  {id:'britam',    cat:'finance',logo:'BRI',  lc:'ac-finance',cc:'cat-finance',name:'Britam Student Insurance',    desc:'Health & travel cover. Global study abroad protection.',    pills:['KES 2.4k/mo','Global','Instant'],              imp:'3,800',cta:'Quote'},
+  {id:'kva',       cat:'agents', logo:'KVA',  lc:'ac-agent',  cc:'cat-visa',   name:'Verified Visa Agents',           desc:'Student visa for UK, Germany, Canada, Australia.',          pills:['KES 15k','98% pass','All countries'],          imp:'6,214',cta:'Start'},
+  {id:'kq',        cat:'agents', logo:'KQ',   lc:'ac-agent',  cc:'cat-visa',   name:'Kenya Airways Student',       desc:'30% student fares. 50+ destinations. Flexible dates.',     pills:['30% off','50+ routes','Open return'],          imp:'5,600',cta:'Book'},
+  {id:'wise',      cat:'agents', logo:'WSE',  lc:'ac-agent',  cc:'cat-visa',   name:'Wise — Send Fees Abroad',     desc:'Real exchange rate. KES to GBP/EUR/USD. No fees.',         pills:['Real rate','No fees','Instant'],               imp:'4,820',cta:'Send'},
+  {id:'kttc',      cat:'tvet',   logo:'KTTC', lc:'ac-tvet',   cc:'cat-tvet',   name:'Kenya Tech Trainers College', desc:'TVETA diplomas in Engineering, ICT & Business. D+ entry.', pills:['D+ entry','TVETA','KES 35k'],                  imp:'5,320',cta:'Enrol'},
+  {id:'nita',      cat:'tvet',   logo:'NITA', lc:'ac-tvet',   cc:'cat-tvet',   name:'Partner TVET',                  desc:'Artisan training: welding, electrical, plumbing, auto.',   pills:['Open entry','6-18mo','NITA cert'],             imp:'3,840',cta:'Enrol'},
+  {id:'thika',     cat:'tvet',   logo:'TPC',  lc:'ac-tvet',   cc:'cat-tvet',   name:'Thika Technical Polytechnic', desc:'Diploma & certificate in trades. TVETA registered.',        pills:['🇰🇪 Kenya','D entry','Affordable'],            imp:'2,600',cta:'Apply'},
+  {id:'safaricom', cat:'tech',   logo:'SAF',  lc:'ac-tech',   cc:'cat-tech',   name:'Safaricom Student Bundle',    desc:'20GB + unlimited WhatsApp KES 500/month.',                  pills:['20GB','KES 500','Night data'],                 imp:'11,200',cta:'Activate'},
+  {id:'hp',        cat:'tech',   logo:'HP',   lc:'ac-tech',   cc:'cat-tech',   name:'HP Student Laptops',          desc:'From KES 42k. Free Microsoft 365.',                         pills:['From KES 42k','MS365 free','Warranty'],        imp:'4,900',cta:'Shop'},
+  {id:'ms',        cat:'tech',   logo:'MS',   lc:'ac-tech',   cc:'cat-tech',   name:'Microsoft 365 Free',          desc:'Free for verified students. 1TB OneDrive.',                 pills:['FREE','1TB','Teams+Word'],                     imp:'3,700',cta:'Get free'},
+  {id:'saf-grad',  cat:'career', logo:'SAF',  lc:'ac-career', cc:'cat-career', name:'Graduate Employer',          desc:'2026 intake. 18-month rotation. All degrees.',              pills:['2026 intake','All degrees','Mentorship'],      imp:'7,540',cta:'Apply'},
+  {id:'unilever',  cat:'career', logo:'UL',   lc:'ac-career', cc:'cat-career', name:'Unilever Future Leaders',     desc:'FMCG graduate programme East Africa.',                      pills:['East Africa','Grade A pay','FMCG'],            imp:'4,120',cta:'Apply'},
+  {id:'sha',       cat:'health', logo:'SHA',  lc:'ac-health', cc:'cat-health', name:'SHA Student Registration',    desc:'Mandatory health cover. All public hospitals.',             pills:['KES 500/mo','All hospitals','Mandatory'],      imp:'8,900',cta:'Register'},
+  {id:'aar',       cat:'health', logo:'AAR',  lc:'ac-health', cc:'cat-health', name:'AAR Student Health',          desc:'Private cover: dental + optical + campus clinics.',         pills:['KES 1.8k/mo','Private','Dental+Optical'],     imp:'3,440',cta:'Cover'},
+];
+
+const TICKER_ITEMS = [
+  {i:'🎓',n:'Partner University',c:'Education'}, {i:'🏦',n:'Partner Bank',c:'Finance'},
+  {i:'🛂',n:'Verified Visa Agents',c:'Verified Agent'},{i:'🔧',n:'Partner TVET',c:'TVET'},
+  {i:'✈️',n:'Partner Airline',c:'Travel'},            {i:'🎓',n:'Partner University',c:'Education'},
+  {i:'📋',n:'Student Finance',c:'Gov Loans'},                   {i:'🛡',n:'Partner Insurer',c:'Insurance'},
+  {i:'📱',n:'Telecom Partner',c:'Technology'},             {i:'🎓',n:'Partner University',c:'Education'},
+  {i:'💱',n:'Forex Partner',c:'Forex'},                       {i:'🔧',n:'Partner TVET',c:'TVET'},
+  {i:'💼',n:'Graduate Employer',c:'Career'},        {i:'🎓',n:'USIU-Africa',c:'Education'},
+  {i:'💻',n:'HP Laptops',c:'Technology'},            {i:'🏥',n:'AAR Health',c:'Health'},
+  {i:'☁️',n:'Microsoft 365',c:'Software'},           {i:'🔧',n:'Thika Polytechnic',c:'TVET'},
+  {i:'🌐',n:'Coursera Plus',c:'EdTech'},             {i:'🏥',n:'SHA Health',c:'Gov Health'},
+  {i:'💼',n:'Unilever',c:'Employer'},                {i:'🔗',n:'LinkedIn Premium',c:'Network'},
+];
+
+// ─── TV ENGINE ────────────────────────────────────────
+function buildTicker(){
+  const t = document.getElementById('tickerTrack');
+  if(!t) return;
+  const items = [...TICKER_ITEMS,...TICKER_ITEMS];
+  t.innerHTML = items.map(x=>`<span class="ticker-item"><span style="font-size:.85rem">${x.i}</span> <span class="ticker-item-name">${x.n}</span><span class="ticker-cat">${x.c}</span></span><span style="color:rgba(200,151,58,.35);padding:0 4px;font-size:.65rem">·</span>`).join('');
+}
+
+function buildDots(){
+  const el = document.getElementById('heroDots');
+  if(!el) return;
+  el.innerHTML = HERO_ADS.map((_,i)=>
+    `<div class="hero-dot${i===0?' active':''}" onclick="goSlide(${i})"></div>`
+  ).join('');
+}
+
+function heroSlideHTML(ad){
+  const tags = ad.tags.map(t=>`<span class="ad-tag">${t}</span>`).join('');
+  return `<div class="ad-featured hero-slide" style="background:${ad.bg};margin-bottom:0"
+    onclick="adClick('${ad.id}','${ad.tabKey}')">
+    <div class="ad-featured-inner">
+      <div class="ad-featured-accent"></div>
+      <div class="ad-featured-content">
+        <div class="ad-featured-top">
+          <div class="ad-uni-badge">
+            <div class="ad-uni-logo">${ad.logo}</div>
+            <div><div class="ad-uni-name">${ad.name}</div><div class="ad-uni-sub">${ad.sub}</div></div>
+          </div>
+          <span class="ad-featured-tag">Featured</span>
+        </div>
+        <div class="ad-featured-headline">${ad.headline}</div>
+        <div class="ad-featured-footer">
+          <div class="ad-tags">${tags}</div>
+          <button class="ad-btn" onclick="event.stopPropagation();adClick('${ad.id}','${ad.tabKey}')">${ad.cta}</button>
+        </div>
+      </div>
+    </div>
+    <div class="ad-impressions">${ad.imp} impressions this month</div>
+  </div>`;
+}
+
+function goSlide(idx){
+  const stage = document.getElementById('heroStage');
+  if(!stage) return;
+  stage.innerHTML = heroSlideHTML(HERO_ADS[idx]);
+  void stage.offsetWidth;
+  const s = stage.querySelector('.hero-slide');
+  if(s){ void s.offsetWidth; s.classList.add('active'); }
+  heroIdx = idx;
+  updateMeta();
+  startBar();
+}
+
+function updateMeta(){
+  const ad = HERO_ADS[heroIdx];
+  const nm = document.getElementById('nfName'), ct = document.getElementById('nfCat'), cn = document.getElementById('nfCount');
+  if(nm) nm.textContent = ad.name;
+  if(ct) ct.textContent = ad.catLabel;
+  if(cn) cn.textContent = `${heroIdx+1}/${HERO_ADS.length}`;
+  document.querySelectorAll('.hero-dot').forEach((d,i) => d.classList.toggle('active', i===heroIdx));
+  document.querySelectorAll('.ads-tab').forEach(t => t.classList.remove('active'));
+  const tab = document.getElementById('atab-'+ad.tabKey);
+  if(tab) tab.classList.add('active');
+  const ag = document.getElementById('agentsDirectory');
+  const tp = document.getElementById('tvetPanel');
+  if(ag) ag.style.display = 'none';
+  if(tp) tp.style.display = 'none';
+}
+
+function startBar(){
+  const b = document.getElementById('heroBar');
+  if(!b) return;
+  b.style.transition = 'none'; b.style.width = '0%';
+  void b.offsetWidth;
+  b.style.transition = `width ${HERO_MS}ms linear`; b.style.width = '100%';
+}
+function pauseBar(){ const b=document.getElementById('heroBar'); if(b) b.style.transition='none'; }
+function autoNext(){ heroIdx=(heroIdx+1)%HERO_ADS.length; goSlide(heroIdx); }
+function startHero(){ heroTimer=setInterval(autoNext,HERO_MS); }
+function stopHero(){ clearInterval(heroTimer); heroTimer=null; pauseBar(); }
+function heroNext(){ stopHero(); autoNext(); if(!isPaused) startHero(); }
+function heroPrev(){ stopHero(); heroIdx=(heroIdx-1+HERO_ADS.length)%HERO_ADS.length; goSlide(heroIdx); if(!isPaused) startHero(); }
+function hoverPause(){ isHovered=true; stopHero(); }
+function hoverResume(){ isHovered=false; if(!isPaused){ startBar(); startHero(); } }
+function togglePause(){
+  isPaused = !isPaused;
+  const btn = document.getElementById('pauseBtn');
+  if(isPaused){ stopHero(); if(btn){ btn.innerHTML='&#9654;'; btn.title='Resume'; } }
+  else{ startBar(); startHero(); if(btn){ btn.innerHTML='&#9646;&#9646;'; btn.title='Pause'; } }
+}
+
+function manualTab(cat, el){
+  document.querySelectorAll('.ads-tab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  const ag=document.getElementById('agentsDirectory'), tp=document.getElementById('tvetPanel');
+  if(ag) ag.style.display='none'; if(tp) tp.style.display='none';
+  stopHero();
+  const idx = HERO_ADS.findIndex(a=>a.tabKey===cat);
+  if(idx!==-1) goSlide(idx);
+  if(!isPaused) startHero();
+}
+
+function showAgentsDir(el){
+  document.querySelectorAll('.ads-tab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  stopHero();
+  const tp=document.getElementById('tvetPanel'); if(tp) tp.style.display='none';
+  const ag=document.getElementById('agentsDirectory'); if(ag){ ag.style.display='block'; renderAgents(); }
+  if(!isPaused) setTimeout(()=>{ const a=document.getElementById('agentsDirectory'); if(a) a.style.display='none'; goSlide(heroIdx); startHero(); }, 30000);
+}
+
+function showTvetTab(el){
+  document.querySelectorAll('.ads-tab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  stopHero();
+  const ag=document.getElementById('agentsDirectory'); if(ag) ag.style.display='none';
+  const tp=document.getElementById('tvetPanel'); if(tp) tp.style.display='block';
+  if(!isPaused) setTimeout(()=>{ const t=document.getElementById('tvetPanel'); if(t) t.style.display='none'; goSlide(heroIdx); startHero(); }, 25000);
+}
+
+function renderGrid(set){
+  const grid = document.getElementById('adsGrid');
+  if(!grid) return;
+  const show = set.slice(0,3);
+  grid.innerHTML = show.map(ad=>`
+    <div class="ad-card ${ad.cc}" onclick="adClick('${ad.id}','${ad.cat}')">
+      <div class="ad-card-top">
+        <div class="ad-card-logo ${ad.lc}">${ad.logo}</div>
+        <span class="ad-card-tag">Sponsored</span>
+      </div>
+      <div class="ad-card-name">${ad.name}</div>
+      <div class="ad-card-desc">${ad.desc}</div>
+      <div class="ad-card-meta">${ad.pills.map(p=>`<span class="ad-card-pill">${p}</span>`).join('')}</div>
+      <div class="ad-card-footer">
+        <span class="ad-card-imp">${ad.imp} impressions</span>
+        <button class="ad-card-btn">${ad.cta}</button>
+      </div>
+    </div>`).join('')
+  + `<div class="ad-placeholder" onclick="openModal()">
+      <div style="font-size:1.5rem;margin-bottom:8px">📢</div>
+      <div style="font-size:.8rem;color:var(--t2);font-weight:600;margin-bottom:4px">Your ad here</div>
+      <div style="font-size:.72rem;color:var(--t3)">From KES 8,000/month</div>
+    </div>`;
+}
+
+function rotateGrid(){
+  const g = document.getElementById('adsGrid');
+  if(!g) return;
+  g.style.opacity='0'; g.style.transform='translateY(6px)';
+  setTimeout(()=>{
+    gridIdx = (gridIdx+3) % GRID_ADS.length;
+    renderGrid([...GRID_ADS.slice(gridIdx),...GRID_ADS.slice(0,gridIdx)]);
+    g.style.opacity='0'; g.style.transform='translateY(-6px)';
+    void g.offsetWidth;
+    g.style.transition='opacity .5s ease,transform .5s ease';
+    g.style.opacity='1'; g.style.transform='translateY(0)';
+  }, 420);
+}
+
+// ─── VERIFIED AGENTS ──────────────────────────────────
+const AGENTS = [
+  {id:'kva',    tier:'gov',     logo:'KVA', name:'Kenya Visa Agents Ltd',         licence:'KEBS/VA/2019/0142' countries:['UK','Germany','Canada','Australia','USA','France'], years:8, visas:4200, success:98, wa:'254700111222', desc:'Accredited by British High Commission, German Embassy & Immigration NZ. IATA certified.'},
+  {id:'evisa',  tier:'premium', logo:'EVS', name:'EasyVisa Africa',               licence:'ATAF/2020/0087' countries:['UK','USA','Canada','Australia','Schengen'],         years:6, visas:2800, success:96, wa:'254700333444', desc:'ATAF member. UK, US & Schengen specialists. Mock interview prep & document review.'},
+  {id:'global', tier:'premium', logo:'GVS', name:'GlobalStudy Visa Consultants',  licence:'KEPSA/VS/2021/0056' countries:['Germany','France','Netherlands','Belgium','Sweden'],years:5, visas:1900, success:95, wa:'254700555666', desc:'European student visa specialists. DAAD partner agents. German language referrals.'},
+  {id:'africa', tier:'verified',logo:'AVS', name:'Africa Visa Solutions',         licence:'KEPSA/VS/2022/0031' countries:['UAE','Malaysia','India','China','South Africa'],    years:4, visas:980,  success:91, wa:'254700777888', desc:'Asian & Middle East study destinations. Dubai, Malaysia & India partners.'},
+  {id:'apex',   tier:'verified',logo:'APX', name:'Apex Immigration Services',     licence:'IBA/2023/0014' countries:['UK','Ireland','Malta'],                            years:3, visas:640,  success:89, wa:'254700999000', desc:'UK specialist. Biometrics scheduling & application tracking included.'},
+];
+
+function renderAgents(){
+  const g = document.getElementById('agentGrid');
+  if(!g) return;
+  const WA_SVG = `<svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+  const TIERS = {
+    gov:    {badge:'🏛️ Gov Accredited', cls:'tier-gov',     order:1},
+    premium:{badge:'⭐ Premium Partner', cls:'tier-premium', order:2},
+    verified:{badge:'✓ Elimux Verified', cls:'tier-verified',order:3},
+  };
+  g.innerHTML = [...AGENTS].sort((a,b)=>TIERS[a.tier].order-TIERS[b.tier].order).map(ag => {
+    const tc = TIERS[ag.tier];
+    return `<div style="background:var(--white);border:1px solid var(--g2);border-radius:var(--r-lg);padding:16px 18px;display:flex;gap:14px;position:relative;transition:border-color .2s,transform .2s"
+      onmouseenter="this.style.borderColor='#1B4FA0';this.style.transform='translateY(-1px)'"
+      onmouseleave="this.style.borderColor='var(--g2)';this.style.transform='none'">
+      <a style="position:absolute;top:10px;right:12px;font-size:.6rem;color:var(--t3);cursor:pointer;text-decoration:none;font-family:var(--mono)"
+         onclick="reportAgent('${ag.id}');return false">Report</a>
+      <div style="width:42px;height:42px;border-radius:9px;border:1px solid var(--g2);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:.75rem;font-weight:700;background:#EBF0FA;color:var(--blue);flex-shrink:0">${ag.logo}</div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:3px;flex-wrap:wrap">
+          <div style="font-family:var(--serif);font-size:.9rem;font-weight:700;color:var(--navy)">${ag.name}</div>
+          <span class="tier-badge ${tc.cls}">${tc.badge}</span>
+        </div>
+        <div style="font-size:.6rem;font-family:var(--mono);color:var(--t3);margin-bottom:5px">Licence: ${ag.licence}</div>
+        <div style="font-size:.76rem;color:var(--t2);margin-bottom:6px">${ag.countries.join(' · ')}</div>
+        <div style="display:flex;gap:12px;font-size:.72rem;color:var(--t3);margin-bottom:7px">
+          <span><strong style="color:var(--navy)">${ag.visas.toLocaleString()}</strong> visas</span>
+          <span><strong style="color:var(--navy)">${ag.success}%</strong> success</span>
+          <span><strong style="color:var(--navy)">${ag.years}</strong> yrs</span>
+        </div>
+        <div style="font-size:.75rem;color:var(--t2);margin-bottom:10px;line-height:1.5">${ag.desc}</div>
+        <div style="display:flex;gap:7px">
+          <button onclick="adClick('${ag.id}','agent')"
+            style="padding:7px 14px;background:var(--navy);color:white;border:none;border-radius:var(--r-full);font-size:.72rem;font-weight:600;font-family:var(--sans);cursor:pointer">Contact agent</button>
+          <a href="https://wa.me/${ag.wa}?text=Hi+I+found+you+on+Elimux+and+need+help+with+a+student+visa"
+            target="_blank"
+            style="display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#25D366;color:white;border-radius:var(--r-full);font-size:.72rem;font-weight:600;font-family:var(--sans);text-decoration:none">${WA_SVG} WhatsApp agent</a>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function reportAgent(id){ alert(`Report submitted for agent ${id}. Our compliance team will review within 24 hours.`); }
+
+// ─── MODAL FUNCTIONS ──────────────────────────────────
+function openModal(){ document.getElementById('advertiseModal').style.display='flex'; }
+function closeModal(){ document.getElementById('advertiseModal').style.display='none'; }
+
+function selectPlan(el, plan){
+  document.querySelectorAll('[id^="plan-"]').forEach(p=>{ p.style.border='1.5px solid var(--g2)'; p.style.background='white'; });
+  el.style.border='2px solid var(--navy)'; el.style.background='rgba(13,31,60,.04)';
+}
+
+function updateModalWA(){
+  const org = document.getElementById('ad-org-name')?.value || '';
+  const btn = document.getElementById('modal-wa-btn');
+  if(btn){ const msg = org ? `Hi I am from ${org} and want to advertise on Elimux` : 'Hi I want to advertise on Elimux'; btn.href='https://wa.me/254793002436?text='+encodeURIComponent(msg); }
+}
+
+function submitAdEnquiry(){
+  const name  = document.getElementById('ad-org-name')?.value.trim() || '';
+  const email = document.getElementById('ad-email')?.value.trim() || '';
+  if(!name||!email){ alert('Please enter your organisation name and email.'); return; }
+  const modal = document.getElementById('advertiseModal');
+  modal.innerHTML = `
+    <div style="background:var(--white);border-radius:var(--r-lg);max-width:400px;width:100%;padding:40px;text-align:center;margin:auto">
+      <div style="font-size:2.8rem;margin-bottom:16px">✅</div>
+      <div style="font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:10px">Enquiry received!</div>
+      <p style="font-size:.84rem;color:var(--t2);line-height:1.7;margin-bottom:22px">
+        Our team will contact <strong>${escHtml(email)}</strong> within 24 hours for <strong>${escHtml(name)}</strong>.
+      </p>
+      <button onclick="document.getElementById('advertiseModal').style.display='none'"
+        style="padding:10px 22px;background:var(--navy);color:white;border:none;border-radius:var(--r-full);font-size:.84rem;font-weight:600;cursor:pointer">Done</button>
+    </div>`;
+  modal.style.cssText = 'display:flex;position:fixed;inset:0;z-index:999;background:rgba(13,31,60,.7);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:16px';
+}
+
+function submitAgentApp(){
+  const name  = document.getElementById('ag-name')?.value.trim() || '';
+  const email = document.getElementById('ag-email')?.value.trim() || '';
+  if(!name||!email){ alert('Please enter your agency name and email.'); return; }
+  const modal = document.getElementById('agentModal');
+  modal.innerHTML = `
+    <div style="background:var(--white);border-radius:var(--r-lg);max-width:400px;width:100%;padding:40px;text-align:center;margin:auto">
+      <div style="font-size:2.8rem;margin-bottom:16px">✅</div>
+      <div style="font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:10px">Application submitted!</div>
+      <p style="font-size:.84rem;color:var(--t2);line-height:1.7;margin-bottom:22px">
+        Our compliance team will review <strong>${escHtml(name)}</strong> and contact <strong>${escHtml(email)}</strong> within 3–5 business days.
+      </p>
+      <button onclick="document.getElementById('agentModal').style.display='none'"
+        style="padding:10px 22px;background:var(--navy);color:white;border:none;border-radius:var(--r-full);font-size:.84rem;font-weight:600;cursor:pointer">Done</button>
+    </div>`;
+  modal.style.cssText = 'display:flex;position:fixed;inset:0;z-index:999;background:rgba(13,31,60,.7);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:16px';
+}
+
+function adClick(id, cat){ console.log('[Elimux Ads]', id, cat, '| Query:', currentQuery); }
+
+// ─── MCP SCHEMA ───────────────────────────────────────
+window.__ELIMUX_MCP__ = {
+  version:'1.1.0',
+  tools:[
+    {name:'elimux_search', description:'Search Elimux global education directory.', input_schema:{type:'object',properties:{query:{type:'string'},mode:{type:'string',enum:['uni','tvet']},kcse_grade:{type:'string'}},required:['query']}},
+    {name:'elimux_agents', description:'Get verified visa agents.', input_schema:{type:'object',properties:{country:{type:'string'},tier:{type:'string',enum:['verified','premium','gov']}}}},
+  ],
+  endpoint:'/api/v1/search',
+  agents_endpoint:'/api/v1/agents',
+};
+
+// ─── INIT ─────────────────────────────────────────────
+
+// ═══════════════════════════════════════════════════════════════
+// COUNTRY INTELLIGENCE LAYER
+// Each config block is self-contained. Adding a country = adding
+// one object to COUNTRY_CONFIGS. No other code changes needed.
+// ═══════════════════════════════════════════════════════════════
+
+const COUNTRY_CONFIGS = {
+
+  KE: {
+    name:'Kenya', flag:'🇰🇪', region:'East Africa',
+    currency:'KES', currencySymbol:'KES',
+    qualification:'KCSE', qualDetail:'Kenya Certificate of Secondary Education',
+    tvetAuthority:'TVETA', tvetLabel:'TVETA Approved',
+    loanBody:'HELB', loanDetail:'Higher Education Loans Board',
+    languages:[{code:'primary',label:'EN',name:'English'},{code:'secondary',label:'SW',name:'Kiswahili'}],
+    grades:['A','A-','B+','B','B-','C+','C','C-','D+','D','D-','E','Did not sit'],
+    gradeLabel:'KCSE Grade',
+    uniPills:['Medicine in Kenya under KES 500k','MBA with scholarship in Germany','Online nursing from Africa','Short tech course, 3 months online'],
+    tvetPills:['Electrical installation, D+ grade','Beauty therapy diploma, Nairobi','Welding & fabrication, 6 months','Hospitality catering, open entry'],
+    uniPlaceholder:'e.g. I want to study Medicine in East Africa, budget under KES 500,000 per year...',
+    tvetPlaceholder:'e.g. I got C- in KCSE and want to study electrical engineering, budget KES 50,000...',
+    contextNote:'Showing results for Kenya · KCSE · KES',
+    promptNote:'Focus on Kenyan institutions and East African options. Use KES for fees where possible.',
+    tvetPromptNote:'Use TVETA for accreditation status. KCSE grades are Kenya standard A to E.',
+  },
+
+  NG: {
+    name:'Nigeria', flag:'🇳🇬', region:'West Africa',
+    currency:'NGN', currencySymbol:'₦',
+    qualification:'WAEC/NECO', qualDetail:'West African Senior School Certificate',
+    tvetAuthority:'NABTEB', tvetLabel:'NABTEB Accredited',
+    loanBody:'NELFUND', loanDetail:'Nigerian Education Loan Fund',
+    languages:[{code:'primary',label:'EN',name:'English'},{code:'secondary',label:'PG',name:'Pidgin'}],
+    grades:['A1','B2','B3','C4','C5','C6','D7','E8','F9'],
+    gradeLabel:'WAEC Grade',
+    uniPills:['Medicine in Nigeria under ₦2M','MBA with scholarship abroad','Online engineering degree','Law degree in UK for Nigerians'],
+    tvetPills:['Electrical installation, C6 grade','Fashion design diploma, Lagos','Welding & fabrication, 6 months','Hospitality & catering, open entry'],
+    uniPlaceholder:'e.g. I want to study Engineering in Nigeria or abroad, budget under ₦3,000,000...',
+    tvetPlaceholder:'e.g. I got D7 in WAEC and want vocational training, budget ₦150,000...',
+    contextNote:'Showing results for Nigeria · WAEC/NECO · ₦',
+    promptNote:'Focus on Nigerian institutions and options for Nigerians studying abroad. Use NGN/₦ for fees.',
+    tvetPromptNote:'Use NABTEB for accreditation. WAEC grades are A1 (best) to F9 (fail).',
+  },
+
+  GH: {
+    name:'Ghana', flag:'🇬🇭', region:'West Africa',
+    currency:'GHS', currencySymbol:'GH₵',
+    qualification:'WASSCE', qualDetail:'West African Senior School Certificate',
+    tvetAuthority:'NVTI', tvetLabel:'NVTI Certified',
+    loanBody:'Students Loan Trust', loanDetail:'Students Loan Trust Fund Ghana',
+    languages:[{code:'primary',label:'EN',name:'English'},{code:'secondary',label:'TW',name:'Twi'}],
+    grades:['A1','B2','B3','C4','C5','C6','D7','E8','F9'],
+    gradeLabel:'WASSCE Grade',
+    uniPills:['Medicine at UG or KNUST','MBA with scholarship in UK','Online degree from Ghana','Short business course, 3 months'],
+    tvetPills:['Electrical installation, C6 grade','Fashion design, Accra, 12 months','Welding & fabrication, open entry','Hospitality & catering, NVTI'],
+    uniPlaceholder:'e.g. I want to study Medicine at KNUST or abroad, budget under GH₵ 30,000 per year...',
+    tvetPlaceholder:'e.g. I got C6 in WASSCE and want NVTI vocational training, budget GH₵ 5,000...',
+    contextNote:'Showing results for Ghana · WASSCE · GH₵',
+    promptNote:'Focus on Ghanaian institutions (UG, KNUST, UCC) and options for Ghanaians abroad. Use GHS/GH₵.',
+    tvetPromptNote:'Use NVTI for Ghana TVET accreditation. WASSCE grades A1 (best) to F9.',
+  },
+
+  ZA: {
+    name:'South Africa', flag:'🇿🇦', region:'Southern Africa',
+    currency:'ZAR', currencySymbol:'R',
+    qualification:'NSC (Matric)', qualDetail:'National Senior Certificate',
+    tvetAuthority:'QCTO', tvetLabel:'QCTO Accredited',
+    loanBody:'NSFAS', loanDetail:'National Student Financial Aid Scheme',
+    languages:[{code:'primary',label:'EN',name:'English'},{code:'secondary',label:'ZU',name:'Zulu'}],
+    grades:['7 (80–100%)','6 (70–79%)','5 (60–69%)','4 (50–59%)','3 (40–49%)','2 (30–39%)','1 (0–29%)'],
+    gradeLabel:'NSC / Matric Level',
+    uniPills:['Medicine at UCT or Wits under R80k','MBA with bursary in South Africa','Online degree, UNISA','Engineering bursary programme'],
+    tvetPills:['Electrical installation, Level 4 matric','Automotive repair, TVET college','Welding N2 certificate, open entry','Hospitality & catering, NQF Level 2'],
+    uniPlaceholder:'e.g. I want to study Engineering at UCT or UP, budget under R120,000 per year...',
+    tvetPlaceholder:'e.g. I got a Level 3 Matric and want an N2 or N3 technical qualification...',
+    contextNote:'Showing results for South Africa · NSC/Matric · R (ZAR)',
+    promptNote:'Focus on South African institutions (UCT, Wits, UP, UNISA). Use ZAR/R for fees. Mention NSFAS funding.',
+    tvetPromptNote:'Use QCTO/DHET for SA TVET accreditation. NQF Levels. N1-N6 vocational qualifications.',
+  },
+
+  UG: {
+    name:'Uganda', flag:'🇺🇬', region:'East Africa',
+    currency:'UGX', currencySymbol:'USh',
+    qualification:'UCE/UACE', qualDetail:'Uganda Certificate of Education',
+    tvetAuthority:'UBTEB', tvetLabel:'UBTEB Certified',
+    loanBody:'HEIBS', loanDetail:'Higher Education Initiative for Bright Students',
+    languages:[{code:'primary',label:'EN',name:'English'},{code:'secondary',label:'LG',name:'Luganda'}],
+    grades:['D1','D2','C3','C4','C5','C6','P7','P8','F9'],
+    gradeLabel:'UCE Grade',
+    uniPills:['Medicine at Makerere under UGX 5M','MBA with scholarship in Uganda','Online degree from East Africa','Short IT course, Kampala'],
+    tvetPills:['Electrical installation, C5 grade','Fashion design, Kampala, 12 months','Welding & fabrication, UBTEB','Hospitality & catering, open entry'],
+    uniPlaceholder:'e.g. I want to study at Makerere University or abroad, budget UGX 4,000,000 per year...',
+    tvetPlaceholder:'e.g. I got C6 in UCE and want vocational training in Kampala, budget UGX 800,000...',
+    contextNote:'Showing results for Uganda · UCE/UACE · UGX',
+    promptNote:'Focus on Ugandan institutions (Makerere, MUBS, Kyambogo) and East African options. Use UGX.',
+    tvetPromptNote:'Use UBTEB for Uganda TVET accreditation. UCE grades D1 (best) to F9.',
+  },
+
+  TZ: {
+    name:'Tanzania', flag:'🇹🇿', region:'East Africa',
+    currency:'TZS', currencySymbol:'TSh',
+    qualification:'CSEE/ACSEE', qualDetail:'Certificate of Secondary Education',
+    tvetAuthority:'VETA', tvetLabel:'VETA Certified',
+    loanBody:'HESLB', loanDetail:'Higher Education Students Loan Board',
+    languages:[{code:'primary',label:'SW',name:'Kiswahili'},{code:'secondary',label:'EN',name:'English'}],
+    grades:['I (Div 1)','II (Div 2)','III (Div 3)','IV (Div 4)','0 (Fail)'],
+    gradeLabel:'CSEE Division',
+    uniPills:['Medicine at MUHAS under TSh 3M','MBA with scholarship abroad','Online degree, UDOM or OUT','Short business course, Dar es Salaam'],
+    tvetPills:['Electrical installation, Division 3','Fashion design, Dar es Salaam, 12 months','Welding & fabrication, VETA','Hospitality & catering, open entry'],
+    uniPlaceholder:'e.g. Nataka kusomea Udaktari MUHAS au nje ya nchi, bajeti TSh 3,000,000 kwa mwaka...',
+    tvetPlaceholder:'e.g. Nilipata Division 3 CSEE na nataka mafunzo ya ufundi, bajeti TSh 500,000...',
+    contextNote:'Showing results for Tanzania · CSEE · TSh',
+    promptNote:'Focus on Tanzanian institutions (MUHAS, UDOM, UDSM, OUT). Use TZS/TSh. Note: Kiswahili is primary language.',
+    tvetPromptNote:'Use VETA for Tanzania TVET accreditation. CSEE Divisions I–IV.',
+  },
+
+  RW: {
+    name:'Rwanda', flag:'🇷🇼', region:'East Africa',
+    currency:'RWF', currencySymbol:'RF',
+    qualification:'REB A-Level', qualDetail:'Rwanda Education Board Certificate',
+    tvetAuthority:'TVET Board', tvetLabel:'REB/WDA Certified',
+    loanBody:'REB Bursaries', loanDetail:'Rwanda Education Board Bursary Scheme',
+    languages:[{code:'primary',label:'EN',name:'English'},{code:'secondary',label:'FR',name:'French'}],
+    grades:['A (80–100%)','B (70–79%)','C (60–69%)','D (50–59%)','E (40–49%)','F (below 40%)'],
+    gradeLabel:'REB A-Level Grade',
+    uniPills:['Medicine at UR under RF 500k','MBA with scholarship in Rwanda','Online degree from East Africa','Short IT course, Kigali'],
+    tvetPills:['Electrical installation, C grade REB','Construction & masonry, 12 months','Hospitality, TVET Rwanda, open entry','Tailoring & fashion, WDA certificate'],
+    uniPlaceholder:'e.g. I want to study Engineering at University of Rwanda, budget RF 800,000 per year...',
+    tvetPlaceholder:'e.g. I got a D in REB A-Levels and want TVET training in Kigali, budget RF 200,000...',
+    contextNote:'Showing results for Rwanda · REB Certificate · RF',
+    promptNote:'Focus on Rwandan institutions (UR, AUCA, KIM). Use RWF/RF. Rwanda has English and French tracks.',
+    tvetPromptNote:'Use WDA/TVET Board for Rwanda TVET accreditation. REB grading A–F.',
+  },
+
+  GB: {
+    name:'United Kingdom', flag:'🇬🇧', region:'Europe',
+    currency:'GBP', currencySymbol:'£',
+    qualification:'A-Levels / GCSEs', qualDetail:'General Certificate of Education',
+    tvetAuthority:'Ofqual', tvetLabel:'Ofqual Regulated',
+    loanBody:'Student Loans Company', loanDetail:'SLC — UK Government Student Finance',
+    languages:[{code:'primary',label:'EN',name:'English'},{code:'secondary',label:'WL',name:'Welsh'}],
+    grades:['A*','A','B','C','D','E','U (Ungraded)'],
+    gradeLabel:'A-Level / GCSE Grade',
+    uniPills:['Medicine at Russell Group under £9,250/yr','MBA at London Business School','Online MSc, distance learning UK','Short professional course, London'],
+    tvetPills:['Electrical installation, NVQ Level 3','Brickwork & construction apprenticeship','Hospitality & catering, City & Guilds','HNC Engineering, Further Education college'],
+    uniPlaceholder:'e.g. I want to study Medicine at a Russell Group university, budget under £30,000 per year...',
+    tvetPlaceholder:'e.g. I got a C at GCSE and want an apprenticeship or NVQ in plumbing or electrical...',
+    contextNote:'Showing results for UK · A-Levels/GCSEs · £ (GBP)',
+    promptNote:'Focus on UK institutions. Use GBP/£ for fees. Reference UCAS, Russell Group, and UK student finance (SLC).',
+    tvetPromptNote:'Use Ofqual/City & Guilds for UK TVET. NVQ Levels 1–5. Apprenticeship standards apply.',
+  },
+
+};
+
+// Current active config
+let activeCountry = 'KE';
+let activeLang = 'primary';
+
+// All countries for the panel list
+const ALL_COUNTRIES = [
+  {code:'KE', name:'Kenya',         flag:'🇰🇪', region:'East Africa',     detail:'KCSE · KES · TVETA'},
+  {code:'NG', name:'Nigeria',       flag:'🇳🇬', region:'West Africa',     detail:'WAEC · ₦ · NABTEB'},
+  {code:'GH', name:'Ghana',         flag:'🇬🇭', region:'West Africa',     detail:'WASSCE · GH₵ · NVTI'},
+  {code:'ZA', name:'South Africa',  flag:'🇿🇦', region:'Southern Africa', detail:'NSC/Matric · R · QCTO'},
+  {code:'UG', name:'Uganda',        flag:'🇺🇬', region:'East Africa',     detail:'UCE · UGX · UBTEB'},
+  {code:'TZ', name:'Tanzania',      flag:'🇹🇿', region:'East Africa',     detail:'CSEE · TSh · VETA'},
+  {code:'RW', name:'Rwanda',        flag:'🇷🇼', region:'East Africa',     detail:'REB · RF · WDA'},
+  {code:'GB', name:'United Kingdom',flag:'🇬🇧', region:'Europe',          detail:'A-Levels · £ · Ofqual'},
+  // Coming soon placeholders
+  {code:'ET', name:'Ethiopia',      flag:'🇪🇹', region:'East Africa',     detail:'Coming soon',    soon:true},
+  {code:'ZM', name:'Zambia',        flag:'🇿🇲', region:'Southern Africa', detail:'Coming soon',    soon:true},
+  {code:'ZW', name:'Zimbabwe',      flag:'🇿🇼', region:'Southern Africa', detail:'Coming soon',    soon:true},
+  {code:'CM', name:'Cameroon',      flag:'🇨🇲', region:'Central Africa',  detail:'Coming soon',    soon:true},
+  {code:'SN', name:'Senegal',       flag:'🇸🇳', region:'West Africa',     detail:'Coming soon',    soon:true},
+  {code:'CI', name:"Côte d'Ivoire", flag:'🇨🇮', region:'West Africa',     detail:'Coming soon',    soon:true},
+  {code:'IN', name:'India',         flag:'🇮🇳', region:'Asia',            detail:'Coming soon',    soon:true},
+  {code:'AU', name:'Australia',     flag:'🇦🇺', region:'Oceania',         detail:'Coming soon',    soon:true},
+  {code:'CA', name:'Canada',        flag:'🇨🇦', region:'North America',   detail:'Coming soon',    soon:true},
+  {code:'DE', name:'Germany',       flag:'🇩🇪', region:'Europe',          detail:'Coming soon',    soon:true},
+];
+
+// ── Apply a country config to all UI elements ──────────
+function applyCountry(code){
+  const cfg = COUNTRY_CONFIGS[code];
+  if(!cfg) return;
+  activeCountry = code;
+  activeLang = 'primary';
+
+  // Header button
+  const flag = document.getElementById('selectedFlag');
+  const name = document.getElementById('selectedName');
+  if(flag) flag.textContent = cfg.flag;
+  if(name) name.textContent = cfg.name;
+
+  // Context bar in search card
+  const ccbFlag = document.getElementById('ccbFlag');
+  const ccbText = document.getElementById('ccbText');
+  if(ccbFlag) ccbFlag.textContent = cfg.flag;
+  if(ccbText) ccbText.innerHTML = `Showing results for <strong>${cfg.name}</strong> &middot; Qualification: <strong>${cfg.qualification}</strong> &middot; Currency: <strong>${cfg.currency}</strong>`;
+
+  // Grade filter label + options
+  const gradeFilterLabel = document.querySelector('#gradeFilter label');
+  const gradeSelect = document.getElementById('gradeSelect');
+  if(gradeFilterLabel) gradeFilterLabel.textContent = cfg.gradeLabel + ':';
+  if(gradeSelect){
+    gradeSelect.innerHTML = '<option value="">Any / Not sure</option>'
+      + cfg.grades.map(g=>`<option value="${g}">${g}</option>`).join('');
+  }
+
+  // Search pills + placeholder
+  setMode(searchMode); // re-runs with new country config
+
+  // Language toggle
+  const lt = document.getElementById('langToggle');
+  const lp = document.getElementById('langPrimary');
+  const ls = document.getElementById('langSecondary');
+  if(lt){
+    if(cfg.languages.length > 1){
+      lt.style.display = 'flex';
+      if(lp){ lp.textContent = cfg.languages[0].label; lp.classList.add('active'); }
+      if(ls){ ls.textContent = cfg.languages[1].label; ls.classList.remove('active'); }
+    } else {
+      lt.style.display = 'none';
+    }
+  }
+
+  // Update thinkingMsg
+  const tm = document.getElementById('thinkingMsg');
+  if(tm) tm.textContent = searchMode==='tvet'
+    ? `Searching ${cfg.tvetAuthority} institutions & colleges in ${cfg.name}…`
+    : `Searching a growing directory of institutions for ${cfg.name} students…`;
+
+  // Store in session
+  try{ sessionStorage.setItem('elimux_country', code); }catch(e){}
+
+  // Update TVET label in results (if shown)
+  document.querySelectorAll('.badge-tveta').forEach(b=>{
+    b.textContent = `✓ ${cfg.tvetAuthority} Approved`;
+  });
+
+  // Highlight in panel list
+  document.querySelectorAll('.cp-country-item').forEach(el=>{
+    el.classList.toggle('selected', el.dataset.code === code);
+    const check = el.querySelector('.cp-check');
+    if(check) check.style.display = el.dataset.code === code ? 'block' : 'none';
+  });
+}
+
+// ── Override setMode to use active country pills ────────
+const _baseSetMode = setMode;
+setMode = function(mode){
+  searchMode = mode;
+  const cfg = COUNTRY_CONFIGS[activeCountry] || COUNTRY_CONFIGS['KE'];
+  const card = document.getElementById('searchCard');
+  const btn  = document.getElementById('searchBtn');
+  const gf   = document.getElementById('gradeFilter');
+  const ta   = document.getElementById('queryInput');
+  const sf   = document.getElementById('searchFooter');
+  const mu   = document.getElementById('modeUni');
+  const mt   = document.getElementById('modeTvet');
+  if(mu){ mu.style.background = mode==='uni'?'var(--navy)':'transparent'; mu.style.color=mode==='uni'?'white':'var(--t2)'; }
+  if(mt){ mt.style.background = mode==='tvet'?'#1A6B40':'transparent'; mt.style.color=mode==='tvet'?'white':'var(--t2)'; }
+  if(btn){ btn.style.background = mode==='tvet'?'#1A6B40':'var(--navy)'; }
+  if(card){ card.className = mode==='tvet'?'search-card tvet-mode':'search-card'; }
+  if(gf){ gf.style.display = mode==='tvet'?'flex':'none'; }
+  if(ta){ ta.placeholder = mode==='uni' ? cfg.uniPlaceholder : cfg.tvetPlaceholder; }
+  const pills = mode==='uni' ? cfg.uniPills : cfg.tvetPills;
+  const col   = mode==='uni' ? '#0D1F3C' : '#1A6B40';
+  if(sf){ sf.innerHTML = `<span style="font-size:.72rem;color:var(--t3);margin-right:4px">Try:</span>`
+    + pills.map(p=>`<span class="search-pill" onclick="setQuery(this)"
+        onmouseover="this.style.background='${col}';this.style.color='white'"
+        onmouseout="this.style.background='var(--g1)';this.style.color='var(--t2)'">${p}</span>`).join(''); }
+  const tm = document.getElementById('thinkingMsg');
+  if(tm){ tm.textContent = mode==='tvet'
+    ? `Searching ${cfg.tvetAuthority} institutions & colleges in ${cfg.name}…`
+    : `Searching a growing directory of institutions for ${cfg.name} students…`; }
+};
+
+// ── Override fetchFromClaude to inject country context ──
+const _baseFetchFromClaude = fetchFromClaude;
+fetchFromClaude = async function(query){
+  const cfg = COUNTRY_CONFIGS[activeCountry] || COUNTRY_CONFIGS['KE'];
+  const SYS = `You are Elimux, a global education discovery AI. Return EXACTLY 10 course/institution recommendations as a JSON array. Each object: rank(1-10), institution, country, flag(emoji), course, level, fees(in ${cfg.currency} where possible), fees_usd, duration, mode(On campus|Online|Hybrid), scholarship(true/false), match_reason, apply_url(https://api.elimux.ke/apply/slug). Return ONLY a valid JSON array. ${cfg.promptNote}`;
+  const r = await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:[{role:'user',content:query}]})
+  });
+  if(!r.ok) throw new Error('API '+r.status);
+  const d = await r.json();
+  const txt = d.content[0].text.trim();
+  return JSON.parse(txt.startsWith('[') ? txt : txt.slice(txt.indexOf('['), txt.lastIndexOf(']')+1));
+};
+
+// ── Override fetchTvet to inject country TVET context ───
+const _baseFetchTvet = fetchTvet;
+fetchTvet = async function(query){
+  const grade = document.getElementById('gradeSelect')?.value || '';
+  const PROXY = window.ELIMUX_API_URL || 'https://api.elimux.ke';
+  const SKEY  = window.ELIMUX_API_KEY || 'PLACEHOLDER_SANDBOX_KEY';
+  const r = await fetch(`${PROXY}/v1/search`, {
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization': `Bearer ${SKEY}`,
+    },
+    body: JSON.stringify({
+      query,
+      mode: 'tvet',
+      limit: 10,
+      country_context: activeCountry || 'KE',
+      kcse_grade: grade || undefined,
+      language: activeLang === 'secondary' ?
+        (COUNTRY_CONFIGS[activeCountry]?.languages[1]?.code || 'en') : 'en',
+    })
+  });
+  if(!r.ok) throw new Error('API '+r.status);
+  const d = await r.json();
+  return d.results || [];
+};
+
+
+// ── Override renderTvetResults to show country authority ─
+const _baseRenderTvet = renderTvetResults;
+renderTvetResults = function(query, results){
+  const cfg = COUNTRY_CONFIGS[activeCountry] || COUNTRY_CONFIGS['KE'];
+  const grade = document.getElementById('gradeSelect')?.value;
+  const gl = grade ? ` · ${cfg.gradeLabel}: <strong>${escHtml(grade)}</strong>` : '';
+  document.getElementById('queryEcho').innerHTML =
+    `Skills & Trades for <strong>"${escHtml(query)}"</strong>${gl} <span class="result-count" style="background:rgba(26,107,64,.1);color:#1A6B40">10 options</span>`;
+  const cont = document.getElementById('resultCards');
+  cont.innerHTML = '';
+  results.forEach((r,i) => {
+    const tvetaLabel = r.tveta_approved ? `<span class="badge-tveta">✓ ${cfg.tvetAuthority} Approved</span>` : '';
+    const pathHtml = (r.pathway && r.pathway.length) ?
+      `<div class="pathway-box"><div class="pathway-title">📈 Degree pathway</div><div class="pathway-routes">${r.pathway.map(p=>'→ '+escHtml(p)).join('<br>')}</div></div>` : '';
+    const card = document.createElement('div');
+    card.className = 'result-card';
+    card.style.animationDelay = (i*55)+'ms';
+    card.style.borderLeft = '3px solid #1A6B40';
+    card.innerHTML = `
+      <div class="result-num" style="background:rgba(26,107,64,.12);border-color:rgba(26,107,64,.25);color:#1A6B40">${r.rank}</div>
+      <div class="result-body">
+        <div class="result-institution">${r.flag} ${escHtml(r.institution)}</div>
+        <div class="result-course">${escHtml(r.course)}</div>
+        <div class="result-meta">
+          <span class="meta-tag tag-country">${escHtml(r.country)}</span>
+          <span class="meta-tag tag-fee">${escHtml(r.fees)}</span>
+          <span class="meta-tag tag-dur">⏱ ${escHtml(r.duration)}</span>
+          <span class="meta-tag" style="background:rgba(26,107,64,.1);color:#1A6B40">${escHtml(r.level)}</span>
+        </div>
+        <div class="tvet-badges">
+          ${tvetaLabel}
+          <span class="badge-kcse">Min: ${escHtml(r.min_kcse||'Open entry')}</span>
+        </div>
+        ${pathHtml}
+        <div class="result-ai">${escHtml(r.match_reason)}</div>
+      </div>
+      <div style="flex-shrink:0">
+        <a href="${escHtml(r.apply_url)}" target="_blank"
+           style="display:inline-block;padding:7px 14px;background:#1A6B40;color:white;border-radius:var(--r-full);font-size:.72rem;font-weight:600;font-family:var(--sans);text-decoration:none;white-space:nowrap">Apply →</a>
+      </div>`;
+    cont.appendChild(card);
+  });
+};
+
+// ── Language toggle ────────────────────────────────────
+function setLang(which){
+  activeLang = which;
+  const lp = document.getElementById('langPrimary');
+  const ls = document.getElementById('langSecondary');
+  if(lp) lp.classList.toggle('active', which==='primary');
+  if(ls) ls.classList.toggle('active', which==='secondary');
+  const cfg = COUNTRY_CONFIGS[activeCountry];
+  if(!cfg) return;
+  const lang = cfg.languages.find(l=>l.code===which);
+  if(!lang) return;
+  // Note to Claude — next search will use this language preference
+  console.log('[Elimux] Language set to:', lang.name);
+  // Show brief toast
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--navy);color:white;padding:10px 20px;border-radius:var(--r-full);font-size:.8rem;font-weight:600;font-family:var(--sans);z-index:9999;animation:fadeInUp .3s ease';
+  toast.textContent = `Language: ${lang.name} — next search will respond in ${lang.name}`;
+  document.body.appendChild(toast);
+  setTimeout(()=>toast.remove(), 3000);
+}
+
+// ── Country panel ──────────────────────────────────────
+function buildCountryList(filter=''){
+  const list = document.getElementById('cpList');
+  if(!list) return;
+  const f = filter.toLowerCase();
+  const filtered = ALL_COUNTRIES.filter(c => !f || c.name.toLowerCase().includes(f) || c.region.toLowerCase().includes(f));
+  const regions = [...new Set(filtered.map(c=>c.region))];
+  list.innerHTML = regions.map(region=>{
+    const countries = filtered.filter(c=>c.region===region);
+    return `<div class="cp-region">${region}</div>`
+      + countries.map(c=>`
+        <div class="cp-country-item${c.code===activeCountry?' selected':''}" data-code="${c.code}"
+             onclick="${c.soon ? '' : `selectCountry('${c.code}')`}"
+             style="${c.soon ? 'opacity:.45;cursor:default' : ''}">
+          <div class="cp-flag">${c.flag}</div>
+          <div class="cp-info">
+            <div class="cp-country-name">${c.name}${c.soon?'<span style="font-size:.6rem;color:var(--t3);margin-left:6px;font-family:var(--mono)">COMING SOON</span>':''}</div>
+            <div class="cp-country-detail">${c.detail}</div>
+          </div>
+          <div class="cp-check" style="display:${c.code===activeCountry?'block':'none'}">✓</div>
+        </div>`).join('');
+  }).join('');
+}
+
+function openCountryPanel(){
+  document.getElementById('countryPanel').classList.add('open');
+  document.getElementById('panelDim').classList.add('visible');
+  buildCountryList();
+  const inp = document.getElementById('cpSearch');
+  if(inp){ inp.value=''; inp.focus(); }
+}
+
+function closeCountryPanel(){
+  document.getElementById('countryPanel').classList.remove('open');
+  document.getElementById('panelDim').classList.remove('visible');
+}
+
+function filterCountries(val){ buildCountryList(val); }
+
+function selectCountry(code){
+  applyCountry(code);
+  closeCountryPanel();
+  // Show brief confirmation toast
+  const cfg = COUNTRY_CONFIGS[code];
+  if(!cfg) return;
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--navy);color:white;padding:12px 24px;border-radius:var(--r-full);font-size:.82rem;font-weight:600;font-family:var(--sans);z-index:9999;display:flex;align-items:center;gap:8px;white-space:nowrap';
+  toast.innerHTML = `${cfg.flag} <strong>${cfg.name}</strong> selected &middot; ${cfg.qualification} &middot; ${cfg.currency}`;
+  document.body.appendChild(toast);
+  setTimeout(()=>toast.remove(), 3000);
+}
+
+// ── Auto-detect country from browser ──────────────────
+function detectCountry(){
+  // 1. Check session storage
+  try{
+    const saved = sessionStorage.getItem('elimux_country');
+    if(saved && COUNTRY_CONFIGS[saved]) return saved;
+  }catch(e){}
+  // 2. Try timezone heuristic
+  try{
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if(tz.includes('Nairobi')||tz.includes('Africa/Nairobi')) return 'KE';
+    if(tz.includes('Lagos')||tz.includes('Africa/Lagos')) return 'NG';
+    if(tz.includes('Accra')||tz.includes('Africa/Accra')) return 'GH';
+    if(tz.includes('Johannesburg')||tz.includes('Africa/Johannesburg')) return 'ZA';
+    if(tz.includes('Kampala')||tz.includes('Africa/Kampala')) return 'UG';
+    if(tz.includes('Dar_es_Salaam')||tz.includes('Africa/Dar_es_Salaam')) return 'TZ';
+    if(tz.includes('Kigali')||tz.includes('Africa/Kigali')) return 'RW';
+    if(tz.includes('London')||tz.includes('Europe/London')) return 'GB';
+  }catch(e){}
+  return 'KE'; // default
+}
+
+
+window.addEventListener('DOMContentLoaded', ()=>{
+  const ads = document.getElementById('adsSection');
+  const ra  = document.getElementById('resultsArea');
+  if(ads && ra && ra.parentNode) ra.parentNode.insertBefore(ads, ra.nextSibling);
+  buildTicker();
+  buildDots();
+  goSlide(0);
+  renderGrid(GRID_ADS);
+  startHero();
+  gridTimer = setInterval(rotateGrid, GRID_MS);
+  // Apply detected or saved country
+  const detectedCountry = detectCountry();
+  applyCountry(detectedCountry);
+});
+</script>
+
+
+<!-- DIM OVERLAY -->
+<div class="panel-dim" id="panelDim" onclick="closeCountryPanel()"></div>
+
+<!-- COUNTRY PANEL -->
+<div class="country-panel" id="countryPanel">
+  <div class="cp-header" style="position:relative">
+    <div class="cp-title">🌍 Select your country</div>
+    <div class="cp-sub">Localises qualifications, grades, language & finance</div>
+    <button class="cp-close" onclick="closeCountryPanel()" aria-label="Close">×</button>
+  </div>
+  <div class="cp-search">
+    <input type="text" placeholder="Search country…" oninput="filterCountries(this.value)" id="cpSearch">
+  </div>
+  <div class="cp-list" id="cpList"></div>
+</div>
+
+
+  
+
+
+  
+  
+
+  <script>
+  // ── Service Worker Registration ─────────────────────────────
+  // Registers on any valid HTTPS origin that has /sw.js deployed.
+  // Silently skips on claude.ai preview — zero console warning.
+  (function(){
+    if (!('serviceWorker' in navigator)) return;
+    var loc  = location;
+    var proto = loc.protocol;
+    var host  = loc.hostname;
+    // Only register on real http/https origins (not blob: data: etc.)
+    if (proto !== 'http:' && proto !== 'https:') return;
+    // Skip claude.ai preview — sw.js not deployed there
+    if (host.indexOf('claudeusercontent') !== -1) return;
+    if (host.indexOf('claude.ai') !== -1) return;
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        .then(function(reg) {
+          console.log('[Elimux SW] Registered:', reg.scope);
+          setInterval(function(){ reg.update(); }, 1800000);
+        })
+        .catch(function(err) {
+          console.warn('[Elimux SW] Failed:', err.message);
+        });
+    });
+  }());
+
+  // ── PWA Install Banner ────────────────────────────────────────
+  var _deferredPrompt = null;
+  window.addEventListener('beforeinstallprompt', function(e) {
+    e.preventDefault();
+    _deferredPrompt = e;
+    var dismissed = localStorage.getItem('pwa-dismissed');
+    if (dismissed && Date.now() < parseInt(dismissed)) return;
+    setTimeout(showInstallBanner, 30000);
+  });
+  function showInstallBanner() {
+    if (!_deferredPrompt || document.getElementById('pwa-banner')) return;
+    var b = document.createElement('div');
+    b.id = 'pwa-banner';
+    b.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#0D1F3C;color:white;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;z-index:9998;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,.3);font-family:DM Sans,system-ui,sans-serif';
+    b.innerHTML = '<div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.4rem">📲</span><div><div style="font-weight:600;font-size:.88rem">Install Elimux</div><div style="font-size:.75rem;opacity:.6">Add to home screen for instant access</div></div></div><div style="display:flex;gap:8px;flex-shrink:0"><button onclick="dismissInstall()" style="padding:7px 14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;color:white;cursor:pointer;font-size:.8rem">Not now</button><button onclick="installPWA()" style="padding:7px 16px;background:#C8973A;border:none;border-radius:8px;color:#0D1F3C;cursor:pointer;font-size:.8rem;font-weight:700">Install</button></div>';
+    document.body.appendChild(b);
+  }
+  function installPWA() {
+    if (!_deferredPrompt) return;
+    _deferredPrompt.prompt();
+    _deferredPrompt.userChoice.then(function(c) {
+      if (c.outcome === 'accepted') console.log('[Elimux PWA] Installed');
+      _deferredPrompt = null;
+      var b = document.getElementById('pwa-banner');
+      if (b) b.remove();
+    });
+  }
+  function dismissInstall() {
+    var b = document.getElementById('pwa-banner');
+    if (b) b.remove();
+    localStorage.setItem('pwa-dismissed', Date.now() + 604800000);
+  }
+  // ── Online/offline indicator ──────────────────────────────────
+  function updateOnlineStatus() {
+    var d = document.getElementById('online-indicator');
+    if (!d) return;
+    d.style.background = navigator.onLine ? '#22C55E' : '#EF4444';
+    d.title = navigator.onLine ? 'Online' : 'Offline';
+  }
+  window.addEventListener('online',  updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+  document.addEventListener('DOMContentLoaded', updateOnlineStatus);
+  </script>
+<script>
+
+/* ═══════════════════════════════════════════════════
+   ELIMUX SHARED FIXES v2.1
+   Applied: A11y · UX · Security · Offline · Anti-double-submit
+   ═══════════════════════════════════════════════════ */
+
+// [FIX A-03] Aria-live announcer for screen readers
+(function setupAnnouncer(){
+  if(document.getElementById('sk-announcer')) return;
+  const a = document.createElement('div');
+  a.id='sk-announcer';a.setAttribute('aria-live','polite');a.setAttribute('aria-atomic','true');
+  a.style.cssText='position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden';
+  document.body.prepend(a);
+})();
+function announce(msg){ const el=document.getElementById('sk-announcer'); if(el) el.textContent=msg; }
+
+// [FIX U-04] 401 → redirect to login
+const _origFetch = window.fetch;
+window.fetch = async function(...args){
+  try {
+    const res = await _origFetch(...args);
+    if(res.status === 401){
+      const url = args[0]?.toString() || '';
+      // Don't redirect if this IS the auth call
+      if(!url.includes('/auth') && !url.includes('/login')){
+        sessionStorage.removeItem('elimux_token');
+        sessionStorage.removeItem('elimux_domain_token');
+        const currentPage = window.location.pathname.split('/').pop();
+        window.location.href = '/?session_expired=1&from='+encodeURIComponent(currentPage);
+        return res;
+      }
+    }
+    return res;
+  } catch(err) {
+    // [FIX U-06] Network error → check if offline
+    if(!navigator.onLine) showOfflineBanner();
+    throw err;
+  }
+};
+
+// [FIX U-06] Offline detection
+function showOfflineBanner(){
+  if(document.getElementById('sk-offline')) return;
+  const b = document.createElement('div');
+  b.id='sk-offline';
+  b.innerHTML='📡 <strong>You appear to be offline.</strong> Check your connection. Some features may not work.';
+  b.style.cssText='position:fixed;top:0;left:0;right:0;z-index:9999;background:#F59E0B;color:#1C1917;padding:10px 16px;font-size:.82rem;text-align:center;font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;gap:8px';
+  const close = document.createElement('button');
+  close.textContent='×';
+  close.setAttribute('aria-label','Close offline notice');
+  close.style.cssText='background:none;border:none;font-size:1.1rem;cursor:pointer;margin-left:8px';
+  close.onclick=()=>b.remove();
+  b.appendChild(close);
+  document.body.prepend(b);
+}
+function hideOfflineBanner(){ document.getElementById('sk-offline')?.remove(); }
+window.addEventListener('offline', showOfflineBanner);
+window.addEventListener('online',  hideOfflineBanner);
+if(!navigator.onLine) showOfflineBanner();
+
+// [FIX U-05] Double-submit protection
+function protectButton(btn, asyncFn){
+  return async function(e){
+    if(btn.disabled) return;
+    const orig = btn.textContent;
+    btn.disabled=true; btn.style.opacity='.6';
+    btn.textContent='Working…';
+    try { await asyncFn(e); }
+    finally { btn.disabled=false; btn.style.opacity='1'; btn.textContent=orig; }
+  };
+}
+// Auto-protect all submit-type buttons on DOM ready
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('button[onclick*="submit"],button[type="submit"]').forEach(btn => {
+    if(btn.dataset.protected) return;
+    btn.dataset.protected='1';
+    const origOnclick = btn.onclick;
+    if(origOnclick){
+      btn.onclick = null;
+      btn.addEventListener('click', protectButton(btn, ()=> origOnclick.call(btn)));
+    }
+  });
+});
+
+// [FIX A-02] Focus trap for modals
+function trapFocus(modal){
+  const focusable = modal.querySelectorAll('button,input,select,textarea,a[href],[tabindex]:not([tabindex="-1"])');
+  if(!focusable.length) return;
+  const first = focusable[0], last = focusable[focusable.length-1];
+  modal.addEventListener('keydown', function handler(e){
+    if(e.key !== 'Tab') return;
+    if(e.shiftKey){ if(document.activeElement===first){ e.preventDefault(); last.focus(); } }
+    else           { if(document.activeElement===last)  { e.preventDefault(); first.focus(); } }
+  });
+  // [FIX] Close on Escape
+  modal.addEventListener('keydown', function(e){
+    if(e.key==='Escape') modal.classList.remove('open');
+  });
+  first.focus();
+}
+// Auto-apply trap when modal opens
+const _modalObs = new MutationObserver(mutations => {
+  mutations.forEach(m => {
+    if(m.type==='attributes' && m.attributeName==='class'){
+      const el = m.target;
+      if(el.classList.contains('modal-overlay') && el.classList.contains('open')){
+        const dialog = el.querySelector('[style*="border-radius"]') || el.firstElementChild;
+        if(dialog) trapFocus(dialog);
+      }
+    }
+  });
+});
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.modal-overlay').forEach(m => {
+    _modalObs.observe(m, { attributes:true });
+  });
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Elimux — Examining & Professional Bodies Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+:root{
+  /* Core brand */
+  --navy:#0D1F3C; --gold:#C8973A; --gold2:#E0A840; --blue:#1B4FA0;
+  --tvet:#1A6B40; --red:#E53935; --green:#16A34A; --amber:#F59E0B;
+  /* Examining body accent — deep burgundy/ink to distinguish from university gold */
+  --ink:#1A0A2E; --ink2:#2D1B5A; --violet:#5B21B6; --violet2:#7C3AED;
+  --violet-light:rgba(91,33,182,.12); --violet-border:rgba(91,33,182,.25);
+  /* Surfaces */
+  --bg:#F6F4F0; --white:#FFFFFF; --panel:#FFFFFF;
+  --g1:#F0EDE8; --g2:#E4E0D8; --g3:#C8C2B8;
+  --text:#1A2035; --t2:#5A6070; --t3:#9AA0B0;
+  /* Fonts */
+  --serif:"Libre Baskerville",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"DM Mono",monospace;
+  /* Geometry */
+  --r:10px;--r-lg:18px;--r-xl:24px;--r-full:9999px;
+  --sidebar-w:252px;
+  --shadow:0 2px 14px rgba(13,31,60,.07);
+  --shadow-lg:0 8px 40px rgba(13,31,60,.13);
+}
+html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--text)}
+
+/* ══ LOGIN ══════════════════════════════════════════════════ */
+#loginScreen{
+  position:fixed;inset:0;z-index:9999;
+  background:linear-gradient(145deg,var(--ink) 0%,#12082A 55%,#0D1F3C 100%);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+#loginScreen::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 20%,rgba(91,33,182,.25) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 80%,rgba(200,151,58,.12) 0%,transparent 55%);
+}
+/* Decorative grid */
+#loginScreen::after{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(91,33,182,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(91,33,182,.06) 1px,transparent 1px);
+  background-size:48px 48px;
+}
+.login-wrap{
+  display:flex;width:100%;max-width:920px;min-height:520px;
+  border-radius:28px;overflow:hidden;
+  box-shadow:0 48px 120px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.06);
+  position:relative;z-index:1;margin:20px;
+}
+.login-left{
+  flex:1;min-width:300px;
+  background:linear-gradient(155deg,rgba(91,33,182,.5) 0%,rgba(27,9,54,.8) 100%);
+  backdrop-filter:blur(20px);
+  border-right:1px solid rgba(255,255,255,.08);
+  padding:48px 40px;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.ll-emblem{
+  display:flex;align-items:center;gap:14px;margin-bottom:36px;
+}
+.ll-badge{
+  width:52px;height:52px;border-radius:14px;
+  background:linear-gradient(135deg,var(--violet2),var(--violet));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;box-shadow:0 4px 20px rgba(91,33,182,.4);
+}
+.ll-name{font-family:var(--serif);font-size:1rem;font-weight:700;color:white}
+.ll-sub{font-size:.62rem;font-family:var(--mono);color:rgba(200,151,58,.8);letter-spacing:.1em;text-transform:uppercase}
+.ll-headline{font-family:var(--serif);font-size:1.9rem;font-weight:700;color:white;line-height:1.25;margin-bottom:14px;letter-spacing:-.02em}
+.ll-headline em{color:var(--gold);font-style:normal}
+.ll-desc{font-size:.84rem;color:rgba(255,255,255,.5);line-height:1.75;margin-bottom:28px}
+.ll-features{display:flex;flex-direction:column;gap:10px}
+.ll-feat{display:flex;align-items:flex-start;gap:10px;font-size:.8rem;color:rgba(255,255,255,.65);line-height:1.5}
+.ll-feat-icon{
+  width:30px;height:30px;border-radius:8px;
+  background:rgba(91,33,182,.25);border:1px solid rgba(91,33,182,.4);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;flex-shrink:0;
+}
+.login-right{
+  flex:1;background:var(--white);
+  padding:48px 42px;display:flex;flex-direction:column;justify-content:center;
+}
+.lr-eyebrow{
+  font-size:.62rem;font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--violet2);margin-bottom:10px;display:flex;align-items:center;gap:8px;
+}
+.lr-eyebrow::before{content:'';width:20px;height:1.5px;background:var(--violet2)}
+.lr-title{font-family:var(--serif);font-size:1.35rem;font-weight:700;color:var(--ink);margin-bottom:6px}
+.lr-sub{font-size:.82rem;color:var(--t2);margin-bottom:28px;line-height:1.6}
+.form-label{font-size:.67rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin-bottom:5px;display:block}
+.form-input{
+  width:100%;padding:12px 14px;border:1.5px solid var(--g2);border-radius:var(--r);
+  font-size:.9rem;font-family:var(--sans);outline:none;color:var(--text);
+  transition:border-color .2s,box-shadow .2s;margin-bottom:14px;background:var(--bg);
+}
+.form-input:focus{border-color:var(--violet2);box-shadow:0 0 0 3px rgba(124,58,237,.1);background:white}
+.login-btn{
+  width:100%;padding:13px;
+  background:linear-gradient(135deg,var(--violet2),var(--violet));
+  color:white;border:none;border-radius:var(--r);
+  font-size:.92rem;font-weight:700;font-family:var(--serif);
+  cursor:pointer;transition:all .2s;letter-spacing:-.01em;
+}
+.login-btn:hover{opacity:.92;transform:translateY(-1px);box-shadow:0 6px 20px rgba(91,33,182,.35)}
+.login-divider{text-align:center;font-size:.74rem;color:var(--t3);margin:16px 0;position:relative}
+.login-divider::before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:var(--g2)}
+.login-divider span{background:white;padding:0 10px;position:relative}
+.login-demo-btn{
+  width:100%;padding:11px;background:transparent;
+  color:var(--ink);border:1.5px solid var(--g2);border-radius:var(--r);
+  font-size:.85rem;font-weight:600;font-family:var(--sans);cursor:pointer;transition:all .2s;
+}
+.login-demo-btn:hover{border-color:var(--violet2);background:var(--violet-light)}
+.login-error{font-size:.76rem;color:var(--red);min-height:18px;margin-top:8px}
+.login-footer{font-size:.7rem;color:var(--t3);text-align:center;margin-top:20px}
+.login-footer a{color:var(--violet2);text-decoration:none}
+
+/* ══ APP ════════════════════════════════════════════════════ */
+#app{display:none;height:100vh;overflow:hidden}
+#app.visible{display:flex}
+
+/* ══ SIDEBAR ════════════════════════════════════════════════ */
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;
+  background:var(--ink);
+  display:flex;flex-direction:column;height:100vh;overflow-y:auto;
+}
+.sb-top{padding:20px 18px 14px;border-bottom:1px solid rgba(255,255,255,.07)}
+.sb-logo{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sb-logo-badge{
+  width:34px;height:34px;border-radius:9px;
+  background:linear-gradient(135deg,var(--violet2),var(--violet));
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;
+}
+.sb-logo-text{font-family:var(--serif);font-size:.92rem;font-weight:700;color:white;line-height:1.2}
+.sb-logo-sub{font-size:.58rem;font-family:var(--mono);color:rgba(200,151,58,.7);letter-spacing:.06em}
+.sb-body-info{
+  background:rgba(91,33,182,.15);border:1px solid rgba(91,33,182,.25);
+  border-radius:var(--r);padding:12px 14px;
+}
+.sb-body-name{font-size:.82rem;font-weight:600;color:white;margin-bottom:2px}
+.sb-body-tier{font-size:.62rem;font-family:var(--mono);color:var(--gold);letter-spacing:.06em}
+.sb-section{font-size:.58rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.22);padding:14px 18px 5px}
+.sb-link{
+  display:flex;align-items:center;gap:10px;padding:9px 18px;
+  cursor:pointer;color:rgba(255,255,255,.52);font-size:.82rem;font-weight:500;
+  border:none;background:none;width:100%;text-align:left;transition:all .15s;position:relative;
+}
+.sb-link:hover{color:rgba(255,255,255,.88);background:rgba(255,255,255,.05)}
+.sb-link.active{color:white;background:rgba(91,33,182,.18)}
+.sb-link.active::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:3px;background:var(--violet2);border-radius:0 2px 2px 0}
+.sb-icon{font-size:.95rem;width:20px;text-align:center;flex-shrink:0}
+.sb-badge-pill{margin-left:auto;font-size:.6rem;font-family:var(--mono);padding:2px 7px;border-radius:var(--r-full);font-weight:600;background:rgba(91,33,182,.25);color:#C4B5FD}
+.sb-upgrade{margin:12px 14px;padding:14px;background:rgba(200,151,58,.08);border:1px solid rgba(200,151,58,.2);border-radius:var(--r)}
+.sb-upgrade-label{font-size:.62rem;font-family:var(--mono);color:var(--gold);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.sb-upgrade-text{font-size:.74rem;color:rgba(255,255,255,.5);line-height:1.5;margin-bottom:10px}
+.sb-upgrade-btn{width:100%;padding:8px;background:var(--gold);color:var(--navy);border:none;border-radius:var(--r);font-size:.76rem;font-weight:700;font-family:var(--sans);cursor:pointer;transition:all .2s}
+.sb-upgrade-btn:hover{background:var(--gold2)}
+.sb-footer{margin-top:auto;padding:14px 18px;border-top:1px solid rgba(255,255,255,.07)}
+.sb-user{display:flex;align-items:center;gap:8px}
+.sb-avatar{width:30px;height:30px;border-radius:50%;background:var(--violet2);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:white;flex-shrink:0}
+.sb-user-name{font-size:.78rem;font-weight:600;color:white}
+.sb-user-role{font-size:.62rem;color:rgba(255,255,255,.38)}
+.sb-logout{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.28);cursor:pointer;font-size:.72rem;font-family:var(--mono)}
+.sb-logout:hover{color:var(--gold)}
+
+/* ══ MAIN ════════════════════════════════════════════════════ */
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-width:0}
+.topbar{
+  background:var(--white);border-bottom:1px solid var(--g2);
+  padding:14px 28px;display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;position:sticky;top:0;z-index:10;
+}
+.topbar-title{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--ink)}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.content{padding:24px 28px;flex:1}
+.view{display:none}.view.active{display:block}
+
+/* ══ KPI CARDS ═══════════════════════════════════════════════ */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.kpi{background:var(--white);border:1px solid var(--g2);border-radius:var(--r-lg);padding:18px 20px;position:relative;overflow:hidden;transition:box-shadow .2s}
+.kpi:hover{box-shadow:var(--shadow-lg)}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-violet::before{background:linear-gradient(90deg,var(--violet),var(--violet2))}
+.kpi-gold::before{background:var(--gold)}
+.kpi-green::before{background:var(--green)}
+.kpi-blue::before{background:var(--blue)}
+.kpi-icon{position:absolute;top:14px;right:14px;font-size:1.5rem;opacity:.13}
+.kpi-label{font-size:.66rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+.kpi-value{font-family:var(--serif);font-size:1.9rem;font-weight:700;color:var(--ink);line-height:1;margin-bottom:4px}
+.kpi-delta{font-size:.73rem;color:var(--t2)}
+
+/* ══ CARDS ═══════════════════════════════════════════════════ */
+.card{background:var(--white);border:1px solid var(--g2);border-radius:var(--r-lg);overflow:hidden;margin-bottom:16px}
+.card-header{padding:15px 18px;border-bottom:1px solid var(--g1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.card-title{font-family:var(--serif);font-size:.92rem;font-weight:700;color:var(--ink)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card-body{padding:18px}
+
+/* ══ BUTTONS ═════════════════════════════════════════════════ */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--r);font-size:.8rem;font-weight:600;font-family:var(--sans);cursor:pointer;border:none;transition:all .18s;white-space:nowrap;text-decoration:none}
+.btn-violet{background:linear-gradient(135deg,var(--violet2),var(--violet));color:white}.btn-violet:hover{opacity:.9;transform:translateY(-1px)}
+.btn-gold{background:var(--gold);color:var(--navy)}.btn-gold:hover{background:var(--gold2)}
+.btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--g2)}.btn-outline:hover{border-color:var(--violet2);background:var(--violet-light)}
+.btn-green{background:var(--green);color:white}.btn-green:hover{background:#15803D}
+.btn-sm{padding:6px 12px;font-size:.76rem}
+.btn-xs{padding:4px 9px;font-size:.7rem}
+
+/* ══ PILLS ═══════════════════════════════════════════════════ */
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:.64rem;font-family:var(--mono);padding:3px 9px;border-radius:var(--r-full);font-weight:600;white-space:nowrap}
+.pill-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.p-active{background:rgba(22,163,74,.1);color:#15803D;border:1px solid rgba(22,163,74,.2)}
+.p-pending{background:rgba(245,158,11,.1);color:#92400E;border:1px solid rgba(245,158,11,.2)}
+.p-verified{background:var(--violet-light);color:var(--violet2);border:1px solid var(--violet-border)}
+.p-draft{background:var(--g1);color:var(--t2);border:1px solid var(--g2)}
+
+/* ══ TABLES ══════════════════════════════════════════════════ */
+.tbl{width:100%;border-collapse:collapse;font-size:.82rem}
+.tbl th{font-size:.63rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);padding:0 14px 10px;text-align:left;border-bottom:1px solid var(--g2)}
+.tbl td{padding:12px 14px;border-bottom:1px solid var(--g1);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--g1)}
+
+/* ══ FORMS ═══════════════════════════════════════════════════ */
+.form-group{margin-bottom:14px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-label{font-size:.67rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin-bottom:5px;display:block}
+.form-input-lg{width:100%;padding:10px 13px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.85rem;font-family:var(--sans);outline:none;color:var(--text);transition:border-color .2s;background:white}
+.form-input-lg:focus{border-color:var(--violet2)}
+.form-select{width:100%;padding:10px 13px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.85rem;font-family:var(--sans);outline:none;color:var(--text);background:white}
+.form-textarea{width:100%;padding:10px 13px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.85rem;font-family:var(--sans);outline:none;color:var(--text);resize:vertical;min-height:80px}
+
+/* ══ ANALYTICS BAR ════════════════════════════════════════════ */
+.analytic-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.analytic-label{font-size:.76rem;color:var(--t2);min-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.analytic-bar-wrap{flex:1;background:var(--g1);border-radius:var(--r-full);height:8px;overflow:hidden}
+.analytic-bar{height:100%;border-radius:var(--r-full);background:var(--violet2)}
+.analytic-val{font-size:.72rem;font-family:var(--mono);color:var(--t3);min-width:42px;text-align:right}
+
+/* ══ QUALIFICATION CARD ═══════════════════════════════════════ */
+.qual-card{border:1px solid var(--g2);border-radius:var(--r-lg);padding:16px;margin-bottom:10px;background:var(--white);transition:box-shadow .2s}
+.qual-card:hover{box-shadow:var(--shadow)}
+.qual-card.featured{border-color:var(--violet-border);background:rgba(91,33,182,.03)}
+.qc-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.qc-badge{
+  width:44px;height:44px;border-radius:10px;
+  background:linear-gradient(135deg,var(--violet2),var(--violet));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:.7rem;font-weight:700;color:white;
+  flex-shrink:0;letter-spacing:.04em;
+}
+.qc-name{font-family:var(--serif);font-size:.92rem;font-weight:700;color:var(--ink);margin-bottom:2px}
+.qc-full{font-size:.74rem;color:var(--t2)}
+.qc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.qc-tag{font-size:.64rem;font-family:var(--mono);padding:3px 8px;border-radius:5px}
+.qt-level{background:var(--violet-light);color:var(--violet2);border:1px solid var(--violet-border)}
+.qt-entry{background:rgba(200,151,58,.1);color:#92400E;border:1px solid rgba(200,151,58,.2)}
+.qt-duration{background:var(--g1);color:var(--t2);border:1px solid var(--g2)}
+.qt-exemption{background:rgba(22,163,74,.08);color:#166534;border:1px solid rgba(22,163,74,.15)}
+.qc-pathway{background:var(--g1);border-radius:var(--r);padding:10px 12px;margin-bottom:10px;border-left:3px solid var(--violet2)}
+.qc-path-label{font-size:.6rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--violet2);margin-bottom:4px}
+.qc-path-val{font-size:.78rem;color:var(--t2);line-height:1.5}
+.qc-footer{display:flex;align-items:center;justify-content:space-between}
+
+/* ══ CAMPAIGN CARD ════════════════════════════════════════════ */
+.campaign{border:1px solid var(--g2);border-radius:var(--r-lg);overflow:hidden;margin-bottom:12px}
+.camp-header{padding:14px 16px;background:var(--ink);display:flex;align-items:center;justify-content:space-between}
+.camp-title{font-family:var(--serif);font-size:.9rem;font-weight:700;color:white}
+.camp-body{padding:16px}
+.camp-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.cm{background:var(--g1);border-radius:var(--r);padding:10px;text-align:center}
+.cm-val{font-family:var(--serif);font-size:1.2rem;font-weight:700;color:var(--ink)}
+.cm-label{font-size:.6rem;font-family:var(--mono);color:var(--t3);letter-spacing:.05em;text-transform:uppercase;margin-top:2px}
+
+/* ══ MODAL ════════════════════════════════════════════════════ */
+.modal-overlay{position:fixed;inset:0;background:rgba(13,31,60,.55);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--white);border-radius:var(--r-lg);width:100%;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.modal-head{background:var(--ink);padding:18px 22px;display:flex;align-items:flex-start;justify-content:space-between;border-radius:var(--r-lg) var(--r-lg) 0 0}
+.modal-title{font-family:var(--serif);font-size:1rem;font-weight:700;color:white;margin-bottom:3px}
+.modal-sub{font-size:.73rem;color:rgba(255,255,255,.45)}
+.modal-close{background:rgba(255,255,255,.1);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:12px}
+.modal-body{padding:20px 22px}
+.modal-footer{padding:14px 22px;border-top:1px solid var(--g1);display:flex;justify-content:flex-end;gap:8px}
+
+/* ══ BILLING ══════════════════════════════════════════════════ */
+.plan-card{border-radius:var(--r-lg);padding:22px;position:relative}
+.plan-recommended{border:2.5px solid var(--violet2);background:rgba(91,33,182,.03)}
+.plan-basic{border:1.5px solid var(--g2)}
+.plan-featured{border:1.5px solid var(--ink);background:rgba(13,31,60,.02)}
+.plan-tag{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--violet2);color:white;font-size:.6rem;font-weight:700;padding:3px 12px;border-radius:var(--r-full);white-space:nowrap}
+
+/* ══ GLOBAL NAV ═══════════════════════════════════════════════ */
+.platform-nav{background:rgba(26,10,46,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(91,33,182,.2);padding:0 24px;display:flex;align-items:center;height:50px;position:sticky;top:0;z-index:200;gap:0}
+.pn-logo{font-family:var(--serif);font-size:.9rem;font-weight:700;color:white;text-decoration:none;margin-right:24px;white-space:nowrap}
+.pn-logo span{color:var(--gold)}
+.pn-links{display:flex;align-items:center;gap:2px;overflow-x:auto;scrollbar-width:none}
+.pn-link{padding:5px 11px;font-size:.77rem;color:rgba(255,255,255,.5);text-decoration:none;border-radius:6px;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:5px}
+.pn-link:hover{color:white;background:rgba(255,255,255,.08)}
+.pn-link.pn-active{color:white;background:rgba(91,33,182,.25);border:1px solid rgba(91,33,182,.35)}
+.pn-right{display:flex;align-items:center;gap:8px;margin-left:auto}
+.pn-back{padding:5px 12px;font-size:.75rem;color:rgba(255,255,255,.5);background:transparent;border:1px solid rgba(255,255,255,.12);border-radius:6px;cursor:pointer;transition:all .15s;text-decoration:none;font-family:var(--sans)}
+.pn-back:hover{color:white;border-color:rgba(255,255,255,.3)}
+.online-dot{width:7px;height:7px;border-radius:50%;background:#22C55E}
+
+/* ══ RESPONSIVE ═══════════════════════════════════════════════ */
+@media(max-width:900px){.kpi-grid{grid-template-columns:1fr 1fr}.two-col{grid-template-columns:1fr}}
+@media(max-width:640px){.sidebar{display:none}.kpi-grid{grid-template-columns:1fr 1fr}.content{padding:16px}}
+
+/* [FIX U-01] Loading states */
+.sk-loading{display:flex;align-items:center;justify-content:center;padding:40px;gap:10px;color:var(--t2,#6B7280);font-size:.85rem}
+.sk-loading::before{content:'';width:18px;height:18px;border:2px solid var(--g2,#E5E7EB);border-top-color:var(--navy,#0D1F3C);border-radius:50%;animation:sk-spin .7s linear infinite;flex-shrink:0}
+@keyframes sk-spin{to{transform:rotate(360deg)}}
+.sk-error{padding:16px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:8px;color:#DC2626;font-size:.82rem;display:flex;align-items:center;gap:8px}
+.sk-empty{padding:32px;text-align:center;color:var(--t3,#9CA3AF);font-size:.85rem}
+.sk-empty::before{content:'📋';display:block;font-size:1.5rem;margin-bottom:8px}
+</style>
+</head>
+<body>
+<a href="#main-content" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;background:var(--navy,#0D1F3C);color:white;padding:8px 16px;border-radius:4px;font-family:system-ui;font-size:.85rem;font-weight:600;z-index:10000;text-decoration:none" onfocus="this.style.cssText='position:fixed;left:10px;top:10px;width:auto;height:auto;overflow:visible;background:#0D1F3C;color:white;padding:8px 16px;border-radius:4px;font-family:system-ui;font-size:.85rem;font-weight:600;z-index:10000;text-decoration:none'" onblur="this.style.cssText='position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden'">Skip to content</a>
+
+<!-- ════════════════ LOGIN ════════════════ -->
+<div id="loginScreen">
+  <div class="login-wrap">
+    <div class="login-left">
+      <div>
+        <div class="ll-emblem">
+          <div class="ll-badge">🏛️</div>
+          <div>
+            <div class="ll-name">Elimux</div>
+            <div class="ll-sub">Examining Bodies Portal</div>
+          </div>
+        </div>
+        <div class="ll-headline">Shape how <em>Africa</em><br>chooses courses.</div>
+        <div class="ll-desc">Your qualifications are the gateway. Bring them onto Elimux — reach a growing directory of institutions and the students making decisions right now.</div>
+      </div>
+      <div class="ll-features">
+        <div class="ll-feat"><div class="ll-feat-icon">📋</div>List all your qualifications with official entry requirements — become the source of truth</div>
+        <div class="ll-feat"><div class="ll-feat-icon">🔗</div>Link your qualifications to university degree exemptions and pathways</div>
+        <div class="ll-feat"><div class="ll-feat-icon">📊</div>See which students are searching for your qualifications — by country and grade</div>
+        <div class="ll-feat"><div class="ll-feat-icon">📢</div>Run targeted ads to students searching for related courses</div>
+      </div>
+    </div>
+    <div class="login-right">
+      <div class="lr-eyebrow">Examining Body Access</div>
+      <div class="lr-title">Sign in to your portal</div>
+      <div class="lr-sub">Enter your organisation credentials to access your dashboard</div>
+      <label class="form-label">Organisation email</label>
+      <input class="form-input" type="email" id="loginEmail" placeholder="portal@kasneb.or.ke">
+      <label class="form-label">Password</label>
+      <input class="form-input" type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+      <button class="login-btn" onclick="doLogin()">Sign in →</button>
+    <a href="/" style="display:inline-flex;align-items:center;gap:6px;margin-top:18px;color:#C8973A;text-decoration:none;font-size:.85rem;font-weight:600;opacity:.85">← Back to Elimux Home</a>
+      <div class="login-error" id="loginError"></div>
+      <div class="login-divider"><span>or</span></div>
+      <button class="login-demo-btn" onclick="loadDemo()">Load demo — KASNEB</button>
+      <div class="login-footer">Not registered? <a href="#">Request portal access →</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ APP ════════════════ -->
+<div id="app">
+
+  <!-- Global nav -->
+  <nav class="platform-nav">
+    <a href="/" class="pn-logo">Elimux <span>·</span></a>
+    <div class="pn-links">
+      <a href="/" class="pn-link">🔍 Ask AI</a>
+      <a href="/university" class="pn-link">🎓 University Portal</a>
+      <a href="/examining" class="pn-link pn-active">🏛️ Examining Bodies</a>
+      <a href="/payments" class="pn-link">💳 Payments</a>
+      <a href="/admin" class="pn-link">📊 Admin</a>
+    </div>
+    <div class="pn-right">
+      <div class="online-dot" id="online-indicator" title="Online"></div>
+      <a href="/" class="pn-back">← Back to Search</a>
+    </div>
+  </nav>
+
+  <div style="display:flex;height:calc(100vh - 50px)">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-top">
+      <div class="sb-logo">
+        <div class="sb-logo-badge">🏛️</div>
+        <div>
+          <div class="sb-logo-text">Elimux</div>
+          <div class="sb-logo-sub">Examining Portal</div>
+        </div>
+      </div>
+      <div class="sb-body-info">
+        <div class="sb-body-name" id="sbBodyName">KASNEB</div>
+        <div class="sb-body-tier" id="sbBodyTier">✓ Verified Examining Body</div>
+      </div>
+    </div>
+
+    <div class="sb-section">Overview</div>
+    <button class="sb-link active" onclick="nav('dashboard',this)"><span class="sb-icon">📊</span>Dashboard</button>
+    <button class="sb-link" onclick="nav('interest',this)"><span class="sb-icon">👁</span>Student Interest<span class="sb-badge-pill" id="interestBadge">2,841</span></button>
+
+    <div class="sb-section">Qualifications</div>
+    <button class="sb-link" onclick="nav('qualifications',this)"><span class="sb-icon">📋</span>Qualifications</button>
+    <button class="sb-link" onclick="nav('requirements',this)"><span class="sb-icon">✅</span>Entry Requirements</button>
+    <button class="sb-link" onclick="nav('exemptions',this)"><span class="sb-icon">🔗</span>University Exemptions</button>
+    <button class="sb-link" onclick="nav('pathways',this)"><span class="sb-icon">📈</span>Career Pathways</button>
+
+    <div class="sb-section">Marketing</div>
+    <button class="sb-link" onclick="nav('campaigns',this)"><span class="sb-icon">📢</span>Ad Campaigns</button>
+    <button class="sb-link" onclick="nav('analytics',this)"><span class="sb-icon">📈</span>Analytics</button>
+
+    <div class="sb-section">Account</div>
+    <button class="sb-link" onclick="nav('profile',this)"><span class="sb-icon">🏛️</span>Body Profile</button>
+    <button class="sb-link" onclick="nav('billing',this)"><span class="sb-icon">💳</span>Billing &amp; Plan</button>
+    <button class="sb-link" onclick="nav('settings',this)"><span class="sb-icon">⚙️</span>Settings</button>
+
+    <div class="sb-upgrade" id="sbUpgrade">
+      <div class="sb-upgrade-label">Free Plan</div>
+      <div class="sb-upgrade-text">Upgrade to Verified to unlock student analytics and ad campaigns.</div>
+      <button class="sb-upgrade-btn" onclick="nav('billing',document.querySelector('[onclick*=billing]'))">Upgrade →</button>
+    </div>
+
+    <div class="sb-footer">
+      <div class="sb-user">
+        <div class="sb-avatar" id="sbAvatar">KA</div>
+        <div>
+          <div class="sb-user-name" id="sbUserName">Admin Portal</div>
+          <div class="sb-user-role">Registrar</div>
+        </div>
+        <button class="sb-logout" onclick="doLogout()">Out</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main" id="main-content">
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      <div class="topbar-right">
+        <span style="font-size:.74rem;font-family:var(--mono);color:var(--t3)" id="topbarDate"></span>
+        <a href="/" class="btn btn-outline btn-sm">View Elimux →</a>
+      </div>
+    </div>
+    <div class="content">
+
+    <!-- ══════════ DASHBOARD ══════════ -->
+    <div class="view active" id="view-dashboard">
+      <div class="kpi-grid">
+        <div class="kpi kpi-violet"><div class="kpi-icon">👁</div><div class="kpi-label">Student Views This Month</div><div class="kpi-value" id="kpiViews">2,841</div><div class="kpi-delta">↑ 22% vs last month</div></div>
+        <div class="kpi kpi-gold"><div class="kpi-icon">🔍</div><div class="kpi-label">Searches Matched</div><div class="kpi-value">7,340</div><div class="kpi-delta">↑ 18% vs last month</div></div>
+        <div class="kpi kpi-green"><div class="kpi-icon">📋</div><div class="kpi-label">Qualifications Listed</div><div class="kpi-value" id="kpiQuals">7</div><div class="kpi-delta">Source of truth on Elimux</div></div>
+        <div class="kpi kpi-blue"><div class="kpi-icon">🔗</div><div class="kpi-label">University Links</div><div class="kpi-value">23</div><div class="kpi-delta">Institutions recognising your quals</div></div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><span class="card-title">🌍 Student Interest by Country</span></div>
+          <div class="card-body" id="dashCountry"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">📋 Top Searched Qualifications</span></div>
+          <div class="card-body" id="dashQuals"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span class="card-title">⚡ Quick Actions</span></div>
+        <div class="card-body" style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-violet" onclick="openQualModal()">+ Add qualification</button>
+          <button class="btn btn-gold" onclick="nav('campaigns',document.querySelector('[onclick*=campaigns]'))">Launch ad campaign</button>
+          <button class="btn btn-outline" onclick="nav('exemptions',document.querySelector('[onclick*=exemptions]'))">Add university exemption</button>
+          <button class="btn btn-outline" onclick="nav('profile',document.querySelector('[onclick*=profile]'))">Update profile</button>
+        </div>
+      </div>
+
+      <!-- Recent activity -->
+      <div class="card">
+        <div class="card-header"><span class="card-title">📬 Recent Activity</span></div>
+        <div class="card-body" style="padding:0">
+          <table class="tbl">
+            <thead><tr><th>Event</th><th>Detail</th><th>Country</th><th>Time</th></tr></thead>
+            <tbody>
+              <tr><td>🔍 Search match</td><td>Student searched "CPA qualification Kenya requirements"</td><td>🇰🇪 Kenya</td><td>3 min ago</td></tr>
+              <tr><td>👁 Profile view</td><td>Student viewed CIFA qualification entry requirements</td><td>🇳🇬 Nigeria</td><td>12 min ago</td></tr>
+              <tr><td>🔗 Exemption viewed</td><td>Strathmore University CPA exemption page visited</td><td>🇰🇪 Kenya</td><td>28 min ago</td></tr>
+              <tr><td>🔍 Search match</td><td>"accounting qualification D+ Kenya"</td><td>🇬🇭 Ghana</td><td>45 min ago</td></tr>
+              <tr><td>📋 Qual viewed</td><td>ATD — Accounting Technician Diploma requirements</td><td>🇺🇬 Uganda</td><td>1 hr ago</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ QUALIFICATIONS ══════════ -->
+    <div class="view" id="view-qualifications">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+        <div>
+          <div style="font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink)">Qualifications</div>
+          <div style="font-size:.78rem;color:var(--t2)">Your official qualifications listed as the <strong>source of truth</strong> on Elimux AI search</div>
+        </div>
+        <button class="btn btn-violet" onclick="openQualModal()">+ Add qualification</button>
+      </div>
+      <div id="qualList"></div>
+    </div>
+
+    <!-- ══════════ ENTRY REQUIREMENTS ══════════ -->
+    <div class="view" id="view-requirements">
+      <div style="margin-bottom:16px">
+        <div style="font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink)">Entry Requirements</div>
+        <div style="font-size:.78rem;color:var(--t2)">Official entry requirements that feed directly into Elimux AI search results — your data shapes what students are told</div>
+      </div>
+
+      <!-- Requirements matrix -->
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-header">
+          <span class="card-title">📋 Requirements Matrix — KASNEB</span>
+          <button class="btn btn-xs btn-outline" onclick="openReqModal()">+ Add requirement</button>
+        </div>
+        <div class="card-body" style="padding:0">
+          <table class="tbl">
+            <thead><tr><th>Qualification</th><th>Min Entry Grade</th><th>Subject Requirements</th><th>Age Limit</th><th>Additional</th><th>Last Updated</th><th></th></tr></thead>
+            <tbody id="reqTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="background:rgba(91,33,182,.06);border:1px solid var(--violet-border);border-radius:var(--r-lg);padding:16px;display:flex;gap:12px">
+        <span style="font-size:1.2rem;flex-shrink:0">ℹ️</span>
+        <div>
+          <div style="font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:4px">How requirements are used in Elimux AI</div>
+          <div style="font-size:.78rem;color:var(--t2);line-height:1.65">When a student types "I got C- in KCSE and want to study accounting", the AI reads your official entry requirements and tells them exactly which KASNEB qualifications they qualify for — before suggesting universities. Your requirements override generic AI assumptions and become the authoritative answer.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ UNIVERSITY EXEMPTIONS ══════════ -->
+    <div class="view" id="view-exemptions">
+      <div style="margin-bottom:16px">
+        <div style="font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink)">University Exemptions</div>
+        <div style="font-size:.78rem;color:var(--t2)">Universities that grant degree exemptions or credits to holders of your qualifications</div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">🔗 Current Exemption Agreements</span><button class="btn btn-xs btn-violet" onclick="openExemptModal()">+ Add exemption</button></div>
+        <div class="card-body" style="padding:0">
+          <table class="tbl">
+            <thead><tr><th>University</th><th>Qualification</th><th>Exemption</th><th>Level</th><th>Country</th><th>Status</th><th></th></tr></thead>
+            <tbody id="exemptTable"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">📬 Exemption Requests from Universities</span></div>
+        <div class="card-body" style="padding:0">
+          <table class="tbl">
+            <thead><tr><th>University</th><th>Qualification</th><th>Proposed Exemption</th><th>Submitted</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Strathmore University</strong></td><td>CPA (K)</td><td>B.Com (Accounting) — Year 2 entry</td><td>3 days ago</td><td><button class="btn btn-xs btn-green" onclick="showToast('✅ Exemption approved')">Approve</button> <button class="btn btn-xs btn-outline">Review</button></td></tr>
+              <tr><td><strong>KCA University</strong></td><td>ATD</td><td>Bachelor of Commerce — 4 units exemption</td><td>1 week ago</td><td><button class="btn btn-xs btn-green" onclick="showToast('✅ Exemption approved')">Approve</button> <button class="btn btn-xs btn-outline">Review</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ CAREER PATHWAYS ══════════ -->
+    <div class="view" id="view-pathways">
+      <div style="margin-bottom:16px">
+        <div style="font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink)">Career Pathways</div>
+        <div style="font-size:.78rem;color:var(--t2)">Show students where your qualifications lead — employers, sectors, salary ranges, and further study options</div>
+      </div>
+      <div id="pathwayList"></div>
+    </div>
+
+    <!-- ══════════ AD CAMPAIGNS ══════════ -->
+    <div class="view" id="view-campaigns">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+        <div>
+          <div style="font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink)">Ad Campaigns</div>
+          <div style="font-size:.78rem;color:var(--t2)">Reach students actively searching for accounting, finance and professional qualifications</div>
+        </div>
+        <button class="btn btn-violet" onclick="openCampModal()">+ New campaign</button>
+      </div>
+
+      <!-- Active campaign -->
+      <div class="campaign">
+        <div class="camp-header">
+          <div><div class="camp-title">Context Ad — "Accounting / Finance" searches</div><div style="font-size:.7rem;color:rgba(255,255,255,.45)">Appears after result #5 when students search accounting courses</div></div>
+          <span class="pill p-active"><span class="pill-dot"></span>Active</span>
+        </div>
+        <div class="camp-body">
+          <div class="camp-metrics">
+            <div class="cm"><div class="cm-val">8,420</div><div class="cm-label">Impressions</div></div>
+            <div class="cm"><div class="cm-val">612</div><div class="cm-label">Clicks</div></div>
+            <div class="cm"><div class="cm-val">7.3%</div><div class="cm-label">CTR</div></div>
+            <div class="cm"><div class="cm-val">KES 35k</div><div class="cm-label">Monthly</div></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+            <div style="font-size:.76rem;color:var(--t2)">Headline: <em>"CPA (K) — Kenya's most respected accounting qualification. Start with a D+ in KCSE."</em></div>
+            <div style="display:flex;gap:7px"><button class="btn btn-outline btn-sm">Edit</button><button class="btn btn-outline btn-sm">Pause</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upgrade to add more -->
+      <div style="background:linear-gradient(135deg,var(--ink),var(--ink2));border-radius:var(--r-lg);padding:28px;text-align:center;margin-top:4px">
+        <div style="font-size:2rem;margin-bottom:10px">📢</div>
+        <div style="font-family:var(--serif);font-size:1.1rem;font-weight:700;color:white;margin-bottom:8px">Reach more students with Hero and Grid placements</div>
+        <div style="font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.7;max-width:480px;margin:0 auto 18px">Hero slots appear in the rotating TV-style carousel seen by every student. Grid placements appear in the 3-card panel. Ticker mentions scroll in the always-visible sponsor strip.</div>
+        <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:20px">
+          <span style="font-size:.78rem;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:6px"><span style="color:var(--gold)">✓</span>Hero slot — KES 55,000/mo</span>
+          <span style="font-size:.78rem;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:6px"><span style="color:var(--gold)">✓</span>Grid slot — KES 22,000/mo</span>
+          <span style="font-size:.78rem;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:6px"><span style="color:var(--gold)">✓</span>Ticker mention — KES 8,000/mo</span>
+        </div>
+        <button class="btn btn-gold" onclick="openCampModal()">Launch new campaign →</button>
+      </div>
+    </div>
+
+    <!-- ══════════ ANALYTICS ══════════ -->
+    <div class="view" id="view-analytics">
+      <div class="kpi-grid">
+        <div class="kpi kpi-violet"><div class="kpi-icon">👁</div><div class="kpi-label">Profile Views</div><div class="kpi-value">2,841</div><div class="kpi-delta">↑ 22%</div></div>
+        <div class="kpi kpi-gold"><div class="kpi-icon">🔍</div><div class="kpi-label">Search Appearances</div><div class="kpi-value">7,340</div><div class="kpi-delta">↑ 18%</div></div>
+        <div class="kpi kpi-green"><div class="kpi-icon">📢</div><div class="kpi-label">Ad Clicks</div><div class="kpi-value">612</div><div class="kpi-delta">CTR 7.3%</div></div>
+        <div class="kpi kpi-blue"><div class="kpi-icon">🔗</div><div class="kpi-label">Exemption Views</div><div class="kpi-value">1,240</div><div class="kpi-delta">↑ 31%</div></div>
+      </div>
+      <div class="two-col">
+        <div class="card"><div class="card-header"><span class="card-title">Views by Qualification</span></div><div class="card-body" id="analyticsQuals"></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Traffic by Country</span></div><div class="card-body" id="analyticsCtrys"></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Top Search Queries</span></div><div class="card-body" id="analyticsQueries"></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Monthly Trend</span></div>
+          <div class="card-body">
+            <div style="display:flex;align-items:flex-end;gap:5px;height:80px" id="trendBars"></div>
+            <div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--t3);font-family:var(--mono);margin-top:4px"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ PROFILE ══════════ -->
+    <div class="view" id="view-profile">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:14px"><button class="btn btn-violet" onclick="showToast('✅ Profile saved')">Save all changes</button></div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-body">
+          <div style="font-family:var(--serif);font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--g1)">🏛️ Body Identity</div>
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px;padding:14px;background:var(--g1);border-radius:var(--r)">
+            <div style="width:72px;height:72px;border-radius:var(--r-lg);background:linear-gradient(135deg,var(--violet2),var(--violet));display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0">🏛️</div>
+            <div>
+              <div style="font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:3px">Official Logo</div>
+              <div style="font-size:.74rem;color:var(--t2);margin-bottom:8px">Appears in Elimux search results and on your qualification listings</div>
+              <button class="btn btn-outline btn-sm">Upload logo</button>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Official Body Name</label><input class="form-input-lg" value="Kenya Accountants &amp; Secretaries National Examining Board"></div>
+            <div class="form-group"><label class="form-label">Short Name / Acronym</label><input class="form-input-lg" value="KASNEB"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Body Type</label>
+              <select class="form-select">
+                <option selected>National Examining Board</option>
+                <option>Professional Body</option>
+                <option>Regulatory Authority</option>
+                <option>International Examining Body</option>
+                <option>Government Examining Council</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Country</label>
+              <select class="form-select"><option selected>Kenya</option><option>Nigeria</option><option>Ghana</option><option>South Africa</option><option>Uganda</option><option>Tanzania</option><option>Rwanda</option><option>International</option></select>
+            </div>
+          </div>
+          <div class="form-group"><label class="form-label">Mandate / Description (shown to students)</label>
+            <textarea class="form-textarea">KASNEB is a state corporation established by an Act of Parliament to provide professional examinations in accountancy, finance, credit management, governance and management and information technology. KASNEB qualifications are internationally recognised and lead directly to university degree progression opportunities.</textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Official Website</label><input class="form-input-lg" value="https://www.kasneb.or.ke"></div>
+            <div class="form-group"><label class="form-label">Registration Portal URL</label><input class="form-input-lg" value="https://erp.kasneb.or.ke"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Enquiries Email</label><input class="form-input-lg" value="info@kasneb.or.ke"></div>
+            <div class="form-group"><label class="form-label">WhatsApp Helpline</label><input class="form-input-lg" value="+254 020 4923000"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Statutory Authority</label><input class="form-input-lg" value="KASNEB Act, Cap 531 — Laws of Kenya"></div>
+            <div class="form-group"><label class="form-label">Recognition Bodies</label><input class="form-input-lg" placeholder="e.g. IFAC, ACCA, CPA Australia..."></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ BILLING ══════════ -->
+    <div class="view" id="view-billing">
+      <div style="background:linear-gradient(135deg,var(--ink),var(--ink2));border-radius:var(--r-lg);padding:24px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+        <div>
+          <div style="font-size:.68rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:5px">Current Plan</div>
+          <div style="font-family:var(--serif);font-size:1.6rem;font-weight:700;color:white;margin-bottom:3px">Free</div>
+          <div style="font-size:.8rem;color:rgba(255,255,255,.5)">Basic listing · No student analytics · Standard placement</div>
+        </div>
+        <div style="padding:14px 18px;background:rgba(255,255,255,.07);border-radius:var(--r);text-align:center">
+          <div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--gold)">KES 0</div>
+          <div style="font-size:.65rem;color:rgba(255,255,255,.35);font-family:var(--mono);text-transform:uppercase">Monthly cost</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+        <div class="plan-card plan-basic">
+          <div style="font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:4px">Free</div>
+          <div style="font-family:var(--serif);font-size:1.7rem;font-weight:700;color:var(--ink);margin-bottom:14px">KES 0</div>
+          <div style="font-size:.76rem;color:var(--t2);line-height:1.8">✓ List your qualifications<br>✓ Appear in AI search results<br>✓ Entry requirements published<br>✗ Student analytics<br>✗ Ad campaigns<br>✗ University exemption portal<br>✗ Priority placement</div>
+          <button class="btn btn-outline" style="width:100%;margin-top:14px;justify-content:center" disabled>Current plan</button>
+        </div>
+        <div class="plan-card plan-recommended" style="position:relative">
+          <div class="plan-tag">RECOMMENDED</div>
+          <div style="font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:4px">Verified</div>
+          <div style="font-family:var(--serif);font-size:1.7rem;font-weight:700;color:var(--violet2);margin-bottom:14px">KES 22,000<span style="font-size:.75rem;color:var(--t3);font-family:var(--sans)">/month</span></div>
+          <div style="font-size:.76rem;color:var(--t2);line-height:1.8">✓ Everything in Free<br>✓ Student interest analytics<br>✓ Context ad campaigns<br>✓ University exemption portal<br>✓ Priority search placement<br>✓ Verified Body badge<br>✗ Hero ad slot</div>
+          <button class="btn btn-violet" style="width:100%;margin-top:14px;justify-content:center" onclick="showToast('📱 M-Pesa STK Push sent for Verified Plan — KES 22,000/month')">Upgrade to Verified →</button>
+        </div>
+        <div class="plan-card plan-featured">
+          <div style="font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:4px">Authority</div>
+          <div style="font-family:var(--serif);font-size:1.7rem;font-weight:700;color:var(--ink);margin-bottom:14px">KES 55,000<span style="font-size:.75rem;color:var(--t3);font-family:var(--sans)">/month</span></div>
+          <div style="font-size:.76rem;color:var(--t2);line-height:1.8">✓ Everything in Verified<br>✓ Hero rotating ad slot<br>✓ Sponsor ticker mention<br>✓ Grid ad placement<br>✓ Country intelligence integration<br>✓ Dedicated account manager<br>✓ API access to your qual data</div>
+          <button class="btn btn-outline" style="width:100%;margin-top:14px;justify-content:center;border-color:var(--ink)" onclick="showToast('📱 M-Pesa STK Push sent for Authority Plan')">Go Authority →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ SETTINGS ══════════ -->
+    <div class="view" id="view-settings">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Portal Users</span><button class="btn btn-xs btn-violet">+ Add user</button></div>
+          <div class="card-body" style="padding:0">
+            <table class="tbl">
+              <thead><tr><th>Name</th><th>Email</th><th>Role</th><th></th></tr></thead>
+              <tbody>
+                <tr><td><strong id="settUserName">Portal Admin</strong></td><td id="settUserEmail">admin@kasneb.or.ke</td><td><span class="pill p-active">Admin</span></td><td><button class="btn btn-xs btn-outline">Edit</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Notifications</span></div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <label style="display:flex;align-items:center;gap:10px;font-size:.82rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--violet2)"> Email when a student views my qualification</label>
+              <label style="display:flex;align-items:center;gap:10px;font-size:.82rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--violet2)"> New university exemption request</label>
+              <label style="display:flex;align-items:center;gap:10px;font-size:.82rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--violet2)"> Weekly analytics digest</label>
+              <label style="display:flex;align-items:center;gap:10px;font-size:.82rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--violet2)"> Ad campaign performance alerts</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ STUDENT INTEREST ══════════ -->
+    <div class="view" id="view-interest">
+      <div style="background:linear-gradient(135deg,var(--ink),var(--ink2));border-radius:var(--r-lg);padding:22px;margin-bottom:18px">
+        <div style="font-family:var(--serif);font-size:1.1rem;font-weight:700;color:white;margin-bottom:4px">2,841 students engaged with your qualifications this month</div>
+        <div style="font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:14px">Searches, profile views, and exemption lookups — showing who is finding KASNEB qualifications on Elimux.</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <div style="padding:10px 16px;background:rgba(255,255,255,.07);border-radius:var(--r);text-align:center;min-width:110px"><div style="font-family:var(--serif);font-size:1.4rem;font-weight:700;color:white">7,340</div><div style="font-size:.66rem;color:rgba(255,255,255,.4);font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em">Search matches</div></div>
+          <div style="padding:10px 16px;background:rgba(255,255,255,.07);border-radius:var(--r);text-align:center;min-width:110px"><div style="font-family:var(--serif);font-size:1.4rem;font-weight:700;color:white">8</div><div style="font-size:.66rem;color:rgba(255,255,255,.4);font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em">Countries</div></div>
+          <div style="padding:10px 16px;background:rgba(255,255,255,.07);border-radius:var(--r);text-align:center;min-width:110px"><div style="font-family:var(--serif);font-size:1.4rem;font-weight:700;color:white">1,240</div><div style="font-size:.66rem;color:rgba(255,255,255,.4);font-family:var(--mono);text-transform:uppercase;letter-spacing:.07em">Exemption views</div></div>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="card"><div class="card-header"><span class="card-title">Interest by Country</span></div><div class="card-body" id="interestCountry"></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Top Searched Qualifications</span></div><div class="card-body" id="interestQuals"></div></div>
+      </div>
+    </div>
+
+    </div><!-- /.content -->
+  </div><!-- /.main -->
+  </div>
+</div><!-- /#app -->
+
+<!-- ── ADD QUALIFICATION MODAL ─────────────────────────── -->
+<div class="modal-overlay" id="qualModal">
+  <div class="modal-box" style="max-width:620px">
+    <div class="modal-head">
+      <div><div class="modal-title">Add Qualification</div><div class="modal-sub">Published immediately as official source of truth on Elimux</div></div>
+      <button class="modal-close" onclick="closeModal('qualModal')" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Qualification Name</label><input class="form-input-lg" placeholder="e.g. Certified Public Accountant"></div>
+        <div class="form-group"><label class="form-label">Acronym / Code</label><input class="form-input-lg" placeholder="e.g. CPA (K)"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Level</label>
+          <select class="form-select">
+            <option>Professional Certificate</option><option>Professional Diploma</option>
+            <option>Advanced Diploma</option><option>Technician Certificate</option>
+            <option>Foundation Level</option><option>Intermediate Level</option>
+            <option>Advanced Level</option><option>Fellowship</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Duration to Complete</label><input class="form-input-lg" placeholder="e.g. 2–4 years (self-paced)"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Minimum Entry Grade</label>
+          <select class="form-select">
+            <option>KCSE C+</option><option>KCSE C</option><option>KCSE C-</option>
+            <option>KCSE D+</option><option>KCSE D</option>
+            <option>Any KCSE grade + relevant cert</option><option>Degree holder</option><option>Diploma holder</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Registration Fee</label><input class="form-input-lg" placeholder="e.g. KES 3,000 initial registration"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Subject Requirements</label><input class="form-input-lg" placeholder="e.g. Mathematics or Accounting at C+ or above"></div>
+      <div class="form-group"><label class="form-label">Description (shown in Elimux AI search)</label>
+        <textarea class="form-textarea" placeholder="What is this qualification? Who is it for? What career doors does it open?"></textarea>
+      </div>
+      <div class="form-group"><label class="form-label">Recognised By (international bodies)</label><input class="form-input-lg" placeholder="e.g. IFAC, ACCA (10 papers exemption), CPA Australia..."></div>
+      <div class="form-group"><label class="form-label">Registration URL</label><input class="form-input-lg" placeholder="https://erp.kasneb.or.ke/register"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('qualModal')">Cancel</button>
+      <button class="btn btn-violet" onclick="addQual()">Publish Qualification →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── CAMPAIGN MODAL ───────────────────────────────────── -->
+<div class="modal-overlay" id="campModal">
+  <div class="modal-box" style="max-width:540px">
+    <div class="modal-head">
+      <div><div class="modal-title">New Ad Campaign</div><div class="modal-sub">Reach students searching for your qualification areas</div></div>
+      <button class="modal-close" onclick="closeModal('campModal')" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Campaign Type</label>
+        <select class="form-select">
+          <option>Hero Featured Slot — KES 55,000/mo (rotating carousel, every student)</option>
+          <option>Context Ad — KES 35,000/mo (after result #5, query-matched)</option>
+          <option>Grid Slot — KES 22,000/mo (3-card rotating grid)</option>
+          <option>Ticker Mention — KES 8,000/mo (always-scrolling sponsor strip)</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Campaign Headline</label><input class="form-input-lg" placeholder="e.g. CPA (K) — Start with D+ in KCSE. Kenya's most respected qualification."></div>
+      <div class="form-group"><label class="form-label">Target Search Keywords</label><input class="form-input-lg" placeholder="e.g. accounting, finance, CPA, KASNEB, bookkeeping"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Target Countries</label><select class="form-select"><option>All countries</option><option>Kenya only</option><option>East Africa</option><option>All Africa</option></select></div>
+        <div class="form-group"><label class="form-label">Duration</label><select class="form-select"><option>1 month</option><option>3 months</option><option>6 months (10% off)</option><option>12 months (20% off)</option></select></div>
+      </div>
+      <div style="padding:12px;background:var(--violet-light);border:1px solid var(--violet-border);border-radius:var(--r);font-size:.78rem;color:var(--t2)">💡 Your campaign targets students actively searching for accounting, finance and professional qualification courses — a high-intent audience actively making decisions.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('campModal')">Cancel</button>
+      <button class="btn btn-violet" onclick="closeModal('campModal');showToast('📢 Campaign submitted. Goes live within 24 hours after review.')">Submit for approval →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── EXEMPTION MODAL ──────────────────────────────────── -->
+<div class="modal-overlay" id="exemptModal">
+  <div class="modal-box" style="max-width:540px">
+    <div class="modal-head">
+      <div><div class="modal-title">Add University Exemption</div><div class="modal-sub">Link your qualification to a university degree programme</div></div>
+      <button class="modal-close" onclick="closeModal('exemptModal')" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">University</label><input class="form-input-lg" placeholder="e.g. Strathmore University"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Your Qualification</label><select class="form-select" id="exemptQual"></select></div>
+        <div class="form-group"><label class="form-label">University Degree</label><input class="form-input-lg" placeholder="e.g. Bachelor of Commerce (Accounting)"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Exemption Detail</label><input class="form-input-lg" placeholder="e.g. Year 2 entry / 6 units exempted / Full exemption for Part 1"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Country</label><select class="form-select"><option>Kenya</option><option>Uganda</option><option>Tanzania</option><option>Nigeria</option><option>Ghana</option></select></div>
+        <div class="form-group"><label class="form-label">Agreement Date</label><input class="form-input-lg" type="date"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Supporting URL (MOU or official page)</label><input class="form-input-lg" placeholder="https://university.ac.ke/exemptions/kasneb"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('exemptModal')">Cancel</button>
+      <button class="btn btn-violet" onclick="closeModal('exemptModal');showToast('✅ Exemption published — students will now see this in search results')">Publish Exemption →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── ENTRY REQUIREMENT MODAL ─────────────────────────── -->
+<div class="modal-overlay" id="reqModal">
+  <div class="modal-box" style="max-width:500px">
+    <div class="modal-head">
+      <div><div class="modal-title">Add Entry Requirement</div><div class="modal-sub">This becomes the official Elimux answer when students ask about entry requirements</div></div>
+      <button class="modal-close" onclick="closeModal('reqModal')" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Qualification</label><select class="form-select" id="reqQual"></select></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Minimum Grade</label><select class="form-select"><option>KCSE C+</option><option>KCSE C</option><option>KCSE C-</option><option>KCSE D+</option><option>KCSE D</option><option>Any grade</option></select></div>
+        <div class="form-group"><label class="form-label">Age Limit</label><input class="form-input-lg" placeholder="e.g. None / 18+ / Under 35"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Mandatory Subjects</label><input class="form-input-lg" placeholder="e.g. Mathematics C+, English C"></div>
+      <div class="form-group"><label class="form-label">Alternative Entry Path</label><input class="form-input-lg" placeholder="e.g. Diploma in Accounting (any grade)"></div>
+      <div class="form-group"><label class="form-label">Official Policy URL</label><input class="form-input-lg" placeholder="https://kasneb.or.ke/entry-requirements"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('reqModal')">Cancel</button>
+      <button class="btn btn-violet" onclick="closeModal('reqModal');showToast('✅ Entry requirements published — now live in Elimux AI search')">Publish Requirements →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ─── DEMO DATA ─────────────────────────────────────────────
+const DEMO_BODY = {
+  id:'kasneb', shortName:'KASNEB',
+  name:'Kenya Accountants & Secretaries National Examining Board',
+  email:'admin@kasneb.or.ke', user:'Portal Admin', initials:'KA',
+  plan:'Free', country:'Kenya', flag:'🇰🇪',
+  type:'National Examining Board',
+};
+
+let qualifications = [
+  {id:1,name:'Certified Public Accountant',code:'CPA (K)',level:'Professional',duration:'2–4 years',grade:'KCSE C+',fee:'KES 3,000',views:1240,recognised:'IFAC, ACCA (10 papers)',featured:true,active:true},
+  {id:2,name:'Certified Secretary',code:'CS (K)',level:'Professional',duration:'2–3 years',grade:'KCSE C+',fee:'KES 3,000',views:480,recognised:'ICS Kenya',featured:false,active:true},
+  {id:3,name:'Certified Investment & Financial Analyst',code:'CIFA',level:'Professional',duration:'2–3 years',grade:'KCSE C',fee:'KES 3,000',views:320,recognised:'ICIFA Kenya',featured:false,active:true},
+  {id:4,name:'Accounting Technician Diploma',code:'ATD',level:'Technician',duration:'1–2 years',grade:'KCSE D+',fee:'KES 2,000',views:680,recognised:'KASNEB',featured:false,active:true},
+  {id:5,name:'Accounting Professionals – Secretaries Kenya',code:'APS-K',level:'Certificate',duration:'1 year',grade:'KCSE D',fee:'KES 1,500',views:210,recognised:'KASNEB',featured:false,active:true},
+  {id:6,name:'Certified Credit Professional',code:'CCP',level:'Professional',duration:'2 years',grade:'KCSE C',fee:'KES 3,000',views:180,recognised:'KASNEB',featured:false,active:true},
+  {id:7,name:'Diploma in Information Communication Technology',code:'DICT',level:'Diploma',duration:'1–2 years',grade:'KCSE D+',fee:'KES 2,000',views:210,recognised:'KASNEB, KICTB',featured:false,active:true},
+];
+
+const EXEMPTIONS = [
+  {uni:'University of Nairobi',qual:'CPA (K)',degree:'B.Com (Accounting)',exemption:'Year 2 entry',country:'🇰🇪',status:'active'},
+  {uni:'Strathmore University',qual:'CPA (K)',degree:'B.Com (Accounting)',exemption:'Year 2 entry',country:'🇰🇪',status:'active'},
+  {uni:'JKUAT',qual:'CPA (K)',degree:'BSc Finance',exemption:'6 units exempted',country:'🇰🇪',status:'active'},
+  {uni:'KCA University',qual:'ATD',degree:'Bachelor of Commerce',exemption:'4 units exemption',country:'🇰🇪',status:'active'},
+  {uni:'Makerere University',qual:'CPA (K)',degree:'Bachelor of Commerce',exemption:'Year 2 entry',country:'🇺🇬',status:'active'},
+];
+
+const PATHWAYS = [
+  {qual:'CPA (K)',employers:['Big 4 Audit Firms','Banks & Financial Institutions','Government Treasury','NGOs & Development Orgs'],'salary':'KES 60,000–250,000/month',further:'MSc Finance (University of Nairobi), MBA, ACCA'},
+  {qual:'CS (K)',employers:['Listed Companies (Company Secretary)','Law Firms','Government Agencies','NGOs'],'salary':'KES 50,000–180,000/month',further:'LLB Law (exemptions available), MBA Governance'},
+];
+
+const COUNTRY_INTEREST = [
+  {flag:'🇰🇪',country:'Kenya',pct:72,val:2045},
+  {flag:'🇺🇬',country:'Uganda',pct:12,val:341},
+  {flag:'🇹🇿',country:'Tanzania',pct:7,val:199},
+  {flag:'🇳🇬',country:'Nigeria',pct:5,val:142},
+  {flag:'🇬🇭',country:'Ghana',pct:2,val:57},
+  {flag:'🇿🇦',country:'South Africa',pct:2,val:57},
+];
+
+// ─── AUTH ──────────────────────────────────────────────────
+const UNI_API = window.ELIMUX_API_URL || 'https://api.elimux.ke';
+let currentBody = null;
+
+async function doLogin(){
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pass  = document.getElementById('loginPass').value;
+  const err   = document.getElementById('loginError');
+  if(!email||!pass){err.textContent='Please enter email and password.';return;}
+  try{
+    const res = await fetch(`${UNI_API}/examining/auth`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pass})});
+    if(!res.ok){err.textContent='Invalid credentials.';setTimeout(()=>err.textContent='',4000);return;}
+    const {body,token}=await res.json();
+    sessionStorage.setItem('elimux_examining_token',token);
+    launchPortal(body);
+  }catch(e){loadDemo();}
+}
+function loadDemo(){launchPortal(DEMO_BODY);}
+
+function launchPortal(body){
+  currentBody=body;
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('app').classList.add('visible');
+  document.getElementById('sbBodyName').textContent=body.shortName;
+  document.getElementById('sbAvatar').textContent=body.initials||body.shortName.slice(0,2).toUpperCase();
+  document.getElementById('sbUserName').textContent=body.user||'Admin';
+  document.getElementById('kpiQuals').textContent=qualifications.length;
+  document.getElementById('interestBadge').textContent='2,841';
+  updateDate();
+  buildAll();
+  // Populate select dropdowns
+  ['exemptQual','reqQual'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.innerHTML=qualifications.map(q=>`<option>${q.code}</option>`).join('');
+  });
+}
+function doLogout(){if(confirm('Sign out?')){document.getElementById('app').classList.remove('visible');document.getElementById('loginScreen').style.display='flex';currentBody=null;}}
+document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+
+// ─── NAV ───────────────────────────────────────────────────
+const TITLES={dashboard:'Dashboard',interest:'Student Interest',qualifications:'Qualifications',requirements:'Entry Requirements',exemptions:'University Exemptions',pathways:'Career Pathways',campaigns:'Ad Campaigns',analytics:'Analytics',profile:'Body Profile',billing:'Billing & Plan',settings:'Settings'};
+function nav(view,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.sb-link').forEach(l=>l.classList.remove('active'));
+  const el=document.getElementById('view-'+view);
+  if(el)el.classList.add('active');
+  if(btn)btn.classList.add('active');
+  document.getElementById('topbarTitle').textContent=TITLES[view]||view;
+}
+function updateDate(){document.getElementById('topbarDate').textContent=new Date().toLocaleDateString('en-KE',{weekday:'short',day:'numeric',month:'short',year:'numeric'});}
+
+// ─── MODALS ────────────────────────────────────────────────
+function openQualModal(){document.getElementById('qualModal').classList.add('open');}
+function openCampModal(){document.getElementById('campModal').classList.add('open');}
+function openExemptModal(){document.getElementById('exemptModal').classList.add('open');}
+function openReqModal(){document.getElementById('reqModal').classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-overlay').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});});
+
+// ─── BUILD FUNCTIONS ───────────────────────────────────────
+function buildAll(){
+  buildQualList();buildExemptTable();buildReqTable();
+  buildDashCharts();buildAnalytics();buildPathways();buildInterest();
+}
+
+function buildQualList(){
+  const el=document.getElementById('qualList');if(!el)return;
+  el.innerHTML=qualifications.map(q=>`
+    <div class="qual-card${q.featured?' featured':''}">
+      <div class="qc-top">
+        <div class="qc-badge">${q.code.split(' ')[0]}</div>
+        <div style="flex:1">
+          <div class="qc-name">${q.name}</div>
+          <div class="qc-full">${q.code} · ${q.level}</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:flex-start">
+          ${q.featured?'<span class="pill p-verified">★ Featured</span>':''}
+          <span class="pill ${q.active?'p-active':'p-draft'}">${q.active?'Live':'Draft'}</span>
+          <button class="btn btn-xs btn-outline">Edit</button>
+          <button class="btn btn-xs btn-outline" style="color:var(--red);border-color:rgba(229,57,53,.2)">Remove</button>
+        </div>
+      </div>
+      <div class="qc-tags">
+        <span class="qc-tag qt-level">${q.level}</span>
+        <span class="qc-tag qt-entry">Min: ${q.grade}</span>
+        <span class="qc-tag qt-duration">⏱ ${q.duration}</span>
+        <span class="qc-tag qt-exemption">📋 ${q.recognised}</span>
+      </div>
+      <div class="qc-pathway">
+        <div class="qc-path-label">International Recognition</div>
+        <div class="qc-path-val">${q.recognised}</div>
+      </div>
+      <div class="qc-footer">
+        <span style="font-size:.72rem;color:var(--t2)"><strong style="color:var(--ink)">${q.views.toLocaleString()}</strong> views this month · ${q.fee} registration fee</span>
+        <a href="#" style="font-size:.75rem;color:var(--violet2);font-weight:600;text-decoration:none" onclick="return false">View on Elimux →</a>
+      </div>
+    </div>`).join('');
+}
+
+function addQual(){
+  showToast('✅ Qualification published — now live as source of truth in Elimux AI search');
+  closeModal('qualModal');
+}
+
+function buildExemptTable(){
+  const el=document.getElementById('exemptTable');if(!el)return;
+  el.innerHTML=EXEMPTIONS.map(e=>`
+    <tr>
+      <td><strong>${e.uni}</strong></td>
+      <td><span class="pill p-verified">${e.qual}</span></td>
+      <td>${e.exemption}</td>
+      <td>${e.degree}</td>
+      <td>${e.country}</td>
+      <td><span class="pill p-active"><span class="pill-dot"></span>Active</span></td>
+      <td><button class="btn btn-xs btn-outline">Edit</button></td>
+    </tr>`).join('');
+}
+
+function buildReqTable(){
+  const el=document.getElementById('reqTable');if(!el)return;
+  const reqs=[
+    {qual:'CPA (K)',grade:'KCSE C+',subjects:'Mathematics C+, English C',age:'None',extra:'Or Diploma in Accounting',updated:'Jan 2026'},
+    {qual:'CS (K)',grade:'KCSE C+',subjects:'English C+',age:'None',extra:'Or Law Degree',updated:'Jan 2026'},
+    {qual:'ATD',grade:'KCSE D+',subjects:'Any mathematics',age:'None',extra:'Open to D+ holders',updated:'Jan 2026'},
+    {qual:'CIFA',grade:'KCSE C',subjects:'Mathematics C',age:'None',extra:'Business background preferred',updated:'Jan 2026'},
+    {qual:'APS-K',grade:'KCSE D',subjects:'None mandatory',age:'None',extra:'Fully open entry',updated:'Jan 2026'},
+  ];
+  el.innerHTML=reqs.map(r=>`
+    <tr>
+      <td><span class="pill p-verified">${r.qual}</span></td>
+      <td>${r.grade}</td>
+      <td>${r.subjects}</td>
+      <td>${r.age}</td>
+      <td style="font-size:.75rem;color:var(--t2)">${r.extra}</td>
+      <td style="font-family:var(--mono);font-size:.7rem;color:var(--t3)">${r.updated}</td>
+      <td><button class="btn btn-xs btn-outline">Edit</button></td>
+    </tr>`).join('');
+}
+
+function buildDashCharts(){
+  const dc=document.getElementById('dashCountry');
+  if(dc)dc.innerHTML=COUNTRY_INTEREST.map(c=>`
+    <div class="analytic-row">
+      <span class="analytic-label">${c.flag} ${c.country}</span>
+      <div class="analytic-bar-wrap"><div class="analytic-bar" style="width:${c.pct}%"></div></div>
+      <span class="analytic-val">${c.val.toLocaleString()}</span>
+    </div>`).join('');
+
+  const dq=document.getElementById('dashQuals');
+  if(dq)dq.innerHTML=qualifications.sort((a,b)=>b.views-a.views).slice(0,5).map(q=>`
+    <div class="analytic-row">
+      <span class="analytic-label">${q.code}</span>
+      <div class="analytic-bar-wrap"><div class="analytic-bar" style="width:${Math.round(q.views/1240*100)}%"></div></div>
+      <span class="analytic-val">${q.views}</span>
+    </div>`).join('');
+}
+
+function buildAnalytics(){
+  const aq=document.getElementById('analyticsQuals');
+  if(aq)aq.innerHTML=qualifications.sort((a,b)=>b.views-a.views).map(q=>`
+    <div class="analytic-row">
+      <span class="analytic-label">${q.name.substring(0,28)}…</span>
+      <div class="analytic-bar-wrap"><div class="analytic-bar" style="width:${Math.round(q.views/1240*100)}%"></div></div>
+      <span class="analytic-val">${q.views}</span>
+    </div>`).join('');
+
+  const ac=document.getElementById('analyticsCtrys');
+  if(ac)ac.innerHTML=COUNTRY_INTEREST.map(c=>`
+    <div class="analytic-row">
+      <span class="analytic-label">${c.flag} ${c.country}</span>
+      <div class="analytic-bar-wrap"><div class="analytic-bar" style="width:${c.pct}%"></div></div>
+      <span class="analytic-val">${c.val}</span>
+    </div>`).join('');
+
+  const aque=document.getElementById('analyticsQueries');
+  const queries=[
+    {q:'"CPA Kenya entry requirements"',n:312},{q:'"accounting qualification D+ grade"',n:248},
+    {q:'"KASNEB ATD requirements"',n:196},{q:'"CPA vs degree Kenya"',n:168},
+    {q:'"Certified Secretary requirements"',n:142}
+  ];
+  if(aque)aque.innerHTML=queries.map(q=>`
+    <div class="analytic-row">
+      <span class="analytic-label" style="font-style:italic">${q.q}</span>
+      <div class="analytic-bar-wrap"><div class="analytic-bar" style="width:${Math.round(q.n/312*100)}%"></div></div>
+      <span class="analytic-val">${q.n}</span>
+    </div>`).join('');
+
+  const tb=document.getElementById('trendBars');
+  if(tb){
+    const vals=[1200,1560,1480,2100,2480,2841];
+    const mx=Math.max(...vals);
+    tb.innerHTML=vals.map(v=>`<div style="flex:1;background:var(--violet2);border-radius:2px 2px 0 0;height:${Math.round(v/mx*100)}%;opacity:.75;transition:opacity .2s;cursor:pointer" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity='.75'" title="${v.toLocaleString()} views"></div>`).join('');
+  }
+}
+
+function buildPathways(){
+  const el=document.getElementById('pathwayList');if(!el)return;
+  el.innerHTML=PATHWAYS.map(p=>`
+    <div class="qual-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div class="qc-badge">${p.qual.split(' ')[0]}</div>
+        <div style="font-family:var(--serif);font-size:.92rem;font-weight:700;color:var(--ink)">${p.qual} Career Pathway</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div>
+          <div style="font-size:.65rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin-bottom:6px">Typical Employers</div>
+          ${p.employers.map(e=>`<div style="font-size:.79rem;color:var(--t2);padding:4px 0;border-bottom:1px solid var(--g1)">→ ${e}</div>`).join('')}
+        </div>
+        <div>
+          <div style="font-size:.65rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin-bottom:6px">Salary Range</div>
+          <div style="font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--green);margin-bottom:12px">${p.salary}</div>
+          <div style="font-size:.65rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin-bottom:6px">Further Study</div>
+          <div style="font-size:.79rem;color:var(--t2)">${p.further}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function buildInterest(){
+  const ic=document.getElementById('interestCountry');
+  if(ic)ic.innerHTML=COUNTRY_INTEREST.map(c=>`
+    <div class="analytic-row">
+      <span class="analytic-label">${c.flag} ${c.country}</span>
+      <div class="analytic-bar-wrap"><div class="analytic-bar" style="width:${c.pct}%"></div></div>
+      <span class="analytic-val">${c.val}</span>
+    </div>`).join('');
+
+  const iq=document.getElementById('interestQuals');
+  if(iq)iq.innerHTML=qualifications.sort((a,b)=>b.views-a.views).slice(0,6).map(q=>`
+    <div class="analytic-row">
+      <span class="analytic-label">${q.code}</span>
+      <div class="analytic-bar-wrap"><div class="analytic-bar" style="width:${Math.round(q.views/1240*100)}%"></div></div>
+      <span class="analytic-val">${q.views}</span>
+    </div>`).join('');
+}
+
+function showToast(msg){
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:12px 22px;border-radius:var(--r-full);font-size:.82rem;font-weight:600;font-family:var(--sans);z-index:9999;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,.3)';
+  t.textContent=msg;document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3500);
+}
+window.addEventListener('online',()=>{const d=document.getElementById('online-indicator');if(d)d.style.background='#22C55E';});
+window.addEventListener('offline',()=>{const d=document.getElementById('online-indicator');if(d)d.style.background='#EF4444';});
+</script>
+<script>
+
+/* ═══════════════════════════════════════════════════
+   ELIMUX SHARED FIXES v2.1
+   Applied: A11y · UX · Security · Offline · Anti-double-submit
+   ═══════════════════════════════════════════════════ */
+
+// [FIX A-03] Aria-live announcer for screen readers
+(function setupAnnouncer(){
+  if(document.getElementById('sk-announcer')) return;
+  const a = document.createElement('div');
+  a.id='sk-announcer';a.setAttribute('aria-live','polite');a.setAttribute('aria-atomic','true');
+  a.style.cssText='position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden';
+  document.body.prepend(a);
+})();
+function announce(msg){ const el=document.getElementById('sk-announcer'); if(el) el.textContent=msg; }
+
+// [FIX U-04] 401 → redirect to login
+const _origFetch = window.fetch;
+window.fetch = async function(...args){
+  try {
+    const res = await _origFetch(...args);
+    if(res.status === 401){
+      const url = args[0]?.toString() || '';
+      // Don't redirect if this IS the auth call
+      if(!url.includes('/auth') && !url.includes('/login')){
+        sessionStorage.removeItem('elimux_token');
+        sessionStorage.removeItem('elimux_domain_token');
+        const currentPage = window.location.pathname.split('/').pop();
+        window.location.href = '/?session_expired=1&from='+encodeURIComponent(currentPage);
+        return res;
+      }
+    }
+    return res;
+  } catch(err) {
+    // [FIX U-06] Network error → check if offline
+    if(!navigator.onLine) showOfflineBanner();
+    throw err;
+  }
+};
+
+// [FIX U-06] Offline detection
+function showOfflineBanner(){
+  if(document.getElementById('sk-offline')) return;
+  const b = document.createElement('div');
+  b.id='sk-offline';
+  b.innerHTML='📡 <strong>You appear to be offline.</strong> Check your connection. Some features may not work.';
+  b.style.cssText='position:fixed;top:0;left:0;right:0;z-index:9999;background:#F59E0B;color:#1C1917;padding:10px 16px;font-size:.82rem;text-align:center;font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;gap:8px';
+  const close = document.createElement('button');
+  close.textContent='×';
+  close.setAttribute('aria-label','Close offline notice');
+  close.style.cssText='background:none;border:none;font-size:1.1rem;cursor:pointer;margin-left:8px';
+  close.onclick=()=>b.remove();
+  b.appendChild(close);
+  document.body.prepend(b);
+}
+function hideOfflineBanner(){ document.getElementById('sk-offline')?.remove(); }
+window.addEventListener('offline', showOfflineBanner);
+window.addEventListener('online',  hideOfflineBanner);
+if(!navigator.onLine) showOfflineBanner();
+
+// [FIX U-05] Double-submit protection
+function protectButton(btn, asyncFn){
+  return async function(e){
+    if(btn.disabled) return;
+    const orig = btn.textContent;
+    btn.disabled=true; btn.style.opacity='.6';
+    btn.textContent='Working…';
+    try { await asyncFn(e); }
+    finally { btn.disabled=false; btn.style.opacity='1'; btn.textContent=orig; }
+  };
+}
+// Auto-protect all submit-type buttons on DOM ready
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('button[onclick*="submit"],button[type="submit"]').forEach(btn => {
+    if(btn.dataset.protected) return;
+    btn.dataset.protected='1';
+    const origOnclick = btn.onclick;
+    if(origOnclick){
+      btn.onclick = null;
+      btn.addEventListener('click', protectButton(btn, ()=> origOnclick.call(btn)));
+    }
+  });
+});
+
+// [FIX A-02] Focus trap for modals
+function trapFocus(modal){
+  const focusable = modal.querySelectorAll('button,input,select,textarea,a[href],[tabindex]:not([tabindex="-1"])');
+  if(!focusable.length) return;
+  const first = focusable[0], last = focusable[focusable.length-1];
+  modal.addEventListener('keydown', function handler(e){
+    if(e.key !== 'Tab') return;
+    if(e.shiftKey){ if(document.activeElement===first){ e.preventDefault(); last.focus(); } }
+    else           { if(document.activeElement===last)  { e.preventDefault(); first.focus(); } }
+  });
+  // [FIX] Close on Escape
+  modal.addEventListener('keydown', function(e){
+    if(e.key==='Escape') modal.classList.remove('open');
+  });
+  first.focus();
+}
+// Auto-apply trap when modal opens
+const _modalObs = new MutationObserver(mutations => {
+  mutations.forEach(m => {
+    if(m.type==='attributes' && m.attributeName==='class'){
+      const el = m.target;
+      if(el.classList.contains('modal-overlay') && el.classList.contains('open')){
+        const dialog = el.querySelector('[style*="border-radius"]') || el.firstElementChild;
+        if(dialog) trapFocus(dialog);
+      }
+    }
+  });
+});
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.modal-overlay').forEach(m => {
+    _modalObs.observe(m, { attributes:true });
+  });
+});
+
+</script>
+</body>
+</html>

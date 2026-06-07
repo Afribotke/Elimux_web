@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Elimux — Domain Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+:root{
+  --navy:#0D1F3C; --gold:#C8973A; --blue:#1B4FA0;
+  --green:#16A34A; --amber:#F59E0B; --red:#E53935; --violet:#7C3AED;
+  --ink:#111827; --white:#FFFFFF;
+  --bg:#F3F4F6; --panel:#FFFFFF;
+  --g1:#F9FAFB; --g2:#E5E7EB; --g3:#D1D5DB; --t2:#6B7280; --t3:#9CA3AF;
+  --serif:"Libre Baskerville",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"DM Mono",monospace;
+  --r:8px; --r-lg:14px; --r-full:9999px;
+  --sidebar:240px;
+}
+html,body{height:100%;font-family:var(--sans);background:var(--bg);color:var(--ink)}
+
+/* ── LOGIN ── */
+#loginScreen{position:fixed;inset:0;z-index:999;background:linear-gradient(135deg,#0D1F3C 0%,#1B4FA0 100%);display:flex;align-items:center;justify-content:center}
+.login-box{background:white;border-radius:18px;padding:36px 40px;width:380px;box-shadow:0 32px 80px rgba(0,0,0,.25)}
+.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.login-logo-dot{width:32px;height:32px;border-radius:8px;background:var(--navy);display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:700;font-family:var(--mono);font-size:.8rem}
+.login-logo-text{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--navy)}
+.login-logo-sub{font-size:.6rem;font-family:var(--mono);color:var(--t3);letter-spacing:.08em}
+.login-title{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:4px}
+.login-sub{font-size:.78rem;color:var(--t2);margin-bottom:20px}
+.login-label{font-size:.65rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin-bottom:4px;display:block}
+.login-input{width:100%;padding:9px 12px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.88rem;font-family:var(--sans);outline:none;margin-bottom:12px;transition:border-color .2s}
+.login-input:focus{border-color:var(--navy)}
+.login-btn{width:100%;padding:11px;background:var(--navy);color:white;border:none;border-radius:var(--r);font-size:.88rem;font-weight:700;font-family:var(--sans);cursor:pointer;transition:all .2s}
+.login-btn:hover{background:#1B4FA0}
+.login-err{font-size:.73rem;color:var(--red);min-height:18px;margin-top:6px}
+.login-badge{margin-top:14px;padding:8px 10px;background:var(--g1);border-radius:var(--r);font-size:.7rem;color:var(--t2);border:1px solid var(--g2)}
+
+/* ── APP ── */
+#app{display:none;height:100vh;overflow:hidden}
+#app.visible{display:flex}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar);background:var(--navy);flex-shrink:0;display:flex;flex-direction:column;height:100vh;overflow-y:auto}
+.sb-head{padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.07)}
+.sb-logo{display:flex;align-items:center;gap:8px}
+.sb-logo-mark{width:28px;height:28px;border-radius:7px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--navy);font-family:var(--mono);flex-shrink:0}
+.sb-logo-name{font-family:var(--serif);font-size:.85rem;font-weight:700;color:white}
+.sb-logo-role{font-size:.58rem;font-family:var(--mono);color:rgba(255,255,255,.35);letter-spacing:.05em}
+.sb-section{font-size:.56rem;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.22);padding:12px 16px 4px}
+.sb-btn{display:flex;align-items:center;gap:8px;width:100%;padding:8px 16px;background:none;border:none;text-align:left;font-size:.8rem;color:rgba(255,255,255,.5);cursor:pointer;transition:all .15s;position:relative}
+.sb-btn:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.05)}
+.sb-btn.active{color:white;background:rgba(255,255,255,.08)}
+.sb-btn.active::before{content:'';position:absolute;left:0;top:5px;bottom:5px;width:2px;background:var(--gold);border-radius:0 2px 2px 0}
+.sb-icon{font-size:.9rem;width:18px;text-align:center;flex-shrink:0}
+.sb-pill{margin-left:auto;font-size:.58rem;font-family:var(--mono);padding:2px 6px;border-radius:var(--r-full)}
+.sp-red{background:rgba(229,57,53,.25);color:#FCA5A5}
+.sp-amber{background:rgba(245,158,11,.25);color:#FCD34D}
+.sp-green{background:rgba(22,163,74,.25);color:#86EFAC}
+.sp-grey{background:rgba(255,255,255,.1);color:rgba(255,255,255,.4)}
+.sp-blue{background:rgba(99,102,241,.3);color:#C7D2FE}
+.sb-foot{margin-top:auto;padding:12px 16px;border-top:1px solid rgba(255,255,255,.07)}
+.sb-user{display:flex;align-items:center;gap:8px}
+.sb-avatar{width:28px;height:28px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:white;flex-shrink:0}
+.sb-uname{font-size:.76rem;font-weight:600;color:white}
+.sb-urole{font-size:.6rem;color:rgba(255,255,255,.35)}
+.sb-logout{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.28);cursor:pointer;font-size:.68rem;font-family:var(--mono)}
+.sb-logout:hover{color:var(--gold)}
+
+/* ── MAIN ── */
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-width:0}
+.topbar{background:white;border-bottom:1px solid var(--g2);padding:11px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;flex-shrink:0}
+.tb-title{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink)}
+.tb-right{display:flex;align-items:center;gap:8px}
+.content{padding:20px 22px}
+.view{display:none}.view.active{display:block}
+
+/* ── KPI STRIP ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px}
+.kpi{background:white;border:1px solid var(--g2);border-radius:var(--r-lg);padding:14px 16px;position:relative;overflow:hidden;cursor:pointer;transition:all .2s}
+.kpi:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);transform:translateY(-1px)}
+.kpi.active-filter{outline:2px solid var(--navy);outline-offset:1px}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-confirmed::before{background:var(--green)}
+.kpi-pending::before{background:var(--amber)}
+.kpi-unreachable::before{background:var(--red)}
+.kpi-needs_domain::before{background:var(--violet)}
+.kpi-excluded::before{background:var(--t3)}
+.kpi-total::before{background:var(--navy)}
+.kpi-icon{position:absolute;top:10px;right:12px;font-size:1.4rem;opacity:.1}
+.kpi-val{font-family:var(--serif);font-size:1.8rem;font-weight:700;color:var(--ink);line-height:1}
+.kpi-lbl{font-size:.62rem;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--t3);margin-top:4px}
+.kpi-sub{font-size:.68rem;color:var(--t2);margin-top:2px}
+
+/* ── FILTER BAR ── */
+.filter-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.filter-input{flex:1;min-width:180px;padding:8px 12px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.83rem;font-family:var(--sans);outline:none}
+.filter-input:focus{border-color:var(--navy)}
+.filter-select{padding:8px 12px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.82rem;color:var(--ink);background:white;font-family:var(--sans);cursor:pointer}
+.filter-select:focus{outline:none;border-color:var(--navy)}
+
+/* ── TABLE ── */
+.tbl-wrap{background:white;border:1px solid var(--g2);border-radius:var(--r-lg);overflow:hidden}
+.tbl{width:100%;border-collapse:collapse;font-size:.8rem}
+.tbl th{font-size:.6rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);padding:10px 12px;text-align:left;border-bottom:1px solid var(--g2);background:var(--g1);white-space:nowrap}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--g1);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:#FAFAFA}
+.tbl-count{font-size:.7rem;font-family:var(--mono);color:var(--t3);padding:8px 12px;border-top:1px solid var(--g1);background:var(--g1);text-align:right}
+
+/* ── STATUS BADGE ── */
+.ds-badge{display:inline-flex;align-items:center;gap:4px;font-size:.62rem;font-family:var(--mono);padding:3px 8px;border-radius:var(--r-full);white-space:nowrap}
+.ds-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.ds-confirmed  {background:rgba(22,163,74,.1);color:#15803D;border:1px solid rgba(22,163,74,.2)}
+.ds-pending    {background:rgba(245,158,11,.1);color:#92400E;border:1px solid rgba(245,158,11,.2)}
+.ds-unreachable{background:rgba(229,57,53,.1); color:#991B1B;border:1px solid rgba(229,57,53,.2)}
+.ds-needs_domain{background:rgba(124,58,237,.1);color:#5B21B6;border:1px solid rgba(124,58,237,.2)}
+.ds-excluded   {background:var(--g1);color:var(--t3);border:1px solid var(--g2)}
+
+/* ── REGISTRY BADGE ── */
+.reg-badge{font-size:.6rem;font-family:var(--mono);padding:2px 7px;border-radius:3px;white-space:nowrap}
+.reg-pub_uni  {background:#EFF6FF;color:#1D4ED8}
+.reg-priv_uni {background:#F0FDF4;color:#166534}
+.reg-tvet     {background:#FFF7ED;color:#9A3412}
+.reg-examining{background:#FAF5FF;color:#6B21A8}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--r);font-size:.74rem;font-weight:600;font-family:var(--sans);cursor:pointer;border:none;transition:all .15s;white-space:nowrap}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-navy{background:var(--navy);color:white}.btn-navy:hover:not(:disabled){background:#1B4FA0}
+.btn-green{background:var(--green);color:white}.btn-green:hover:not(:disabled){background:#15803D}
+.btn-red{background:var(--red);color:white}.btn-red:hover:not(:disabled){background:#C62828}
+.btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--g2)}.btn-outline:hover:not(:disabled){border-color:var(--navy);background:var(--g1)}
+.btn-gold{background:var(--gold);color:var(--navy)}.btn-gold:hover:not(:disabled){background:#E0A840}
+.btn-amber{background:rgba(245,158,11,.1);color:#92400E;border:1px solid rgba(245,158,11,.25)}.btn-amber:hover:not(:disabled){background:rgba(245,158,11,.2)}
+.btn-violet{background:rgba(124,58,237,.1);color:var(--violet);border:1px solid rgba(124,58,237,.25)}.btn-violet:hover:not(:disabled){background:rgba(124,58,237,.2)}
+.btn-sm{padding:4px 9px;font-size:.68rem}
+.btn-xs{padding:3px 7px;font-size:.64rem}
+
+/* ── DOMAIN INPUT ROW ── */
+.domain-edit{display:none;align-items:center;gap:6px;margin-top:6px}
+.domain-edit.open{display:flex}
+.domain-edit input{flex:1;padding:5px 9px;border:1.5px solid var(--g2);border-radius:6px;font-size:.76rem;font-family:var(--mono);outline:none}
+.domain-edit input:focus{border-color:var(--navy)}
+
+/* ── MODALS ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(13,31,60,.5);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:white;border-radius:var(--r-lg);max-width:480px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,.2);overflow:hidden}
+.modal-head{background:var(--navy);padding:16px 18px;display:flex;align-items:flex-start;justify-content:space-between}
+.modal-title{font-family:var(--serif);font-size:.95rem;font-weight:700;color:white}
+.modal-sub{font-size:.7rem;color:rgba(255,255,255,.4);margin-top:2px}
+.modal-close{background:rgba(255,255,255,.12);border:none;color:white;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.modal-body{padding:18px}
+.modal-foot{padding:12px 18px;border-top:1px solid var(--g2);display:flex;justify-content:flex-end;gap:6px}
+.form-label{font-size:.63rem;font-family:var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:4px}
+.form-input{width:100%;padding:9px 11px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.85rem;font-family:var(--sans);outline:none;margin-bottom:12px}
+.form-input:focus{border-color:var(--navy)}
+.form-textarea{width:100%;padding:9px 11px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.82rem;font-family:var(--sans);outline:none;resize:vertical;min-height:60px;margin-bottom:12px}
+.form-select{width:100%;padding:9px 11px;border:1.5px solid var(--g2);border-radius:var(--r);font-size:.85rem;font-family:var(--sans);outline:none;margin-bottom:12px;background:white}
+
+/* ── ALERT BADGE ── */
+.alert-banner{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r);margin-bottom:14px;font-size:.79rem}
+.ab-email-ok{background:rgba(22,163,74,.08);border:1px solid rgba(22,163,74,.2);color:#166534}
+.ab-email-warn{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);color:#92400E}
+
+/* ── PROGRESS ── */
+.progress-bar{height:4px;background:var(--g2);border-radius:var(--r-full);overflow:hidden;margin-bottom:12px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--navy),var(--blue));border-radius:var(--r-full);transition:width .4s ease}
+
+/* ── LOG TABLE ── */
+.log-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--g1);font-size:.76rem}
+.log-row:last-child{border-bottom:none}
+.log-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.log-ok{background:var(--green)}
+.log-fail{background:var(--red)}
+.log-skip{background:var(--t3)}
+
+/* ── GOOGLE SEARCH LINK ── */
+.google-search{display:inline-flex;align-items:center;gap:4px;font-size:.68rem;color:#4285F4;text-decoration:none;padding:3px 7px;border-radius:4px;border:1px solid #E8F0FE;background:#F8F9FF}
+.google-search:hover{background:#E8F0FE}
+
+/* ── RESPONSIVE ── */
+@media(max-width:700px){.sidebar{display:none}.kpi-strip{grid-template-columns:repeat(2,1fr)}.content{padding:12px}}
+
+/* [FIX U-01] Loading states */
+.sk-loading{display:flex;align-items:center;justify-content:center;padding:40px;gap:10px;color:var(--t2,#6B7280);font-size:.85rem}
+.sk-loading::before{content:'';width:18px;height:18px;border:2px solid var(--g2,#E5E7EB);border-top-color:var(--navy,#0D1F3C);border-radius:50%;animation:sk-spin .7s linear infinite;flex-shrink:0}
+@keyframes sk-spin{to{transform:rotate(360deg)}}
+.sk-error{padding:16px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:8px;color:#DC2626;font-size:.82rem;display:flex;align-items:center;gap:8px}
+.sk-empty{padding:32px;text-align:center;color:var(--t3,#9CA3AF);font-size:.85rem}
+.sk-empty::before{content:'📋';display:block;font-size:1.5rem;margin-bottom:8px}
+</style>
+</head>
+<body>
+<nav class="platform-nav-injected" role="navigation" aria-label="Elimux navigation" style="background:rgba(13,31,60,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(200,151,58,.15);padding:0 24px;display:flex;align-items:center;height:60px;gap:20px;position:sticky;top:0;z-index:1000;font-family:system-ui,-apple-system,sans-serif">
+  <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:1.05rem;color:#fff">
+    <svg viewBox="0 0 56 56" width="30" height="30" xmlns="http://www.w3.org/2000/svg"><circle cx="28" cy="28" r="27" fill="#C8973A"/><circle cx="28" cy="28" r="18" fill="none" stroke="white" stroke-width="2" opacity=".9"/><ellipse cx="28" cy="28" rx="18" ry="6.8" fill="none" stroke="white" stroke-width="1.3" opacity=".6" transform="rotate(-22 28 28)"/><line x1="10" y1="28" x2="46" y2="28" stroke="white" stroke-width="1" opacity=".22"/><line x1="28" y1="10" x2="28" y2="46" stroke="white" stroke-width="1" opacity=".22"/><circle cx="41.5" cy="16" r="4.5" fill="#0D1F3C"/></svg>
+    Elimux <span style="color:#C8973A">Domains</span>
+  </a>
+  <div style="display:flex;gap:6px;margin-left:12px;flex-wrap:wrap">
+    <a href="/" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:.85rem;padding:6px 12px;border-radius:8px">🔍 Ask AI</a>
+    <a href="/university" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:.85rem;padding:6px 12px;border-radius:8px">🎓 University</a>
+    <a href="/payments" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:.85rem;padding:6px 12px;border-radius:8px">💳 Payments</a>
+    <a href="/admin" style="color:rgba(255,255,255,.75);text-decoration:none;font-size:.85rem;padding:6px 12px;border-radius:8px">📊 Admin</a>
+  </div>
+  <a href="/" style="margin-left:auto;color:#C8973A;text-decoration:none;font-size:.85rem;font-weight:600">← Back to Ask</a>
+</nav>
+
+
+<!-- ── LOGIN ────────────────────────────────────────────────── -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-dot">SK</div>
+      <div>
+        <div class="login-logo-name">Elimux</div>
+        <div class="login-logo-sub">Domain Manager</div>
+    <a href="/" style="display:inline-flex;align-items:center;gap:6px;margin-top:18px;color:#C8973A;text-decoration:none;font-size:.85rem;font-weight:600;opacity:.85">← Back to Elimux Home</a>
+      </div>
+    </div>
+    <div class="login-title">Registry Manager Sign In</div>
+    <div class="login-sub">Manage domain health across all 4 institution registries</div>
+    <label class="login-label">Email</label>
+    <input class="login-input" type="email" id="lEmail" placeholder="registry@elimux.ke">
+    <label class="login-label">Password</label>
+    <input class="login-input" type="password" id="lPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Sign in →</button>
+    <div class="login-err" id="lErr"></div>
+    <div class="login-badge">🔒 Registry Manager access · Read + write domains only · No billing or ads access</div>
+  </div>
+</div>
+
+<!-- ── APP ────────────────────────────────────────────────────── -->
+<div id="app">
+  <aside class="sidebar">
+    <div class="sb-head">
+      <div class="sb-logo">
+        <div class="sb-logo-mark">SK</div>
+        <div><div class="sb-logo-name">Elimux</div><div class="sb-logo-role">Domain Manager</div></div>
+      </div>
+    </div>
+
+    <div class="sb-section">Views</div>
+    <button class="sb-btn active" onclick="nav('overview',this)">
+      <span class="sb-icon">📊</span>Overview
+    </button>
+    <button class="sb-btn" onclick="nav('confirmed',this)">
+      <span class="sb-icon">✅</span>Confirmed
+      <span class="sb-pill sp-green" id="sbConfirmed">–</span>
+    </button>
+    <button class="sb-btn" onclick="nav('attention',this)">
+      <span class="sb-icon">⚠️</span>Needs Attention
+      <span class="sb-pill sp-amber" id="sbAttention">–</span>
+    </button>
+    <button class="sb-btn" onclick="nav('no_domain',this)">
+      <span class="sb-icon">🔍</span>No Domain
+      <span class="sb-pill sp-blue" id="sbNoDomain">–</span>
+    </button>
+    <button class="sb-btn" onclick="nav('excluded',this)">
+      <span class="sb-icon">🚫</span>Excluded
+      <span class="sb-pill sp-grey" id="sbExcluded">–</span>
+    </button>
+    <button class="sb-btn" onclick="nav('all',this)">
+      <span class="sb-icon">📋</span>All Institutions
+    </button>
+
+    <div class="sb-section">Tools</div>
+    <button class="sb-btn" onclick="nav('log',this)">
+      <span class="sb-icon">📜</span>Test Log
+    </button>
+    <button class="sb-btn" onclick="nav('alerts',this)">
+      <span class="sb-icon">🔔</span>Email Alerts
+    </button>
+
+    <div class="sb-foot">
+      <div class="sb-user">
+        <div class="sb-avatar" id="sbAv">RM</div>
+        <div><div class="sb-uname" id="sbName">Registry Manager</div><div class="sb-urole">Domain access only</div></div>
+        <button class="sb-logout" onclick="doLogout()">Out</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main" id="main-content">
+    <div class="topbar">
+      <div class="tb-title" id="tbTitle">Overview</div>
+      <div class="tb-right">
+        <span id="tbSyncTime" style="font-size:.68rem;font-family:var(--mono);color:var(--t3)"></span>
+        <button class="btn btn-outline" onclick="refreshData()">↻ Refresh</button>
+        <button class="btn btn-navy" onclick="openBulkTest()">⚡ Bulk Test</button>
+      </div>
+    </div>
+    <div class="content">
+
+    <!-- ══ OVERVIEW ══ -->
+    <div class="view active" id="view-overview">
+      <div class="kpi-strip" id="kpiStrip"></div>
+
+      <!-- By registry breakdown -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px" id="regBreakdown"></div>
+
+      <!-- Recent test log -->
+      <div class="tbl-wrap">
+        <div style="padding:12px 14px;border-bottom:1px solid var(--g2);display:flex;align-items:center;justify-content:space-between">
+          <span style="font-family:var(--serif);font-size:.88rem;font-weight:700;color:var(--ink)">Recent Test Activity</span>
+          <button class="btn btn-outline" onclick="nav('log',document.querySelector('[onclick*=log]'))">View all →</button>
+        </div>
+        <div id="overviewLog" style="padding:0 14px"></div>
+      </div>
+    </div>
+
+    <!-- ══ CONFIRMED ══ -->
+    <div class="view" id="view-confirmed">
+      <div class="filter-bar">
+        <input class="filter-input" id="cfSearch" placeholder="Search name or domain…" oninput="renderTable('confirmed')">
+        <select class="filter-select" id="cfReg" onchange="renderTable('confirmed')">
+          <option value="">All registries</option>
+          <option value="pub_uni">Public Universities</option>
+          <option value="priv_uni">Private Universities</option>
+          <option value="tvet">TVETs</option>
+          <option value="examining">Examining Bodies</option>
+        </select>
+      </div>
+      <div class="tbl-wrap"><table class="tbl"><thead><tr>
+        <th>Institution</th><th>Domain</th><th>Registry</th><th>County</th><th>Last Tested</th><th>Response</th><th>Actions</th>
+      </tr></thead><tbody id="tbConfirmed"></tbody></table>
+      <div class="tbl-count" id="cfCount"></div></div>
+    </div>
+
+    <!-- ══ NEEDS ATTENTION (pending + unreachable) ══ -->
+    <div class="view" id="view-attention">
+      <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:var(--r);padding:10px 14px;margin-bottom:12px;font-size:.78rem;color:#92400E;display:flex;align-items:center;gap:8px">
+        <span>⚠️</span>
+        <span>These institutions need action. <strong>Pending</strong> = domain assigned, run HTTP test. <strong>Unreachable</strong> = test failed, investigate domain. Use ⚡ Bulk Test to test all pending at once.</span>
+      </div>
+      <div class="filter-bar">
+        <input class="filter-input" id="atSearch" placeholder="Search…" oninput="renderTable('attention')">
+        <select class="filter-select" id="atStatus" onchange="renderTable('attention')">
+          <option value="">Both pending + unreachable</option>
+          <option value="pending">Pending only</option>
+          <option value="unreachable">Unreachable only</option>
+        </select>
+        <select class="filter-select" id="atReg" onchange="renderTable('attention')">
+          <option value="">All registries</option>
+          <option value="pub_uni">Public Universities</option>
+          <option value="priv_uni">Private Universities</option>
+          <option value="tvet">TVETs</option>
+          <option value="examining">Examining Bodies</option>
+        </select>
+      </div>
+      <div class="tbl-wrap"><table class="tbl"><thead><tr>
+        <th>Institution</th><th>Domain</th><th>Status</th><th>Registry</th><th>Error / Note</th><th>Last Tested</th><th>Actions</th>
+      </tr></thead><tbody id="tbAttention"></tbody></table>
+      <div class="tbl-count" id="atCount"></div></div>
+    </div>
+
+    <!-- ══ NO DOMAIN ══ -->
+    <div class="view" id="view-no_domain">
+      <div style="background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2);border-radius:var(--r);padding:10px 14px;margin-bottom:12px;font-size:.78rem;color:#5B21B6;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+        <span>🔍 These institutions exist in the registry but have no website yet. Research the correct domain, set it, then run a test. <a href="#" onclick="exportNoDomain()" style="color:var(--violet);font-weight:600">Export as CSV →</a></span>
+      </div>
+      <div class="filter-bar">
+        <input class="filter-input" id="ndSearch" placeholder="Search…" oninput="renderTable('no_domain')">
+        <select class="filter-select" id="ndReg" onchange="renderTable('no_domain')">
+          <option value="">All registries</option>
+          <option value="pub_uni">Public Universities</option>
+          <option value="priv_uni">Private Universities</option>
+          <option value="tvet">TVETs</option>
+          <option value="examining">Examining Bodies</option>
+        </select>
+      </div>
+      <div class="tbl-wrap"><table class="tbl"><thead><tr>
+        <th>Institution</th><th>Registry</th><th>County</th><th>Charter</th><th>Set Domain</th><th>Research</th>
+      </tr></thead><tbody id="tbNoDomain"></tbody></table>
+      <div class="tbl-count" id="ndCount"></div></div>
+    </div>
+
+    <!-- ══ EXCLUDED ══ -->
+    <div class="view" id="view-excluded">
+      <div class="tbl-wrap"><table class="tbl"><thead><tr>
+        <th>Institution</th><th>Domain</th><th>Registry</th><th>Reason</th><th>Actions</th>
+      </tr></thead><tbody id="tbExcluded"></tbody></table></div>
+    </div>
+
+    <!-- ══ ALL ══ -->
+    <div class="view" id="view-all">
+      <div class="filter-bar">
+        <input class="filter-input" id="allSearch" placeholder="Search name or domain…" oninput="renderTable('all')">
+        <select class="filter-select" id="allStatus" onchange="renderTable('all')">
+          <option value="">All statuses</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="pending">Pending</option>
+          <option value="unreachable">Unreachable</option>
+          <option value="needs_domain">Needs Domain</option>
+          <option value="excluded">Excluded</option>
+        </select>
+        <select class="filter-select" id="allReg" onchange="renderTable('all')">
+          <option value="">All registries</option>
+          <option value="pub_uni">Public Universities</option>
+          <option value="priv_uni">Private Universities</option>
+          <option value="tvet">TVETs</option>
+          <option value="examining">Examining Bodies</option>
+        </select>
+      </div>
+      <div class="tbl-wrap"><table class="tbl"><thead><tr>
+        <th>Institution</th><th>Domain</th><th>Status</th><th>Registry</th><th>County</th><th>Last Tested</th><th>Actions</th>
+      </tr></thead><tbody id="tbAll"></tbody></table>
+      <div class="tbl-count" id="allCount"></div></div>
+    </div>
+
+    <!-- ══ TEST LOG ══ -->
+    <div class="view" id="view-log">
+      <div id="logList"></div>
+    </div>
+
+    <!-- ══ EMAIL ALERTS ══ -->
+    <div class="view" id="view-alerts">
+      <div id="emailConfig"></div>
+    </div>
+
+    </div><!-- /.content -->
+  </div><!-- /.main -->
+</div><!-- /#app -->
+
+<!-- ── SET DOMAIN MODAL ──────────────────────────────────────── -->
+<div class="modal-overlay" id="setDomainModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div><div class="modal-title" id="sdTitle">Set Domain</div><div class="modal-sub" id="sdSub">Enter the correct website domain</div></div>
+      <button class="modal-close" onclick="closeModal('setDomainModal')" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="sdKey">
+      <label class="form-label">Domain (without https://)</label>
+      <input class="form-input" id="sdDomain" placeholder="e.g. machakosuniversity.ac.ke" style="font-family:var(--mono)">
+      <div style="font-size:.73rem;color:var(--t2);line-height:1.6;margin-bottom:10px">Enter only the domain name. Do not include https:// or any path. The system will test the domain immediately after saving.</div>
+      <div id="sdTestResult" style="display:none;padding:10px 12px;border-radius:var(--r);font-size:.76rem;margin-top:6px"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" onclick="closeModal('setDomainModal')">Cancel</button>
+      <button class="btn btn-navy" onclick="submitSetDomain()">Save &amp; Test →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── EXCLUDE MODAL ─────────────────────────────────────────── -->
+<div class="modal-overlay" id="excludeModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div><div class="modal-title" id="exTitle">Exclude Institution</div><div class="modal-sub">It will be hidden from students and not synced</div></div>
+      <button class="modal-close" onclick="closeModal('excludeModal')" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="exKey">
+      <label class="form-label">Reason for exclusion (required)</label>
+      <textarea class="form-textarea" id="exReason" placeholder="e.g. Military institution — not open to civilian students"></textarea>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" onclick="closeModal('excludeModal')">Cancel</button>
+      <button class="btn btn-red" onclick="submitExclude()">Exclude</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── BULK TEST MODAL ───────────────────────────────────────── -->
+<div class="modal-overlay" id="bulkModal">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-head">
+      <div><div class="modal-title">⚡ Bulk Domain Test</div><div class="modal-sub">Tests domains in background, 8 at a time</div></div>
+      <button class="modal-close" onclick="closeModal('bulkModal')" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <label class="form-label">What to test</label>
+      <select class="form-select" id="bulkFilter">
+        <option value="pending">Pending only (not yet tested)</option>
+        <option value="unreachable">Unreachable only (retry failed)</option>
+        <option value="">All (pending + confirmed + unreachable)</option>
+      </select>
+      <div style="font-size:.75rem;color:var(--t2);line-height:1.6;padding:10px;background:var(--g1);border-radius:var(--r);margin-bottom:4px">
+        Tests run in the background. Results appear in the Test Log within a few minutes. Confirmed domains will be auto-promoted. Failures after 2 tries become Unreachable and trigger an email alert.
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" onclick="closeModal('bulkModal')">Cancel</button>
+      <button class="btn btn-navy" onclick="submitBulkTest()">Start Testing →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ── DEMO DATA ─────────────────────────────────────────────────
+const DEMO_REGISTRIES = {"pub_uni": [{"id": "uon", "name": "University of Nairobi", "short": "UoN", "domain": "uonbi.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Nairobi", "city": "Nairobi", "strengths": ["Medicine", "Law", "Engineering", "Business", "Arts", "Science"], "kcse_min": "B+", "student_count": "85,000+"}, {"id": "mu", "name": "Moi University", "short": "MU", "domain": "mu.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Uasin Gishu", "city": "Eldoret", "strengths": ["Education", "Science", "Business", "Health", "Engineering", "Arts"], "kcse_min": "C+", "student_count": "40,000+"}, {"id": "ku", "name": "Kenyatta University", "short": "KU", "domain": "ku.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Kiambu", "city": "Nairobi", "strengths": ["Education", "Science", "Business", "Humanities", "Health"], "kcse_min": "C+", "student_count": "60,000+"}, {"id": "eu", "name": "Egerton University", "short": "EU", "domain": "egerton.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Nakuru", "city": "Njoro", "strengths": ["Agriculture", "Engineering", "Science", "Veterinary", "Business"], "kcse_min": "C+", "student_count": "20,000+"}, {"id": "jkuat", "name": "Jomo Kenyatta University of Agriculture and Technology", "short": "JKUAT", "domain": "jkuat.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Kiambu", "city": "Juja", "strengths": ["Engineering", "Agriculture", "ICT", "Architecture", "Business", "Science"], "kcse_min": "C+", "student_count": "30,000+"}, {"id": "maseno", "name": "Maseno University", "short": "Maseno", "domain": "maseno.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Kisumu", "city": "Maseno", "strengths": ["Science", "Arts", "Business", "Education", "Health"], "kcse_min": "C+", "student_count": "20,000+"}, {"id": "mmust", "name": "Masinde Muliro University of Science and Technology", "short": "MMUST", "domain": "mmust.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Kakamega", "city": "Kakamega", "strengths": ["Science", "Technology", "Engineering", "Business", "Health"], "kcse_min": "C+", "student_count": "15,000+"}, {"id": "dekut", "name": "Dedan Kimathi University of Technology", "short": "DeKUT", "domain": "dkut.ac.ke", "domain_status": "confirmed", "charter": 2012, "county": "Nyeri", "city": "Nyeri", "strengths": ["Engineering", "Technology", "Business", "ICT", "Science"], "kcse_min": "C+", "student_count": "12,000+"}, {"id": "chuka", "name": "Chuka University", "short": "CU", "domain": "chuka.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Tharaka-Nithi", "city": "Chuka", "strengths": ["Business", "Science", "Arts", "Education", "Health"], "kcse_min": "C+", "student_count": "10,000+"}, {"id": "tuk", "name": "Technical University of Kenya", "short": "TU-K", "domain": "tukenya.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Nairobi", "city": "Nairobi", "strengths": ["Engineering", "Technology", "Business", "Science", "Architecture"], "kcse_min": "C+", "student_count": "15,000+"}, {"id": "tum", "name": "Technical University of Mombasa", "short": "TUM", "domain": "tum.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Mombasa", "city": "Mombasa", "strengths": ["Engineering", "Marine", "Business", "Applied Sciences", "ICT"], "kcse_min": "C+", "student_count": "12,000+"}, {"id": "pu", "name": "Pwani University", "short": "PU", "domain": "pu.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Kilifi", "city": "Kilifi", "strengths": ["Business", "Science", "Tourism", "Health", "Arts"], "kcse_min": "C", "student_count": "8,000+"}, {"id": "ksu", "name": "Kisii University", "short": "KSU", "domain": "kisiiuniversity.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Kisii", "city": "Kisii", "strengths": ["Business", "Education", "Science", "Health", "Arts"], "kcse_min": "C", "student_count": "15,000+"}, {"id": "uoe", "name": "University of Eldoret", "short": "UoE", "domain": "uoeld.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Uasin Gishu", "city": "Eldoret", "strengths": ["Agriculture", "Science", "Education", "Business", "Health"], "kcse_min": "C+", "student_count": "10,000+"}, {"id": "mmarau", "name": "Maasai Mara University", "short": "MMU", "domain": "mmarau.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Narok", "city": "Narok", "strengths": ["Tourism", "Business", "Science", "Education", "Arts"], "kcse_min": "C", "student_count": "8,000+"}, {"id": "jooust", "name": "Jaramogi Oginga Odinga University of Science & Tech", "short": "JOOUST", "domain": "jooust.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Siaya", "city": "Bondo", "strengths": ["Science", "Technology", "Business", "Health", "Education"], "kcse_min": "C+", "student_count": "10,000+"}, {"id": "laikipia", "name": "Laikipia University", "short": "LU", "domain": "laikipia.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Laikipia", "city": "Nyahururu", "strengths": ["Education", "Business", "Science", "Arts", "Health"], "kcse_min": "C", "student_count": "8,000+"}, {"id": "seku", "name": "South Eastern Kenya University", "short": "SEKU", "domain": "seku.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Kitui", "city": "Kitui", "strengths": ["Agriculture", "Science", "Business", "Health", "Arts"], "kcse_min": "C", "student_count": "8,000+"}, {"id": "must", "name": "Meru University of Science and Technology", "short": "MUST", "domain": "must.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Meru", "city": "Meru", "strengths": ["Engineering", "Science", "Business", "ICT", "Agriculture"], "kcse_min": "C+", "student_count": "12,000+"}, {"id": "mmu", "name": "Multimedia University of Kenya", "short": "MMU-K", "domain": "mmu.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Nairobi", "city": "Karen", "strengths": ["ICT", "Media", "Engineering", "Business", "Film & TV"], "kcse_min": "C+", "student_count": "10,000+"}, {"id": "kabianga", "name": "University of Kabianga", "short": "KAB", "domain": "kabianga.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Kericho", "city": "Kabianga", "strengths": ["Education", "Business", "Science", "Health", "Arts"], "kcse_min": "C", "student_count": "8,000+"}, {"id": "karatina", "name": "Karatina University", "short": "KaRU", "domain": "karatinauniversity.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Nyeri", "city": "Karatina", "strengths": ["Business", "Science", "Arts", "Education", "ICT"], "kcse_min": "C", "student_count": "8,000+"}, {"id": "kibabii", "name": "Kibabii University", "short": "KIBU", "domain": "kibabiiuniversity.ac.ke", "domain_status": "confirmed", "charter": 2013, "county": "Bungoma", "city": "Bungoma", "strengths": ["Science", "Technology", "Business", "Education", "Health"], "kcse_min": "C", "student_count": "8,000+"}, {"id": "rongo", "name": "Rongo University", "short": "RU", "domain": "rongovarsity.ac.ke", "domain_status": "confirmed", "charter": 2016, "county": "Migori", "city": "Rongo", "strengths": ["Business", "Education", "Science", "Arts", "Health"], "kcse_min": "C", "student_count": "7,000+"}, {"id": "cuk", "name": "The Co-operative University of Kenya", "short": "CUK", "domain": "cuk.ac.ke", "domain_status": "confirmed", "charter": 2016, "county": "Nairobi", "city": "Karen", "strengths": ["Co-operative Management", "Business", "ICT", "Development Studies"], "kcse_min": "C", "student_count": "8,000+"}, {"id": "alupe", "name": "Alupe University", "short": "AU", "domain": "au.ac.ke", "domain_status": "confirmed", "charter": 2022, "county": "Busia", "city": "Alupe", "strengths": ["Health Sciences", "Science", "Business", "Education", "Agriculture"], "kcse_min": "C", "student_count": "5,000+"}, {"id": "kafu", "name": "Kaimosi Friends University", "short": "KAFU", "domain": "kafu.ac.ke", "domain_status": "confirmed", "charter": 2022, "county": "Vihiga", "city": "Kaimosi", "strengths": ["Sciences", "Business", "Education", "Health", "ICT"], "kcse_min": "C", "student_count": "5,000+"}, {"id": "ouk", "name": "Open University of Kenya", "short": "OUK", "domain": "ouk.ac.ke", "domain_status": "confirmed", "charter": 2023, "county": "Nairobi", "city": "Online/Nairobi", "strengths": ["Distance Learning", "Business", "Education", "ICT", "Science"], "kcse_min": "C", "student_count": "15,000+"}, {"id": "ttu", "name": "Taita Taveta University", "short": "TTU", "domain": "ttu.ac.ke", "domain_status": "pending", "charter": 2016, "county": "Taita-Taveta", "city": "Voi", "strengths": ["Engineering", "Business", "Science", "Arts"], "kcse_min": "C", "student_count": "6,000+"}, {"id": "mut", "name": "Murang'a University of Technology", "short": "MUT", "domain": "mut.ac.ke", "domain_status": "pending", "charter": 2016, "county": "Murang'a", "city": "Murang'a", "strengths": ["Engineering", "Technology", "Business", "Science", "ICT"], "kcse_min": "C+", "student_count": "8,000+"}, {"id": "uoembu", "name": "University of Embu", "short": "UoEm", "domain": "embuni.ac.ke", "domain_status": "pending", "charter": 2016, "county": "Embu", "city": "Embu", "strengths": ["Agriculture", "Business", "Science", "Health", "Arts"], "kcse_min": "C", "student_count": "7,000+"}, {"id": "mku_pub", "name": "Machakos University", "short": "MachU", "domain": "machakosuniversity.ac.ke", "domain_status": "pending", "charter": 2016, "county": "Machakos", "city": "Machakos", "strengths": ["Business", "Science", "Arts", "ICT", "Education"], "kcse_min": "C", "student_count": "7,000+"}, {"id": "kyu", "name": "Kirinyaga University", "short": "KYU", "domain": "kyu.ac.ke", "domain_status": "pending", "charter": 2016, "county": "Kirinyaga", "city": "Kerugoya", "strengths": ["Engineering", "Business", "Science", "ICT", "Agriculture"], "kcse_min": "C", "student_count": "6,000+"}, {"id": "gu", "name": "Garissa University", "short": "GU", "domain": "garissauniversity.ac.ke", "domain_status": "pending", "charter": 2017, "county": "Garissa", "city": "Garissa", "strengths": ["Business", "Science", "Arts", "Education", "ICT"], "kcse_min": "C", "student_count": "5,000+"}, {"id": "tmu", "name": "Tom Mboya University", "short": "TMU", "domain": "tmu.ac.ke", "domain_status": "pending", "charter": 2022, "county": "Homa Bay", "city": "Homa Bay", "strengths": ["Business", "Science", "Education", "Arts", "Health"], "kcse_min": "C", "student_count": "4,000+"}, {"id": "tharaka", "name": "Tharaka University", "short": "TUN", "domain": "tharaka.ac.ke", "domain_status": "pending", "charter": 2022, "county": "Tharaka-Nithi", "city": "Gatunga", "strengths": ["Business", "Science", "Education", "Arts"], "kcse_min": "C", "student_count": "7,000+"}, {"id": "bomet", "name": "Bomet University", "short": "BU", "domain": "bomet.ac.ke", "domain_status": "pending", "charter": 2026, "county": "Bomet", "city": "Bomet", "strengths": ["Business", "Science", "Agriculture", "Education"], "kcse_min": "C", "student_count": "8,000+", "note": "Newest \u2014 chartered Feb 2026"}, {"id": "tuc", "name": "Turkana University College", "short": "TUC", "domain": null, "domain_status": "needs_domain", "charter": 2016, "county": "Turkana", "city": "Lodwar", "strengths": ["Business", "Science", "Education"], "kcse_min": "C", "student_count": "3,000+", "parent_uni": "MMUST"}, {"id": "ksuc", "name": "Koitaleel Samoei University College", "short": "KSUC", "domain": null, "domain_status": "needs_domain", "charter": 2018, "county": "Nandi", "city": "Nandi Hills", "strengths": ["Business", "Science", "Education"], "kcse_min": "C", "student_count": "3,000+", "parent_uni": "University of Nairobi"}, {"id": "mnuc", "name": "Mama Ngina University College", "short": "MNUC", "domain": null, "domain_status": "needs_domain", "charter": 2021, "county": "Kiambu", "city": "Nairobi", "strengths": ["Business", "Arts", "Education"], "kcse_min": "C", "student_count": "2,000+", "parent_uni": "Kenyatta University"}, {"id": "nyanduc", "name": "Nyandarua University College", "short": "NyUC", "domain": null, "domain_status": "needs_domain", "charter": 2025, "county": "Nyandarua", "city": "Ol Kalou", "strengths": ["Business", "Science", "Education"], "kcse_min": "C", "student_count": "1,000+", "parent_uni": "University of Nairobi"}, {"id": "kabarnet", "name": "Kabarnet University College", "short": "KabUC", "domain": null, "domain_status": "needs_domain", "charter": 2025, "county": "Baringo", "city": "Kabarnet", "strengths": ["Business", "Science", "Education"], "kcse_min": "C", "student_count": "1,000+"}, {"id": "makuenic", "name": "Makueni University College", "short": "MakUC", "domain": null, "domain_status": "needs_domain", "charter": 2025, "county": "Makueni", "city": "Makueni", "strengths": ["Business", "Science", "Agriculture"], "kcse_min": "C", "student_count": "1,000+", "parent_uni": "SEKU"}, {"id": "kaist", "name": "Kenya Advanced Institute of Science and Technology", "short": "KAIST", "domain": "kenya-aist.ac.ke", "domain_status": "confirmed", "charter": 2026, "county": "Machakos", "city": "Konza", "strengths": ["Postgraduate Engineering", "Science", "Technology"], "kcse_min": "Bachelor's degree", "student_count": "200+", "note": "PG only \u2014 Konza Technopolis"}, {"id": "niru", "name": "National Intelligence Research University", "short": "NIRU", "domain": null, "domain_status": "excluded", "charter": 2024, "county": "Nairobi", "city": "Nairobi", "strengths": ["Intelligence Studies", "Security"], "kcse_min": "N/A", "excluded_reason": "Restricted access \u2014 national security institution. Not a student-facing university."}, {"id": "nduk", "name": "National Defence University-Kenya", "short": "NDU-K", "domain": "ndu.ac.ke", "domain_status": "excluded", "charter": 2012, "county": "Nairobi", "city": "Karen", "strengths": ["Military Studies", "Defence"], "kcse_min": "Military service", "excluded_reason": "Military institution \u2014 admission requires military service. Not open to civilian students."}], "priv_uni": [{"id": "strathmore", "name": "Strathmore University", "domain": "strathmore.edu", "domain_status": "confirmed", "county": "Nairobi", "charter": 2008}, {"id": "usiu", "name": "USIU-Africa", "domain": "usiu.ac.ke", "domain_status": "confirmed", "county": "Nairobi", "charter": 1999}, {"id": "mku", "name": "Mount Kenya University", "domain": "mku.ac.ke", "domain_status": "confirmed", "county": "Kiambu", "charter": 2011}, {"id": "daystar", "name": "Daystar University", "domain": "daystar.ac.ke", "domain_status": "confirmed", "county": "Nairobi", "charter": 1994}, {"id": "cuea", "name": "Catholic University of Eastern Africa", "domain": "cuea.edu", "domain_status": "confirmed", "county": "Nairobi", "charter": 1992}, {"id": "kca", "name": "KCA University", "domain": "kcau.ac.ke", "domain_status": "confirmed", "county": "Nairobi", "charter": 2016}, {"id": "kabarak", "name": "Kabarak University", "domain": "kabarak.ac.ke", "domain_status": "confirmed", "county": "Nakuru", "charter": 2008}, {"id": "zetech", "name": "Zetech University", "domain": "zetech.ac.ke", "domain_status": "confirmed", "county": "Nairobi", "charter": 2022}, {"id": "riara", "name": "Riara University", "domain": "riarauniversity.ac.ke", "domain_status": "confirmed", "county": "Nairobi", "charter": 2025}, {"id": "aku", "name": "Aga Khan University", "domain": "aku.edu", "domain_status": "confirmed", "county": "Nairobi", "charter": 2021}], "tvet": [{"id": "kabete", "name": "Kabete National Polytechnic", "domain": "kabetepoly.ac.ke", "domain_status": "confirmed", "county": "Kiambu", "charter": null}, {"id": "kisumupoly", "name": "Kisumu National Polytechnic", "domain": "kisumupoly.ac.ke", "domain_status": "confirmed", "county": "Kisumu", "charter": null}, {"id": "kimc", "name": "Kenya Institute of Mass Communication", "domain": "kimc.ac.ke", "domain_status": "confirmed", "county": "Nairobi", "charter": null}, {"id": "kmtc", "name": "Kenya Medical Training College", "domain": "kmtc.ac.ke", "domain_status": "confirmed", "county": "Nairobi", "charter": null}, {"id": "kim", "name": "Kenya Institute of Management", "domain": "kim.ac.ke", "domain_status": "confirmed", "county": "Nairobi", "charter": null}, {"id": "nyandaruapoly", "name": "Nyandarua National Polytechnic", "domain": "nyandaruapoly.ac.ke", "domain_status": "pending", "county": "Nyandarua", "charter": null}, {"id": "kwalepoly", "name": "Kwale National Polytechnic", "domain": "kwalepoly.ac.ke", "domain_status": "pending", "county": "Kwale", "charter": null}], "examining": [{"id": "kasneb", "name": "KASNEB", "domain": "kasneb.or.ke", "domain_status": "confirmed", "county": "Nairobi", "charter": null}, {"id": "knec", "name": "KNEC", "domain": "knec.ac.ke", "domain_status": "confirmed", "county": "Nairobi", "charter": null}, {"id": "icpak", "name": "ICPAK", "domain": "icpak.com", "domain_status": "confirmed", "county": "Nairobi", "charter": null}, {"id": "acca", "name": "ACCA", "domain": "accaglobal.com", "domain_status": "confirmed", "county": "Nairobi", "charter": null}]};
+
+// ── Flatten into single list with registry label ──────────────
+function buildFlat(data) {
+  const flat = [];
+  const regLabels = {pub_uni:'Public University', priv_uni:'Private University', tvet:'TVET/College', examining:'Examining Body'};
+  for (const [reg, list] of Object.entries(data)) {
+    list.forEach(inst => flat.push({
+      ...inst,
+      registry:    reg,
+      regLabel:    regLabels[reg] || reg,
+      key:         `${reg}_${inst.id}`,
+      domain_status: inst.domain_status || (inst.domain ? 'pending' : 'needs_domain'),
+      lastTested:  inst.lastTested || null,
+      lastError:   inst.lastError  || null,
+      failCount:   inst.failCount  || 0,
+      responseTimeMs: inst.responseTimeMs || null,
+      excludedReason: inst.excludedReason || null,
+    }));
+  }
+  return flat;
+}
+
+let ALL_INSTITUTIONS = buildFlat(DEMO_REGISTRIES);
+let currentUser = null;
+
+// ── AUTH ──────────────────────────────────────────────────────
+const API = window.ELIMUX_API_URL || 'https://api.elimux.ke';
+
+async function doLogin() {
+  const email = document.getElementById('lEmail').value.trim().toLowerCase();
+  const pass  = document.getElementById('lPass').value;
+  const err   = document.getElementById('lErr');
+  if (!email || !pass) { err.textContent = 'Please enter email and password.'; return; }
+  try {
+    const res = await fetch(`${API}/admin/auth`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({email, password: pass})
+    });
+    if (!res.ok) { err.textContent = 'Invalid credentials.'; return; }
+    const {user, token} = await res.json();
+    sessionStorage.setItem('elimux_domain_token', token);
+    launchApp(user);
+  } catch(e) {
+    if(err) err.textContent = 'Cannot reach authentication server. Please try again later.';
+  } else {
+      err.textContent = 'Invalid credentials. Try any @elimux.ke email with 6+ char password.';
+    }
+  }
+}
+document.getElementById('lPass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+function launchApp(user) {
+  currentUser = user;
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+  document.getElementById('sbName').textContent  = user.name || user.email;
+  document.getElementById('sbAv').textContent    = user.initials || (user.name||'RM').slice(0,2).toUpperCase();
+  refreshData();
+  document.getElementById('tbSyncTime').textContent = 'Updated: ' + new Date().toLocaleTimeString('en-KE');
+}
+
+function doLogout() {
+  sessionStorage.removeItem('elimux_domain_token');
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('loginScreen').style.display = 'flex';
+  currentUser = null;
+}
+
+// ── NAV ───────────────────────────────────────────────────────
+const TITLES = {overview:'Overview',confirmed:'Confirmed Domains',attention:'Needs Attention',no_domain:'No Domain',excluded:'Excluded',all:'All Institutions',log:'Test Log',alerts:'Email Alerts'};
+
+function nav(view, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.sb-btn').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('view-'+view);
+  if (el) el.classList.add('active');
+  if (btn) btn.classList.add('active');
+  document.getElementById('tbTitle').textContent = TITLES[view] || view;
+  if (view !== 'overview') renderTable(view);
+  if (view === 'log') renderLog();
+  if (view === 'alerts') renderAlerts();
+}
+
+// ── DATA REFRESH ──────────────────────────────────────────────
+async function refreshData() {
+  try {
+    const token = sessionStorage.getItem('elimux_domain_token');
+    const res = await fetch(`${API}/domain-admin/all`, {
+      headers: { 'x-admin-key': token || '' }
+    });
+    if (res.ok) {
+      const d = await res.json();
+      ALL_INSTITUTIONS = d.institutions || ALL_INSTITUTIONS;
+    }
+  } catch(e) {
+    // Keep demo data
+  }
+  renderOverview();
+  updateSidebarCounts();
+  document.getElementById('tbSyncTime').textContent = 'Updated: ' + new Date().toLocaleTimeString('en-KE');
+}
+
+// ── STATUS HELPERS ────────────────────────────────────────────
+const DS_LABEL  = {confirmed:'✅ Confirmed', pending:'⚠️ Pending', unreachable:'❌ Unreachable', needs_domain:'🔍 No Domain', excluded:'🚫 Excluded'};
+const DS_CLASS  = {confirmed:'ds-confirmed', pending:'ds-pending', unreachable:'ds-unreachable', needs_domain:'ds-needs_domain', excluded:'ds-excluded'};
+const REG_CLASS = {pub_uni:'reg-pub_uni', priv_uni:'reg-priv_uni', tvet:'reg-tvet', examining:'reg-examining'};
+const REG_LABEL = {pub_uni:'Pub Uni', priv_uni:'Priv Uni', tvet:'TVET', examining:'Examining'};
+const REG_ICON  = {pub_uni:'🏛️', priv_uni:'🎓', tvet:'🔧', examining:'📋'};
+
+function dsBadge(status) {
+  return `<span class="ds-badge ${DS_CLASS[status]||''}"><span class="ds-dot"></span>${DS_LABEL[status]||status}</span>`;
+}
+function regBadge(reg) {
+  return `<span class="reg-badge ${REG_CLASS[reg]||''}">${REG_ICON[reg]||''} ${REG_LABEL[reg]||reg}</span>`;
+}
+function relTime(iso) {
+  if (!iso) return '<span style="color:var(--t3)">Never</span>';
+  const d = Date.now() - new Date(iso).getTime();
+  if (d < 60000) return 'just now';
+  if (d < 3600000) return Math.floor(d/60000)+'m ago';
+  if (d < 86400000) return Math.floor(d/3600000)+'h ago';
+  return Math.floor(d/86400000)+'d ago';
+}
+
+// ── OVERVIEW ──────────────────────────────────────────────────
+function renderOverview() {
+  const counts = {confirmed:0,pending:0,unreachable:0,needs_domain:0,excluded:0};
+  ALL_INSTITUTIONS.forEach(r => { counts[r.domain_status] = (counts[r.domain_status]||0)+1; });
+
+  const kpiData = [
+    {key:'confirmed',   label:'Confirmed',   icon:'✅', sub:'Syncing successfully', sub_class:'', color:'--green'},
+    {key:'pending',     label:'Pending',     icon:'⚠️', sub:'Test not yet run',     sub_class:'', color:'--amber'},
+    {key:'unreachable', label:'Unreachable', icon:'❌', sub:'HTTP test failed',      sub_class:'color:var(--red)', color:'--red'},
+    {key:'needs_domain',label:'No Domain',   icon:'🔍', sub:'Research needed',       sub_class:'', color:'--violet'},
+    {key:'excluded',    label:'Excluded',    icon:'🚫', sub:'Out of scope',          sub_class:'', color:'--t3'},
+  ];
+
+  document.getElementById('kpiStrip').innerHTML = kpiData.map(k => `
+    <div class="kpi kpi-${k.key}" onclick="quickFilter('${k.key}')">
+      <div class="kpi-icon">${k.icon}</div>
+      <div class="kpi-val" style="${k.key==='unreachable'&&counts[k.key]>0?'color:var(--red)':''}">${counts[k.key]||0}</div>
+      <div class="kpi-lbl">${k.label}</div>
+      <div class="kpi-sub">${k.sub}</div>
+    </div>`).join('');
+
+  // Registry breakdown
+  const regs = {pub_uni:{label:'Public Universities',icon:'🏛️'},priv_uni:{label:'Private Universities',icon:'🎓'},tvet:{label:'TVETs & Colleges',icon:'🔧'},examining:{label:'Examining Bodies',icon:'📋'}};
+  document.getElementById('regBreakdown').innerHTML = Object.entries(regs).map(([r,info]) => {
+    const items = ALL_INSTITUTIONS.filter(i => i.registry === r);
+    const ok    = items.filter(i => i.domain_status === 'confirmed').length;
+    const bad   = items.filter(i => ['unreachable','needs_domain'].includes(i.domain_status)).length;
+    const pend  = items.filter(i => i.domain_status === 'pending').length;
+    const pct   = items.length ? Math.round(ok/items.length*100) : 0;
+    return `<div style="background:white;border:1px solid var(--g2);border-radius:var(--r-lg);padding:14px">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+        <span style="font-size:1rem">${info.icon}</span>
+        <span style="font-size:.78rem;font-weight:600;color:var(--ink)">${info.label}</span>
+      </div>
+      <div style="font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:6px">${items.length}</div>
+      <div style="height:4px;background:var(--g2);border-radius:var(--r-full);overflow:hidden;margin-bottom:6px">
+        <div style="height:100%;width:${pct}%;background:var(--green);border-radius:var(--r-full)"></div>
+      </div>
+      <div style="display:flex;gap:8px;font-size:.64rem;font-family:var(--mono)">
+        <span style="color:#15803D">✅ ${ok}</span>
+        <span style="color:#92400E">${pend>0?`⏳ ${pend}`:''}</span>
+        <span style="color:var(--red)">${bad>0?`❗ ${bad}`:''}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Recent log
+  const log = ALL_INSTITUTIONS.filter(i=>i.lastTested).sort((a,b)=>new Date(b.lastTested)-new Date(a.lastTested)).slice(0,8);
+  document.getElementById('overviewLog').innerHTML = log.length ? log.map(i => `
+    <div class="log-row">
+      <div class="log-dot ${i.domain_status==='confirmed'?'log-ok':i.domain_status==='unreachable'?'log-fail':'log-skip'}"></div>
+      <span style="flex:1;font-weight:500">${i.name}</span>
+      <span style="font-family:var(--mono);font-size:.7rem;color:var(--t3)">${i.domain||'–'}</span>
+      <span>${dsBadge(i.domain_status)}</span>
+      <span style="font-size:.68rem;color:var(--t3)">${relTime(i.lastTested)}</span>
+    </div>`).join('')
+    : '<div style="padding:20px;text-align:center;color:var(--t3);font-size:.8rem">No tests run yet. Click ⚡ Bulk Test to start.</div>';
+}
+
+function updateSidebarCounts() {
+  const c = {confirmed:0,pending:0,unreachable:0,needs_domain:0,excluded:0};
+  ALL_INSTITUTIONS.forEach(r => { c[r.domain_status] = (c[r.domain_status]||0)+1; });
+  document.getElementById('sbConfirmed').textContent  = c.confirmed;
+  document.getElementById('sbAttention').textContent  = c.pending + c.unreachable;
+  document.getElementById('sbNoDomain').textContent   = c.needs_domain;
+  document.getElementById('sbExcluded').textContent   = c.excluded;
+}
+
+function quickFilter(status) {
+  nav('all', document.querySelector('.sb-btn[onclick*="nav(\'all\'"]'));
+  document.getElementById('allStatus').value = status;
+  renderTable('all');
+}
+
+// ── TABLE RENDERERS ───────────────────────────────────────────
+function getFiltered(view) {
+  const search = (document.getElementById({confirmed:'cfSearch',attention:'atSearch',no_domain:'ndSearch',all:'allSearch'}[view]||'allSearch')?.value||'').toLowerCase();
+  const reg    = (document.getElementById({confirmed:'cfReg',attention:'atReg',no_domain:'ndReg',all:'allReg'}[view])?.value||'');
+  const status = (document.getElementById({attention:'atStatus',all:'allStatus'}[view]||'x')?.value||'');
+
+  return ALL_INSTITUTIONS.filter(r => {
+    if (view === 'confirmed'   && r.domain_status !== 'confirmed') return false;
+    if (view === 'no_domain'   && r.domain_status !== 'needs_domain') return false;
+    if (view === 'excluded'    && r.domain_status !== 'excluded') return false;
+    if (view === 'attention'   && !['pending','unreachable'].includes(r.domain_status)) return false;
+    if (status && r.domain_status !== status) return false;
+    if (reg    && r.registry !== reg) return false;
+    if (search && !r.name.toLowerCase().includes(search) && !r.domain?.toLowerCase().includes(search)) return false;
+    return true;
+  });
+}
+
+function renderTable(view) {
+  const list = getFiltered(view);
+  const ORDER_STATUS = {unreachable:0,pending:1,confirmed:2,needs_domain:3,excluded:4};
+  list.sort((a,b)=>(ORDER_STATUS[a.domain_status]||9)-(ORDER_STATUS[b.domain_status]||9));
+
+  if (view === 'confirmed') {
+    document.getElementById('tbConfirmed').innerHTML = list.map(r => `
+      <tr>
+        <td><strong style="font-size:.82rem">${r.name}</strong><br><span style="font-size:.64rem;color:var(--t3)">${r.short||''}</span></td>
+        <td><span style="font-family:var(--mono);font-size:.75rem">${r.domain||'–'}</span></td>
+        <td>${regBadge(r.registry)}</td>
+        <td style="font-size:.74rem;color:var(--t2)">${r.county||'–'}</td>
+        <td style="font-size:.7rem;color:var(--t2)">${relTime(r.lastTested)}</td>
+        <td style="font-size:.7rem;color:var(--t2)">${r.responseTimeMs ? r.responseTimeMs+'ms' : '–'}</td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-outline btn-xs" onclick="testOne('${r.key}','${r.name.replace(/'/g,"\'")}')">⚡ Re-test</button>
+          <button class="btn btn-xs" style="background:rgba(229,57,53,.08);color:var(--red);border:1px solid rgba(229,57,53,.2);margin-left:4px" onclick="openExclude('${r.key}','${r.name.replace(/'/g,"\'")}')">Exclude</button>
+        </td>
+      </tr>`).join('') || '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--t3)">No confirmed domains.</td></tr>';
+    document.getElementById('cfCount').textContent = list.length + ' institutions';
+  }
+
+  if (view === 'attention') {
+    document.getElementById('tbAttention').innerHTML = list.map(r => `
+      <tr>
+        <td><strong style="font-size:.82rem">${r.name}</strong></td>
+        <td>
+          <span style="font-family:var(--mono);font-size:.74rem">${r.domain||'–'}</span>
+          <div class="domain-edit" id="de_${r.key}">
+            <input type="text" placeholder="new-domain.ac.ke" id="di_${r.key}" value="${r.domain||''}">
+            <button class="btn btn-navy btn-xs" onclick="saveDomainOverride('${r.key}')">Save</button>
+            <button class="btn btn-outline btn-xs" onclick="document.getElementById('de_${r.key}').classList.remove('open')" aria-label="Close">×</button>
+          </div>
+        </td>
+        <td>${dsBadge(r.domain_status)}</td>
+        <td>${regBadge(r.registry)}</td>
+        <td style="font-size:.72rem;color:${r.domain_status==='unreachable'?'var(--red)':'var(--t2)'}">${r.lastError||r.note||'–'}</td>
+        <td style="font-size:.7rem;color:var(--t2)">${relTime(r.lastTested)}</td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-amber btn-xs" onclick="testOne('${r.key}','${r.name.replace(/'/g,"\'")}')">⚡ Test</button>
+          <button class="btn btn-violet btn-xs" onclick="document.getElementById('de_${r.key}').classList.add('open')" style="margin-left:3px">✏️ Domain</button>
+          <button class="btn btn-xs" style="background:rgba(229,57,53,.08);color:var(--red);border:1px solid rgba(229,57,53,.2);margin-left:3px" onclick="openExclude('${r.key}','${r.name.replace(/'/g,"\'")}')">Exclude</button>
+        </td>
+      </tr>`).join('') || '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--t3)">No pending or unreachable domains. 🎉</td></tr>';
+    document.getElementById('atCount').textContent = list.length + ' institutions';
+  }
+
+  if (view === 'no_domain') {
+    document.getElementById('tbNoDomain').innerHTML = list.map(r => `
+      <tr>
+        <td><strong style="font-size:.82rem">${r.name}</strong><br><span style="font-size:.64rem;color:var(--t3)">${r.short||''} ${r.charter?'· '+r.charter:''}</span></td>
+        <td>${regBadge(r.registry)}</td>
+        <td style="font-size:.74rem;color:var(--t2)">${r.county||'–'}</td>
+        <td style="font-size:.72rem;font-family:var(--mono);color:var(--t3)">${r.charter||'–'}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:6px">
+            <input type="text" id="nd_${r.key}" placeholder="university.ac.ke" style="padding:5px 8px;border:1.5px solid var(--g2);border-radius:6px;font-size:.74rem;font-family:var(--mono);outline:none;width:180px">
+            <button class="btn btn-navy btn-xs" onclick="setAndTestDomain('${r.key}')">Save &amp; Test</button>
+          </div>
+        </td>
+        <td>
+          <a class="google-search" href="https://www.google.com/search?q=${encodeURIComponent(r.name+' university website Kenya')}" target="_blank" rel="noopener">
+            <svg width="12" height="12" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            Search Google
+          </a>
+        </td>
+      </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--t3)">No institutions without domains.</td></tr>';
+    document.getElementById('ndCount').textContent = list.length + ' institutions need a domain';
+  }
+
+  if (view === 'excluded') {
+    document.getElementById('tbExcluded').innerHTML = list.map(r => `
+      <tr>
+        <td><strong style="font-size:.82rem">${r.name}</strong></td>
+        <td style="font-family:var(--mono);font-size:.74rem;color:var(--t3)">${r.domain||'–'}</td>
+        <td>${regBadge(r.registry)}</td>
+        <td style="font-size:.74rem;color:var(--t2);max-width:200px">${r.excludedReason||'No reason given'}</td>
+        <td><button class="btn btn-green btn-xs" onclick="reinclude('${r.key}','${r.name.replace(/'/g,"\'")}')">↩ Re-include</button></td>
+      </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--t3)">No excluded institutions.</td></tr>';
+  }
+
+  if (view === 'all') {
+    document.getElementById('tbAll').innerHTML = list.map(r => `
+      <tr>
+        <td><strong style="font-size:.82rem">${r.name}</strong></td>
+        <td style="font-family:var(--mono);font-size:.74rem">${r.domain||'<span style="color:var(--t3)">–</span>'}</td>
+        <td>${dsBadge(r.domain_status)}</td>
+        <td>${regBadge(r.registry)}</td>
+        <td style="font-size:.74rem;color:var(--t2)">${r.county||'–'}</td>
+        <td style="font-size:.7rem;color:var(--t2)">${relTime(r.lastTested)}</td>
+        <td style="white-space:nowrap">
+          ${r.domain_status !== 'excluded' && r.domain ? `<button class="btn btn-outline btn-xs" onclick="testOne('${r.key}','${r.name.replace(/'/g,"\'")}')">⚡ Test</button>` : ''}
+          ${r.domain_status === 'needs_domain' ? `<button class="btn btn-violet btn-xs" onclick="openSetDomain('${r.key}','${r.name.replace(/'/g,"\'")}')">Set domain</button>` : ''}
+          ${r.domain_status === 'excluded' ? `<button class="btn btn-green btn-xs" onclick="reinclude('${r.key}','${r.name.replace(/'/g,"\'")}')">↩ Include</button>` : `<button class="btn btn-xs" style="background:rgba(229,57,53,.08);color:var(--red);border:1px solid rgba(229,57,53,.2)" onclick="openExclude('${r.key}','${r.name.replace(/'/g,"\'")}')">Exclude</button>`}
+        </td>
+      </tr>`).join('');
+    document.getElementById('allCount').textContent = list.length + ' institutions';
+  }
+}
+
+// ── TEST ONE DOMAIN ───────────────────────────────────────────
+async function testOne(key, name) {
+  showToast(`⚡ Testing ${name}…`);
+  try {
+    const token = sessionStorage.getItem('elimux_domain_token');
+    const res = await fetch(`${API}/domain-admin/test/${key}`, {
+      method:'POST', headers:{'x-admin-key': token||''}
+    });
+    if (res.ok) {
+      const d = await res.json();
+      const r = d.record;
+      // Update local data
+      const idx = ALL_INSTITUTIONS.findIndex(i => i.key === key);
+      if (idx >= 0) ALL_INSTITUTIONS[idx] = { ...ALL_INSTITUTIONS[idx], ...r };
+      const status = r.domain_status;
+      showToast(status === 'confirmed' ? `✅ ${name} — confirmed (${r.responseTimeMs}ms)` : `❌ ${name} — ${status}`);
+    } else {
+      showToast(`⚡ Test sent for ${name} (results in log)`);
+    }
+  } catch(e) {
+    if(err) err.textContent = 'Cannot reach authentication server. Please try again later.';
+  };
+      showToast(success ? `✅ ${name} confirmed` : `❌ ${name} unreachable`);
+    }
+  }
+  renderOverview();
+  updateSidebarCounts();
+  // Re-render current view
+  const activeView = document.querySelector('.view.active')?.id?.replace('view-','');
+  if (activeView && activeView !== 'overview') renderTable(activeView);
+}
+
+// ── SET DOMAIN MODAL ──────────────────────────────────────────
+function openSetDomain(key, name) {
+  document.getElementById('sdKey').value = key;
+  document.getElementById('sdTitle').textContent = 'Set Domain: ' + name;
+  const inst = ALL_INSTITUTIONS.find(i => i.key === key);
+  document.getElementById('sdDomain').value = inst?.domain || '';
+  document.getElementById('sdTestResult').style.display = 'none';
+  document.getElementById('setDomainModal').classList.add('open');
+}
+
+async function submitSetDomain() {
+  const key    = document.getElementById('sdKey').value;
+  const domain = document.getElementById('sdDomain').value.trim().toLowerCase()
+    .replace(/^https?:\/\//,'').replace(/\/.*$/,'');
+  if (!domain) { showToast('Please enter a domain'); return; }
+  const res_el = document.getElementById('sdTestResult');
+  res_el.style.display = 'block';
+  res_el.style.background = '#F0FDF4';
+  res_el.style.border = '1px solid #86EFAC';
+  res_el.style.color = '#166534';
+  res_el.textContent = `Saving ${domain} and running test…`;
+  try {
+    const token = sessionStorage.getItem('elimux_domain_token');
+    await fetch(`${API}/domain-admin/set-domain/${key}`, {
+      method:'POST', headers:{'Content-Type':'application/json','x-admin-key':token||''},
+      body: JSON.stringify({domain})
+    });
+    setTimeout(() => testOne(key, domain), 500);
+  } catch(e) {}
+  const idx = ALL_INSTITUTIONS.findIndex(i => i.key === key);
+  if (idx >= 0) {
+    ALL_INSTITUTIONS[idx] = { ...ALL_INSTITUTIONS[idx], domain, domain_status: 'pending' };
+  }
+  res_el.textContent = `✅ Domain set to ${domain}. Test running…`;
+  setTimeout(() => closeModal('setDomainModal'), 1800);
+  refreshData();
+}
+
+async function setAndTestDomain(key) {
+  const input  = document.getElementById('nd_' + key);
+  const domain = (input?.value||'').trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'');
+  if (!domain) { showToast('Please enter a domain'); return; }
+  const idx = ALL_INSTITUTIONS.findIndex(i => i.key === key);
+  if (idx >= 0) ALL_INSTITUTIONS[idx] = { ...ALL_INSTITUTIONS[idx], domain, domain_status: 'pending' };
+  const name = ALL_INSTITUTIONS[idx]?.name || key;
+  showToast(`📌 Domain ${domain} set for ${name}. Testing…`);
+  try {
+    const token = sessionStorage.getItem('elimux_domain_token');
+    await fetch(`${API}/domain-admin/set-domain/${key}`, {
+      method:'POST', headers:{'Content-Type':'application/json','x-admin-key':token||''},
+      body: JSON.stringify({domain})
+    });
+  } catch(e) {}
+  setTimeout(() => testOne(key, name), 300);
+  renderTable('no_domain');
+  renderOverview();
+  updateSidebarCounts();
+}
+
+async function saveDomainOverride(key) {
+  const input  = document.getElementById('di_' + key);
+  const domain = (input?.value||'').trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'');
+  if (!domain) { showToast('Please enter a domain'); return; }
+  const idx = ALL_INSTITUTIONS.findIndex(i => i.key === key);
+  if (idx >= 0) ALL_INSTITUTIONS[idx] = { ...ALL_INSTITUTIONS[idx], domain, domain_status: 'pending' };
+  const name = ALL_INSTITUTIONS[idx]?.name || key;
+  document.getElementById('de_' + key)?.classList.remove('open');
+  showToast(`📌 Domain updated for ${name}`);
+  try {
+    const token = sessionStorage.getItem('elimux_domain_token');
+    await fetch(`${API}/domain-admin/set-domain/${key}`, {
+      method:'POST', headers:{'Content-Type':'application/json','x-admin-key':token||''},
+      body: JSON.stringify({domain})
+    });
+  } catch(e) {}
+  setTimeout(() => testOne(key, name), 300);
+}
+
+// ── EXCLUDE / INCLUDE ─────────────────────────────────────────
+function openExclude(key, name) {
+  document.getElementById('exKey').value  = key;
+  document.getElementById('exTitle').textContent = 'Exclude: ' + name;
+  document.getElementById('exReason').value = '';
+  document.getElementById('excludeModal').classList.add('open');
+}
+
+async function submitExclude() {
+  const key    = document.getElementById('exKey').value;
+  const reason = document.getElementById('exReason').value.trim();
+  if (!reason) { showToast('Please enter a reason'); return; }
+  const idx = ALL_INSTITUTIONS.findIndex(i => i.key === key);
+  if (idx >= 0) ALL_INSTITUTIONS[idx] = { ...ALL_INSTITUTIONS[idx], domain_status:'excluded', excludedReason:reason };
+  try {
+    const token = sessionStorage.getItem('elimux_domain_token');
+    await fetch(`${API}/domain-admin/exclude/${key}`, {
+      method:'POST', headers:{'Content-Type':'application/json','x-admin-key':token||''},
+      body: JSON.stringify({reason})
+    });
+  } catch(e) {}
+  closeModal('excludeModal');
+  showToast(`🚫 Excluded`);
+  refreshData();
+}
+
+async function reinclude(key, name) {
+  const idx = ALL_INSTITUTIONS.findIndex(i => i.key === key);
+  if (idx >= 0) ALL_INSTITUTIONS[idx] = { ...ALL_INSTITUTIONS[idx], domain_status: ALL_INSTITUTIONS[idx].domain ? 'pending' : 'needs_domain', excludedReason:null };
+  try {
+    const token = sessionStorage.getItem('elimux_domain_token');
+    await fetch(`${API}/domain-admin/include/${key}`, { method:'POST', headers:{'x-admin-key':token||''} });
+  } catch(e) {}
+  showToast(`↩ ${name} re-included`);
+  refreshData();
+}
+
+// ── BULK TEST ─────────────────────────────────────────────────
+function openBulkTest() { document.getElementById('bulkModal').classList.add('open'); }
+
+async function submitBulkTest() {
+  const filter = document.getElementById('bulkFilter').value;
+  closeModal('bulkModal');
+  const count = filter ? ALL_INSTITUTIONS.filter(i => i.domain_status === filter && i.domain).length
+                       : ALL_INSTITUTIONS.filter(i => !['excluded','needs_domain'].includes(i.domain_status) && i.domain).length;
+  showToast(`⚡ Bulk test started — ${count} domains in queue`);
+  try {
+    const token = sessionStorage.getItem('elimux_domain_token');
+    await fetch(`${API}/domain-admin/test-all`, {
+      method:'POST', headers:{'Content-Type':'application/json','x-admin-key':token||''},
+      body: JSON.stringify({ filter: filter ? {status:filter} : null })
+    });
+  } catch(e) {}
+  // Demo: simulate some results after delay
+  setTimeout(refreshData, 3000);
+}
+
+// ── LOG VIEW ──────────────────────────────────────────────────
+function renderLog() {
+  const recent = ALL_INSTITUTIONS.filter(i=>i.lastTested)
+    .sort((a,b)=>new Date(b.lastTested)-new Date(a.lastTested)).slice(0,50);
+  document.getElementById('logList').innerHTML = `
+    <div class="tbl-wrap">
+      <div style="padding:10px 14px;border-bottom:1px solid var(--g2);display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:.78rem;font-weight:600">Last ${recent.length} domain tests</span>
+        <span style="font-size:.68rem;font-family:var(--mono);color:var(--t3)">Auto-refreshes on next bulk test</span>
+      </div>
+      <div style="padding:0 14px">
+        ${recent.map(i=>`<div class="log-row">
+          <div class="log-dot ${i.domain_status==='confirmed'?'log-ok':i.domain_status==='unreachable'?'log-fail':'log-skip'}"></div>
+          <span style="flex:1;font-size:.8rem;font-weight:500">${i.name}</span>
+          <span style="font-family:var(--mono);font-size:.68rem;color:var(--t3)">${i.domain||'–'}</span>
+          <span>${dsBadge(i.domain_status)}</span>
+          <span style="font-size:.68rem;color:var(--t2)">${i.responseTimeMs ? i.responseTimeMs+'ms' : (i.lastError?i.lastError.slice(0,30):'–')}</span>
+          <span style="font-size:.65rem;color:var(--t3)">${relTime(i.lastTested)}</span>
+        </div>`).join('') || '<div style="padding:24px;text-align:center;color:var(--t3)">No tests run yet.</div>'}
+      </div>
+    </div>`;
+}
+
+// ── EMAIL ALERTS VIEW ─────────────────────────────────────────
+function renderAlerts() {
+  document.getElementById('emailConfig').innerHTML = `
+    <div style="max-width:600px">
+      <div class="alert-banner ab-email-warn" style="margin-bottom:16px">
+        ⚠️ Configure SMTP in your backend <code style="background:rgba(0,0,0,.05);padding:1px 5px;border-radius:3px">.env</code> file to enable email alerts. Test below after setting up.
+      </div>
+      <div class="tbl-wrap" style="margin-bottom:16px">
+        <div style="padding:12px 14px;border-bottom:1px solid var(--g2)"><span style="font-family:var(--serif);font-size:.9rem;font-weight:700">Alert Configuration</span></div>
+        <div style="padding:16px 14px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div>
+              <label class="form-label">Alert recipient email</label>
+              <input class="form-input" value="${currentUser?.email||'admin@elimux.ke'}" readonly style="background:var(--g1)">
+            </div>
+            <div>
+              <label class="form-label">Alert frequency</label>
+              <input class="form-input" value="Every 15 minutes (batched)" readonly style="background:var(--g1)">
+            </div>
+            <div>
+              <label class="form-label">Trigger: domain goes unreachable</label>
+              <input class="form-input" value="✅ Enabled — after 2 consecutive failures" readonly style="background:var(--g1)">
+            </div>
+            <div>
+              <label class="form-label">Trigger: domain recovers</label>
+              <input class="form-input" value="✅ Enabled — on first successful test" readonly style="background:var(--g1)">
+            </div>
+          </div>
+          <div style="margin-top:8px;padding:10px;background:var(--g1);border-radius:var(--r);font-size:.75rem;color:var(--t2)">
+            To change alert email or SMTP settings, update your backend <code>.env</code>:
+            <br><code style="font-family:var(--mono);color:var(--ink)">ALERT_TO_EMAIL=yourname@elimux.ke</code>
+            <br><code style="font-family:var(--mono);color:var(--ink)">SMTP_HOST=smtp.gmail.com  SMTP_USER=...  SMTP_PASS=...</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <div style="padding:12px 14px;border-bottom:1px solid var(--g2)"><span style="font-family:var(--serif);font-size:.9rem;font-weight:700">Test Email Alerts</span></div>
+        <div style="padding:16px 14px">
+          <p style="font-size:.78rem;color:var(--t2);margin-bottom:14px;line-height:1.6">Send a test email to confirm your SMTP configuration is working correctly. The test email will go to the address set in <code>ALERT_TO_EMAIL</code>.</p>
+          <button class="btn btn-navy" onclick="sendTestEmail()">📧 Send Test Email</button>
+          <div id="testEmailResult" style="margin-top:10px;font-size:.76rem;min-height:18px"></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+async function sendTestEmail() {
+  document.getElementById('testEmailResult').textContent = 'Sending…';
+  try {
+    const token = sessionStorage.getItem('elimux_domain_token');
+    const res = await fetch(`${API}/domain-admin/test-email`, {
+      method:'POST', headers:{'x-admin-key': token||''}
+    });
+    const d = await res.json();
+    document.getElementById('testEmailResult').textContent = d.status === 'ok'
+      ? `✅ Test email sent to ${d.to}`
+      : `❌ ${d.error?.message || 'Failed'}`;
+  } catch(e) {
+    document.getElementById('testEmailResult').textContent = '❌ Backend not connected — configure SMTP_HOST, SMTP_USER, SMTP_PASS in .env';
+  }
+}
+
+// ── EXPORT CSV ────────────────────────────────────────────────
+function exportNoDomain() {
+  const nd = ALL_INSTITUTIONS.filter(i => i.domain_status === 'needs_domain');
+  const header = 'Name,Short,Registry,County,Charter,Domain';
+  const rows   = nd.map(r=>`"${r.name}","${r.short||''}","${r.registry}","${r.county||''}","${r.charter||''}",""`).join('\n');
+  const csv    = header + '\n' + rows;
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'elimux-needs-domain.csv';
+  a.click();
+}
+
+// ── UTILS ─────────────────────────────────────────────────────
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); });
+});
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111827;color:white;padding:10px 20px;border-radius:var(--r-full);font-size:.8rem;font-weight:600;font-family:var(--sans);z-index:9999;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,.25)';
+  t.textContent=msg; document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3000);
+}
+</script>
+<script>
+
+/* ═══════════════════════════════════════════════════
+   ELIMUX SHARED FIXES v2.1
+   Applied: A11y · UX · Security · Offline · Anti-double-submit
+   ═══════════════════════════════════════════════════ */
+
+// [FIX A-03] Aria-live announcer for screen readers
+(function setupAnnouncer(){
+  if(document.getElementById('sk-announcer')) return;
+  const a = document.createElement('div');
+  a.id='sk-announcer';a.setAttribute('aria-live','polite');a.setAttribute('aria-atomic','true');
+  a.style.cssText='position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden';
+  document.body.prepend(a);
+})();
+function announce(msg){ const el=document.getElementById('sk-announcer'); if(el) el.textContent=msg; }
+
+// [FIX U-04] 401 → redirect to login
+const _origFetch = window.fetch;
+window.fetch = async function(...args){
+  try {
+    const res = await _origFetch(...args);
+    if(res.status === 401){
+      const url = args[0]?.toString() || '';
+      // Don't redirect if this IS the auth call
+      if(!url.includes('/auth') && !url.includes('/login')){
+        sessionStorage.removeItem('elimux_token');
+        sessionStorage.removeItem('elimux_domain_token');
+        const currentPage = window.location.pathname.split('/').pop();
+        window.location.href = '/?session_expired=1&from='+encodeURIComponent(currentPage);
+        return res;
+      }
+    }
+    return res;
+  } catch(err) {
+    // [FIX U-06] Network error → check if offline
+    if(!navigator.onLine) showOfflineBanner();
+    throw err;
+  }
+};
+
+// [FIX U-06] Offline detection
+function showOfflineBanner(){
+  if(document.getElementById('sk-offline')) return;
+  const b = document.createElement('div');
+  b.id='sk-offline';
+  b.innerHTML='📡 <strong>You appear to be offline.</strong> Check your connection. Some features may not work.';
+  b.style.cssText='position:fixed;top:0;left:0;right:0;z-index:9999;background:#F59E0B;color:#1C1917;padding:10px 16px;font-size:.82rem;text-align:center;font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;gap:8px';
+  const close = document.createElement('button');
+  close.textContent='×';
+  close.setAttribute('aria-label','Close offline notice');
+  close.style.cssText='background:none;border:none;font-size:1.1rem;cursor:pointer;margin-left:8px';
+  close.onclick=()=>b.remove();
+  b.appendChild(close);
+  document.body.prepend(b);
+}
+function hideOfflineBanner(){ document.getElementById('sk-offline')?.remove(); }
+window.addEventListener('offline', showOfflineBanner);
+window.addEventListener('online',  hideOfflineBanner);
+if(!navigator.onLine) showOfflineBanner();
+
+// [FIX U-05] Double-submit protection
+function protectButton(btn, asyncFn){
+  return async function(e){
+    if(btn.disabled) return;
+    const orig = btn.textContent;
+    btn.disabled=true; btn.style.opacity='.6';
+    btn.textContent='Working…';
+    try { await asyncFn(e); }
+    finally { btn.disabled=false; btn.style.opacity='1'; btn.textContent=orig; }
+  };
+}
+// Auto-protect all submit-type buttons on DOM ready
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('button[onclick*="submit"],button[type="submit"]').forEach(btn => {
+    if(btn.dataset.protected) return;
+    btn.dataset.protected='1';
+    const origOnclick = btn.onclick;
+    if(origOnclick){
+      btn.onclick = null;
+      btn.addEventListener('click', protectButton(btn, ()=> origOnclick.call(btn)));
+    }
+  });
+});
+
+// [FIX A-02] Focus trap for modals
+function trapFocus(modal){
+  const focusable = modal.querySelectorAll('button,input,select,textarea,a[href],[tabindex]:not([tabindex="-1"])');
+  if(!focusable.length) return;
+  const first = focusable[0], last = focusable[focusable.length-1];
+  modal.addEventListener('keydown', function handler(e){
+    if(e.key !== 'Tab') return;
+    if(e.shiftKey){ if(document.activeElement===first){ e.preventDefault(); last.focus(); } }
+    else           { if(document.activeElement===last)  { e.preventDefault(); first.focus(); } }
+  });
+  // [FIX] Close on Escape
+  modal.addEventListener('keydown', function(e){
+    if(e.key==='Escape') modal.classList.remove('open');
+  });
+  first.focus();
+}
+// Auto-apply trap when modal opens
+const _modalObs = new MutationObserver(mutations => {
+  mutations.forEach(m => {
+    if(m.type==='attributes' && m.attributeName==='class'){
+      const el = m.target;
+      if(el.classList.contains('modal-overlay') && el.classList.contains('open')){
+        const dialog = el.querySelector('[style*="border-radius"]') || el.firstElementChild;
+        if(dialog) trapFocus(dialog);
+      }
+    }
+  });
+});
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.modal-overlay').forEach(m => {
+    _modalObs.observe(m, { attributes:true });
+  });
+});
+
+</script>
+</body>
+</html>
